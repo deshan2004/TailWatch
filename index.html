@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TailWatch - Community-Powered Stray Dog Care & Rabies Prevention</title>
+    <meta name="description" content="Join our mission to monitor stray dogs, identify health risks, and protect communities from rabies through collective action.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
+        <div class="floating-element" style="width: 80px; height: 80px; top: 80%; left: 10%; animation-delay: -10s;"></div>
+        <div class="floating-element" style="width: 120px; height: 120px; top: 30%; left: 90%; animation-delay: -15s;"></div>
+    </div>
+
+    <!-- Alert Banner -->
+    <div class="alert-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        Alert: Rabid dog reported in Colombo 05 area. Please avoid the area and report any sightings.
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <h1>TailWatch</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#map">Map</a></li>
+                        <li><a href="#report">Report</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#leaderboard">Leaderboard</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="signup.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Community-Powered Stray Dog Care & Rabies Prevention</h2>
+            <p>Join our mission to monitor stray dogs, identify health risks, and protect communities from rabies through collective action.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-light" onclick="scrollToSection('report')"><i class="fas fa-flag"></i> Report a Dog</button>
+                <button class="btn btn-outline" style="color: white; border-color: white;" onclick="scrollToSection('map')"><i class="fas fa-map-marked-alt"></i> View Map</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-count="1247">0</div>
+                    <div class="stat-label">Dogs Reported</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-count="342">0</div>
+                    <div class="stat-label">Vaccinations Done</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-count="89">0</div>
+                    <div class="stat-label">Rabid Cases</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-count="567">0</div>
+                    <div class="stat-label">Active Volunteers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>How TailWatch Helps</h2>
+                <p>Our platform empowers communities to take proactive measures against rabies and improve stray dog welfare</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon report">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <h3>Report Sightings</h3>
+                    <p>Quickly report stray dogs with health status, location, and photos to alert your community and authorities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon map">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Real-Time Map</h3>
+                    <p>View all reported dogs on an interactive map with filtering options for health status and location.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon volunteer">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Volunteer Coordination</h3>
+                    <p>Connect with local volunteers and organizations to coordinate rescue and vaccination efforts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon leaderboard">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Community Leaderboard</h3>
+                    <p>Earn points for reporting and helping dogs. Compete with others to make your community safer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section" id="map">
+        <div class="container">
+            <div class="section-title">
+                <h2>Stray Dog Map</h2>
+                <p>Track reported dogs in your area and filter by health status</p>
+            </div>
+            
+            <div class="map-controls">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="locationSearch" placeholder="Search for a location...">
+                        <button id="currentLocationBtn" title="Use Current Location">
+                            <i class="fas fa-location-arrow"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="map-filters">
+                    <button class="filter-btn all active" data-filter="all">
+                        <i class="fas fa-paw"></i> All Dogs
+                    </button>
+                    <button class="filter-btn healthy" data-filter="healthy">
+                        <i class="fas fa-paw healthy-paw"></i> Healthy
+                    </button>
+                    <button class="filter-btn sick" data-filter="sick">
+                        <i class="fas fa-paw sick-paw"></i> Sick
+                    </button>
+                    <button class="filter-btn rabid" data-filter="rabid">
+                        <i class="fas fa-paw rabid-paw"></i> Rabid
+                    </button>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <div id="googleMap">
+                    <div class="map-loading">
+                        <div class="spinner"></div>
+                        <h3>Interactive Map</h3>
+                        <p>To enable the map, add your Google Maps API key</p>
+                        <button class="btn btn-primary" onclick="showApiKeyInstructions()">
+                            <i class="fas fa-key"></i> Get API Key Instructions
+                        </button>
+                    </div>
+                </div>
+                <div class="map-legend">
+                    <h4>Legend</h4>
+                    <div class="legend-item">
+                        <i class="fas fa-paw healthy-paw"></i>
+                        <span>Healthy Dog</span>
+                    </div>
+                    <div class="legend-item">
+                        <i class="fas fa-paw sick-paw"></i>
+                        <span>Sick Dog</span>
+                    </div>
+                    <div class="legend-item">
+                        <i class="fas fa-paw rabid-paw"></i>
+                        <span>Rabid Dog</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dog-list-panel">
+                <h3>Recently Reported Dogs</h3>
+                <div class="dog-list" id="dogList">
+                    <!-- Dog list items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Simple steps to make your community safer for everyone</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <h3>Spot a Stray Dog</h3>
+                    <p>When you see a stray dog in your area, observe its behavior and health condition from a safe distance.</p>
+                </div>
+                <div class="step">
+                    <h3>Report with Details</h3>
+                    <p>Use our app to report the dog with location, health status, and photo if possible.</p>
+                </div>
+                <div class="step">
+                    <h3>Alert the Community</h3>
+                    <p>Your report immediately appears on the community map to warn others and coordinate help.</p>
+                </div>
+                <div class="step">
+                    <h3>Coordinate Assistance</h3>
+                    <p>Local volunteers and authorities receive alerts and can take appropriate action.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Report Section -->
+    <section class="report-section" id="report">
+        <div class="container">
+            <div class="section-title">
+                <h2>Report a Stray Dog</h2>
+                <p>Help your community by reporting stray dogs with accurate information</p>
+            </div>
+            <div class="report-form-container">
+                <form id="reportForm">
+                    <div class="form-group">
+                        <label for="dogLocation"><i class="fas fa-map-marker-alt"></i> Location</label>
+                        <input type="text" id="dogLocation" placeholder="Enter the location where you saw the dog" required>
+                        <button type="button" class="btn-location" id="useCurrentLocation">
+                            <i class="fas fa-location-arrow"></i> Use My Current Location
+                        </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dogStatus"><i class="fas fa-heartbeat"></i> Health Status</label>
+                        <select id="dogStatus" required>
+                            <option value="">Select health status</option>
+                            <option value="healthy">Healthy - Appears normal and active</option>
+                            <option value="sick">Sick - Shows signs of illness but not aggressive</option>
+                            <option value="rabid">Rabid - Aggressive, foaming, or disoriented</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dogDescription"><i class="fas fa-align-left"></i> Description</label>
+                        <textarea id="dogDescription" rows="4" placeholder="Describe the dog's appearance, behavior, and any identifying features" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-camera"></i> Upload Photo (Optional)</label>
+                        <div class="upload-area" id="uploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag & drop or click to upload</p>
+                            <p class="file-info">No file selected</p>
+                        </div>
+                        <input type="file" id="dogPhoto" accept="image/*" style="display: none;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reporterContact"><i class="fas fa-phone"></i> Contact Information (Optional)</label>
+                        <input type="text" id="reporterContact" placeholder="Phone or email for follow-up">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Submit Report
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About TailWatch</h3>
+                    <p>A community-driven platform to monitor stray dogs, prevent rabies, and coordinate care efforts through collective action.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#map"><i class="fas fa-chevron-right"></i> Interactive Map</a></li>
+                        <li><a href="#report"><i class="fas fa-chevron-right"></i> Report a Dog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Volunteer</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Rabies Information</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Safety Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Volunteer Training</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Community Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@tailwatch.org</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +94 11 234 5678</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Colombo, Sri Lanka</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TailWatch. All rights reserved. | Community-Powered Stray Dog Care & Rabies Prevention</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initApp" async defer></script>
+</body>
+</html>
