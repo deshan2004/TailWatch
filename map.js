@@ -1,6 +1,4 @@
-// Enhanced TailWatch JavaScript with better Google Maps handling
 
-// Global variables
 let map;
 let markers = [];
 let currentInfoWindow = null;
@@ -8,7 +6,7 @@ let autocomplete;
 let userLocation = null;
 let mapInitialized = false;
 
-// Sample dog data
+
 const sampleDogs = [
     {
         id: 1,
@@ -48,9 +46,9 @@ const sampleDogs = [
     }
 ];
 
-// Initialize the application
+
 function initApp() {
-    // Check if Google Maps is loaded
+    
     if (typeof google === 'undefined') {
         showMapFallback();
         showToast('Google Maps failed to load. Please check your internet connection.', 'error');
@@ -65,10 +63,10 @@ function initApp() {
     createFloatingElements();
 }
 
-// Initialize Google Map with error handling
+
 function initMap() {
     try {
-        // Default to Colombo, Sri Lanka
+        
         const defaultLocation = { lat: 6.9271, lng: 79.8612 };
         
         const mapOptions = {
@@ -83,10 +81,10 @@ function initMap() {
         map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
         mapInitialized = true;
         
-        // Add sample dog markers to the map
+        
         addDogMarkers(sampleDogs);
         
-        // Try to get user's current location
+        
         getUserLocation();
         
     } catch (error) {
@@ -96,7 +94,7 @@ function initMap() {
     }
 }
 
-// Show fallback when map fails to load
+
 function showMapFallback() {
     const mapContainer = document.getElementById('googleMap');
     mapContainer.innerHTML = `
@@ -111,7 +109,7 @@ function showMapFallback() {
     `;
 }
 
-// Get user's current location
+
 function getUserLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -121,11 +119,11 @@ function getUserLocation() {
                     lng: position.coords.longitude
                 };
                 
-                // Center map on user's location
+            
                 if (map && mapInitialized) {
                     map.setCenter(userLocation);
                     
-                    // Add a marker for user's location
+                    
                     new google.maps.Marker({
                         position: userLocation,
                         map: map,
@@ -176,7 +174,6 @@ function getUserLocation() {
     }
 }
 
-// Get custom map styles
 function getMapStyles() {
     return [
         {
@@ -252,7 +249,7 @@ function getMapStyles() {
     ];
 }
 
-// Initialize autocomplete for location search
+
 function initAutocomplete() {
     if (typeof google !== 'undefined' && google.maps && google.maps.places) {
         const input = document.getElementById('locationSearch');
@@ -274,9 +271,9 @@ function initAutocomplete() {
     }
 }
 
-// Add dog markers to the map
+
 function addDogMarkers(dogs) {
-    // Clear existing markers
+    
     markers.forEach(marker => marker.setMap(null));
     markers = [];
     
@@ -304,7 +301,7 @@ function addDogMarkers(dogs) {
     });
 }
 
-// Get marker icon based on dog status
+
 function getMarkerIcon(status) {
     const baseIcon = {
         url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
@@ -319,7 +316,7 @@ function getMarkerIcon(status) {
     return baseIcon;
 }
 
-// Get color based on dog status
+
 function getStatusColor(status) {
     switch(status) {
         case 'healthy': return '#2ecc71';
@@ -329,7 +326,7 @@ function getStatusColor(status) {
     }
 }
 
-// Create info window content
+
 function createInfoWindowContent(dog) {
     return `
         <div class="dog-info-window">
@@ -354,19 +351,19 @@ function createInfoWindowContent(dog) {
     `;
 }
 
-// Filter dogs based on status
+
 function filterDogs(status) {
     const filteredDogs = status === 'all' ? sampleDogs : sampleDogs.filter(dog => dog.status === status);
     addDogMarkers(filteredDogs);
     updateDogList(filteredDogs);
 }
 
-// Load dog list
+
 function loadDogList() {
     updateDogList(sampleDogs);
 }
 
-// Update dog list in the panel
+
 function updateDogList(dogs) {
     const dogList = document.getElementById('dogList');
     dogList.innerHTML = '';
@@ -394,7 +391,7 @@ function updateDogList(dogs) {
     });
 }
 
-// Center map on specific dog
+
 function centerOnDog(lat, lng) {
     if (map && mapInitialized) {
         map.setCenter({ lat, lng });
@@ -402,15 +399,15 @@ function centerOnDog(lat, lng) {
     }
 }
 
-// Initialize event listeners
+
 function initEventListeners() {
-    // Filter buttons
+    
     document.querySelectorAll('.filter-btn').forEach(button => {
         button.addEventListener('click', function() {
             const filter = this.getAttribute('data-filter');
             filterDogs(filter);
             
-            // Update active state
+    
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -418,7 +415,7 @@ function initEventListeners() {
         });
     });
     
-    // Current location button
+
     const currentLocationBtn = document.getElementById('currentLocationBtn');
     if (currentLocationBtn) {
         currentLocationBtn.addEventListener('click', function() {
@@ -432,7 +429,7 @@ function initEventListeners() {
         });
     }
     
-    // Report form submission
+    
     const reportForm = document.getElementById('reportForm');
     if (reportForm) {
         reportForm.addEventListener('submit', function(e) {
@@ -441,18 +438,18 @@ function initEventListeners() {
         });
     }
     
-    // Use current location in report form
+    
     const useCurrentLocationBtn = document.getElementById('useCurrentLocation');
     if (useCurrentLocationBtn) {
         useCurrentLocationBtn.addEventListener('click', function() {
             if (userLocation) {
-                // Show loading state
+                
                 const button = this;
                 const originalText = button.innerHTML;
                 button.innerHTML = '<div class="loading-spinner"></div> Getting location...';
                 button.disabled = true;
                 
-                // Reverse geocode to get address
+                
                 const geocoder = new google.maps.Geocoder();
                 geocoder.geocode({ location: userLocation }, function(results, status) {
                     if (status === 'OK' && results[0]) {
@@ -463,7 +460,7 @@ function initEventListeners() {
                         showToast('Could not get address. Using coordinates.', 'warning');
                     }
                     
-                    // Restore button
+                
                     button.innerHTML = originalText;
                     button.disabled = false;
                 });
@@ -473,7 +470,7 @@ function initEventListeners() {
         });
     }
     
-    // File upload handling
+    
     const uploadArea = document.getElementById('uploadArea');
     const fileInput = document.getElementById('dogPhoto');
     
@@ -487,7 +484,7 @@ function initEventListeners() {
                 const fileInfo = uploadArea.querySelector('.file-info');
                 const file = this.files[0];
                 
-                // Validate file size (5MB limit)
+                
                 if (file.size > 5 * 1024 * 1024) {
                     showToast('File size must be less than 5MB', 'error');
                     this.value = '';
@@ -495,7 +492,7 @@ function initEventListeners() {
                     return;
                 }
                 
-                // Validate file type
+                
                 if (!file.type.startsWith('image/')) {
                     showToast('Please select an image file', 'error');
                     this.value = '';
@@ -509,7 +506,7 @@ function initEventListeners() {
             }
         });
         
-        // Drag and drop for file upload
+        
         uploadArea.addEventListener('dragover', function(e) {
             e.preventDefault();
             this.style.borderColor = '#3498db';
@@ -534,7 +531,7 @@ function initEventListeners() {
         });
     }
     
-    // Smooth scrolling for navigation links
+    
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -545,7 +542,7 @@ function initEventListeners() {
         });
     });
     
-    // Header scroll effect
+    
     window.addEventListener('scroll', function() {
         const header = document.querySelector('header');
         if (window.scrollY > 100) {
@@ -557,14 +554,14 @@ function initEventListeners() {
         }
     });
     
-    // Alert banner close functionality
+
     const alertBanner = document.querySelector('.alert-banner');
     if (alertBanner) {
         setTimeout(() => {
             alertBanner.style.display = 'none';
         }, 10000); // Hide after 10 seconds
         
-        // Add close button to alert banner
+        
         const closeButton = document.createElement('button');
         closeButton.innerHTML = '<i class="fas fa-times"></i>';
         closeButton.style.background = 'none';
@@ -584,7 +581,7 @@ function initEventListeners() {
     }
 }
 
-// Scroll to section
+
 function scrollToSection(sectionId) {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -598,12 +595,12 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Submit report form
+
 function submitReport() {
     const form = document.getElementById('reportForm');
     const formData = new FormData(form);
     
-    // Get form values
+    
     const location = document.getElementById('dogLocation').value;
     const status = document.getElementById('dogStatus').value;
     const description = document.getElementById('dogDescription').value;
@@ -613,15 +610,15 @@ function submitReport() {
         return;
     }
     
-    // Show loading state
+    
     const submitButton = form.querySelector('button[type="submit"]');
     const originalText = submitButton.innerHTML;
     submitButton.innerHTML = '<div class="loading-spinner"></div> Submitting...';
     submitButton.disabled = true;
     
-    // Simulate API call
+    
     setTimeout(() => {
-        // Create new dog object
+        
         const newDog = {
             id: sampleDogs.length + 1,
             name: 'New Report',
@@ -635,17 +632,17 @@ function submitReport() {
             photo: null
         };
         
-        // Add to sample data
+        
         sampleDogs.push(newDog);
         
-        // Update map and list
+        
         addDogMarkers(sampleDogs);
         updateDogList(sampleDogs);
         
-        // Show success message
+        
         showToast('Report submitted successfully! Thank you for helping your community.', 'success');
         
-        // Reset form
+        
         form.reset();
         const fileInfo = document.querySelector('.file-info');
         if (fileInfo) fileInfo.textContent = 'No file selected';
@@ -655,17 +652,17 @@ function submitReport() {
             uploadArea.style.backgroundColor = '#f9f9f9';
         }
         
-        // Restore button
+        
         submitButton.innerHTML = originalText;
         submitButton.disabled = false;
         
-        // Scroll to map to see the new report
+        
         scrollToSection('map');
         
     }, 2000);
 }
 
-// Animate statistics
+
 function animateStats() {
     const statNumbers = document.querySelectorAll('.stat-number');
     
@@ -683,7 +680,7 @@ function animateStats() {
     statNumbers.forEach(stat => observer.observe(stat));
 }
 
-// Animate number counting
+
 function animateNumber(element, start, end, duration) {
     let startTimestamp = null;
     const step = (timestamp) => {
@@ -698,12 +695,12 @@ function animateNumber(element, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
-// Create floating background elements
+
 function createFloatingElements() {
     const floatingContainer = document.querySelector('.floating-elements');
     if (!floatingContainer) return;
     
-    // Create additional floating elements dynamically
+    
     for (let i = 0; i < 8; i++) {
         const element = document.createElement('div');
         element.className = 'floating-element';
@@ -716,7 +713,7 @@ function createFloatingElements() {
     }
 }
 
-// Show toast notification
+
 function showToast(message, type = 'info') {
     const toast = document.getElementById('toast');
     if (!toast) return;
@@ -731,7 +728,7 @@ function showToast(message, type = 'info') {
     }, 4000);
 }
 
-// Show API key instructions
+
 function showApiKeyInstructions() {
     const instructions = `
         To enable the interactive map:
@@ -748,14 +745,12 @@ function showApiKeyInstructions() {
     alert(instructions);
 }
 
-// Report similar dog
+
 function reportSimilarDog(location) {
     document.getElementById('dogLocation').value = location;
     scrollToSection('report');
     showToast('Location pre-filled. Please complete the report form.', 'info');
 }
-
-// Show dog details
 function showDogDetails(dogId) {
     const dog = sampleDogs.find(d => d.id === dogId);
     if (dog) {
@@ -771,11 +766,11 @@ function showDogDetails(dogId) {
     }
 }
 
-// Initialize when DOM is loaded
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if Google Maps API is available
+    
     if (typeof google === 'undefined') {
-        // Load Google Maps API dynamically
+        
         const script = document.createElement('script');
         script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initApp';
         script.async = true;
@@ -786,7 +781,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Export functions for global access
+
 window.initApp = initApp;
 window.filterDogs = filterDogs;
 window.centerOnDog = centerOnDog;
