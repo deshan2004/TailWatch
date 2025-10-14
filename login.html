@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Login Page Specific Styles */
+        
         .auth-container {
             min-height: 100vh;
             display: flex;
@@ -336,7 +336,7 @@
             }
         }
 
-        /* Responsive Design */
+        
         @media (max-width: 480px) {
             .auth-card {
                 padding: 30px 25px;
@@ -442,7 +442,7 @@
     </div>
 
     <script>
-        // Password toggle functionality
+        
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.getElementById('password');
             const icon = this.querySelector('i');
@@ -458,7 +458,7 @@
             }
         });
 
-        // Form submission
+        
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -466,37 +466,35 @@
             const password = document.getElementById('password').value;
             const rememberMe = document.getElementById('rememberMe').checked;
             
-            // Simulate login process
+            
             const submitBtn = this.querySelector('.auth-btn');
             const originalText = submitBtn.innerHTML;
             
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
             submitBtn.disabled = true;
             
-            // Simulate API call
+            
             setTimeout(() => {
-                // For demo purposes, always succeed
+                
                 alert('Login successful! Welcome back to TailWatch.');
                 window.location.href = 'index.html';
                 
-                // In real implementation, you would:
-                // 1. Validate credentials
-                // 2. Handle success/error
-                // 3. Redirect to dashboard
+                
                 
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }, 2000);
         });
 
-        // Social login handlers
+        
         document.querySelectorAll('.social-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const platform = this.classList[1]; // google, facebook, or twitter
                 alert(`Redirecting to ${platform.charAt(0).toUpperCase() + platform.slice(1)} login...`);
-                // Implement social login logic here
+                
             });
         });
     </script>
 </body>
+
 </html>
