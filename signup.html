@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Signup Page Specific Styles */
+        
         .auth-container {
             min-height: 100vh;
             display: flex;
@@ -527,7 +527,7 @@
     </div>
 
     <script>
-        // Password toggle functionality
+        
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.getElementById('password');
             const icon = this.querySelector('i');
@@ -558,7 +558,7 @@
             }
         });
 
-        // Password strength indicator
+        
         document.getElementById('password').addEventListener('input', function() {
             const password = this.value;
             const strengthBar = document.getElementById('strengthBar');
@@ -590,7 +590,7 @@
             strengthText.textContent = text;
         });
 
-        // Form submission
+    
         document.getElementById('signupForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -598,49 +598,47 @@
             const confirmPassword = document.getElementById('confirmPassword').value;
             const agreeTerms = document.getElementById('agreeTerms').checked;
             
-            // Validate passwords match
+            
             if (password !== confirmPassword) {
                 alert('Passwords do not match. Please try again.');
                 return;
             }
             
-            // Validate terms agreement
+            
             if (!agreeTerms) {
                 alert('Please agree to the Terms of Service and Privacy Policy.');
                 return;
             }
             
-            // Simulate signup process
+            
             const submitBtn = this.querySelector('.auth-btn');
             const originalText = submitBtn.innerHTML;
             
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
             submitBtn.disabled = true;
             
-            // Simulate API call
+            
             setTimeout(() => {
-                // For demo purposes, always succeed
+                
                 alert('Account created successfully! Welcome to TailWatch community.');
                 window.location.href = 'index.html';
                 
-                // In real implementation, you would:
-                // 1. Send data to backend
-                // 2. Handle success/error
-                // 3. Redirect to verification or dashboard
+               
                 
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }, 3000);
         });
 
-        // Social signup handlers
+     
         document.querySelectorAll('.social-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const platform = this.classList[1]; // google, facebook, or twitter
+                const platform = this.classList[1]; 
                 alert(`Redirecting to ${platform.charAt(0).toUpperCase() + platform.slice(1)} signup...`);
-                // Implement social signup logic here
+              
             });
         });
     </script>
 </body>
+
 </html>
