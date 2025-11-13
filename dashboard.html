@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TailWatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .dashboard-hero {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 150px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .dashboard-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .dashboard-container {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-title i {
+            font-size: 2rem;
+            color: #3498db;
+        }
+
+        .dashboard-title h2 {
+            margin: 0;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        .dashboard-main {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card-dashboard {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #3498db;
+        }
+
+        .stat-card-dashboard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card-dashboard.reports {
+            border-left-color: #3498db;
+        }
+
+        .stat-card-dashboard.actions {
+            border-left-color: #2ecc71;
+        }
+
+        .stat-card-dashboard.points {
+            border-left-color: #9b59b6;
+        }
+
+        .stat-card-dashboard.rank {
+            border-left-color: #f39c12;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-icon.reports {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .stat-icon.actions {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        .stat-icon.points {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .stat-icon.rank {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .dashboard-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header h3 i {
+            color: #3498db;
+        }
+
+        .view-all {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .view-all:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .recent-reports {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .report-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .report-item:hover {
+            border-color: #3498db;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .report-status.healthy {
+            background: #2ecc71;
+        }
+
+        .report-status.sick {
+            background: #f39c12;
+        }
+
+        .report-status.rabid {
+            background: #e74c3c;
+        }
+
+        .report-info {
+            flex: 1;
+        }
+
+        .report-info h4 {
+            margin: 0 0 5px;
+            font-size: 1rem;
+        }
+
+        .report-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .report-date {
+            font-size: 0.8rem;
+            color: #95a5a6;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .action-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            border-color: #3498db;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.2rem;
+            color: white;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .action-card h4 {
+            margin: 0 0 10px;
+            font-size: 1rem;
+        }
+
+        .action-card p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .map-preview {
+            height: 200px;
+            background: #e9ecef;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar-card h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-card h3 i {
+            color: #3498db;
+        }
+
+        .user-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .user-info h4 {
+            margin: 0 0 5px;
+            font-size: 1.2rem;
+        }
+
+        .user-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .user-stat {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .user-stat .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+
+        .user-stat .label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        .progress-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .progress-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .progress-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #3498db;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .badge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-item.earned {
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .badge-item.locked {
+            opacity: 0.5;
+        }
+
+        .badge-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .badge-icon.earned {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .badge-icon.locked {
+            background: #95a5a6;
+        }
+
+        .badge-name {
+            font-size: 0.7rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .community-activity {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: #f8f9fa;
+        }
+
+        .activity-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #95a5a6;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .dashboard-actions {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .badges-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .badges-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .user-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Alert Banner -->
+    <div class="alert-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        Alert: Rabid dog reported in Colombo 05 area. Please avoid the area and report any sightings.
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <h1>TailWatch</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#map">Map</a></li>
+                        <li><a href="index.html#report">Report</a></li>
+                        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                        <li><a href="leaderboard.html">Leaderboard</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <div class="user-menu">
+                        <span class="user-greeting">Hi,Deshan!</span>
+                        <a href="login.html" class="btn btn-outline"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="dashboard-hero">
+        <div class="container">
+            <h1>Your Dashboard</h1>
+            <p>Track your contributions, monitor community activity, and access quick actions</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-container">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="dashboard-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h2>Activity Overview</h2>
+                </div>
+                <div class="dashboard-actions">
+                    <a href="index.html#report" class="btn btn-primary"><i class="fas fa-flag"></i> Report a Dog</a>
+                    <a href="leaderboard.html" class="btn btn-outline"><i class="fas fa-trophy"></i> View Leaderboard</a>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="dashboard-main">
+                    <!-- Stats Cards -->
+                    <div class="stats-cards">
+                        <div class="stat-card-dashboard reports">
+                            <div class="stat-icon reports">
+                                <i class="fas fa-flag"></i>
+                            </div>
+                            <div class="stat-value">42</div>
+                            <div class="stat-label">Reports Submitted</div>
+                        </div>
+                        <div class="stat-card-dashboard actions">
+                            <div class="stat-icon actions">
+                                <i class="fas fa-hands-helping"></i>
+                            </div>
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Actions Taken</div>
+                        </div>
+                        <div class="stat-card-dashboard points">
+                            <div class="stat-icon points">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Points Earned</div>
+                        </div>
+                        <div class="stat-card-dashboard rank">
+                            <div class="stat-icon rank">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-value">#24</div>
+                            <div class="stat-label">Community Rank</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Reports -->
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-history"></i> Recent Reports</h3>
+                            <a href="#" class="view-all">View All</a>
+                        </div>
+                        <div class="recent-reports">
+                            <div class="report-item">
+                                <div class="report-status healthy"></div>
+                                <div class="report-info">
+                                    <h4>Brown dog near Galle Face</h4>
+                                    <p>Friendly, appears healthy</p>
+                                </div>
+                                <div class="report-date">2 hours ago</div>
+                            </div>
+                            <div class="report-item">
+                                <div class="report-status sick"></div>
+                                <div class="report-info">
+                                    <h4>Black dog with limp</h4>
+                                    <p>Seems injured, limping back leg</p>
+                                </div>
+                                <div class="report-date">1 day ago</div>
+                            </div>
+                            <div class="report-item">
+                                <div class="report-status rabid"></div>
+                                <div class="report-info">
+                                    <h4>Aggressive white dog</h4>
+                                    <p>Foaming at mouth, avoid area</p>
+                                </div>
+                                <div class="report-date">2 days ago</div>
+                            </div>
+                            <div class="report-item">
+                                <div class="report-status healthy"></div>
+                                <div class="report-info">
+                                    <h4>Puppies near Viharamahadevi Park</h4>
+                                    <p>Group of 4 healthy puppies</p>
+                                </div>
+                                <div class="report-date">3 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                        </div>
+                        <div class="quick-actions">
+                            <div class="action-card" onclick="location.href='index.html#report'">
+                                <div class="action-icon">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <h4>Report a Dog</h4>
+                                <p>Submit a new sighting</p>
+                            </div>
+                            <div class="action-card" onclick="location.href='index.html#map'">
+                                <div class="action-icon">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </div>
+                                <h4>View Map</h4>
+                                <p>See recent reports</p>
+                            </div>
+                            <div class="action-card" onclick="location.href='leaderboard.html'">
+                                <div class="action-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <h4>Leaderboard</h4>
+                                <p>Check rankings</p>
+                            </div>
+                            <div class="action-card" onclick="showToast('Volunteer resources opened', 'info')">
+                                <div class="action-icon">
+                                    <i class="fas fa-hands-helping"></i>
+                                </div>
+                                <h4>Volunteer</h4>
+                                <p>Find opportunities</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area Map Preview -->
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-map"></i> Your Area</h3>
+                            <a href="index.html#map" class="view-all">View Full Map</a>
+                        </div>
+                        <div class="map-preview">
+                            <div style="text-align: center;">
+                                <i class="fas fa-map-marked-alt" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                                <p>Interactive Map Preview</p>
+                                <p class="btn btn-primary" style="margin-top: 10px;">Load Map</p>
+                            </div>
+                        </div>
+                        <p>Recent activity in your area: 3 new reports in the last 24 hours</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-sidebar">
+                    <!-- User Profile -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-user"></i> Your Profile</h3>
+                        <div class="user-profile">
+                            <div class="user-avatar">ds</div>
+                            <div class="user-info">
+                                <h4>Deshan</h4>
+                                <p>Animal Rescue Volunteer</p>
+                                <p>Colombo, Sri Lanka</p>
+                            </div>
+                        </div>
+                        <div class="user-stats">
+                            <div class="user-stat">
+                                <div class="value">42</div>
+                                <div class="label">Reports</div>
+                            </div>
+                            <div class="user-stat">
+                                <div class="value">18</div>
+                                <div class="label">Actions</div>
+                            </div>
+                            <div class="user-stat">
+                                <div class="value">156</div>
+                                <div class="label">Points</div>
+                            </div>
+                            <div class="user-stat">
+                                <div class="value">#24</div>
+                                <div class="label">Rank</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-chart-line"></i> Monthly Progress</h3>
+                        <div class="progress-section">
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">Reports</span>
+                                    <span class="progress-value">12/20</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">Actions</span>
+                                    <span class="progress-value">8/15</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 53%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">Points</span>
+                                    <span class="progress-value">45/100</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-award"></i> Your Badges</h3>
+                        <div class="badges-grid">
+                            <div class="badge-item earned">
+                                <div class="badge-icon earned">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="badge-name">First Report</div>
+                            </div>
+                            <div class="badge-item earned">
+                                <div class="badge-icon earned">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="badge-name">Animal Lover</div>
+                            </div>
+                            <div class="badge-item earned">
+                                <div class="badge-icon earned">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="badge-name">Local Hero</div>
+                            </div>
+                            <div class="badge-item locked">
+                                <div class="badge-icon locked">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="badge-name">Top Contributor</div>
+                            </div>
+                            <div class="badge-item locked">
+                                <div class="badge-icon locked">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="badge-name">Rabies Fighter</div>
+                            </div>
+                            <div class="badge-item locked">
+                                <div class="badge-icon locked">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="badge-name">Community Star</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Community Activity -->
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-users"></i> Community Activity</h3>
+                        <div class="community-activity">
+                            <div class="activity-item">
+                                <div class="activity-avatar">DS</div>
+                                <div class="activity-info">
+                                    <p><strong> Silva</strong> reported a healthy dog</p>
+                                    <div class="activity-time">15 minutes ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-avatar">PF</div>
+                                <div class="activity-info">
+                                    <p><strong> Fernando</strong> helped a sick dog</p>
+                                    <div class="activity-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-avatar">MC</div>
+                                <div class="activity-info">
+                                    <p><strong>kasun</strong> earned 5 points</p>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-avatar">NP</div>
+                                <div class="activity-info">
+                                    <p><strong>Nimal </strong> reached #15 rank</p>
+                                    <div class="activity-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About TailWatch</h3>
+                    <p>A community-driven platform to monitor stray dogs, prevent rabies, and coordinate care efforts through collective action.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-Whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="index.html#map"><i class="fas fa-chevron-right"></i> Interactive Map</a></li>
+                        <li><a href="index.html#report"><i class="fas fa-chevron-right"></i> Report a Dog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Volunteer</a></li>
+                        <li><a href="leaderboard.html"><i class="fas fa-chevron-right"></i> Leaderboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Rabies Information</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Safety Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Volunteer Training</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Community Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@tailwatch.org</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +94 769776315</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Malabe, Sri Lanka</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TailWatch. All rights reserved. | Community-Powered Stray Dog Care & Rabies Prevention</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            
+            toast.textContent = message;
+            toast.className = 'toast show';
+            toast.classList.add(type);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.classList.remove(type), 300);
+            }, 3000);
+        }
+
+        // Animate stats on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // In a real application, this would fetch actual user data
+            console.log('Dashboard loaded for user Sarah Johnson');
+            
+            // Example of interactive functionality
+            const actionCards = document.querySelectorAll('.action-card');
+            actionCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const actionName = this.querySelector('h4').textContent;
+                    showToast(`Opening ${actionName}...`, 'info');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
