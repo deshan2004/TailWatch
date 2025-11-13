@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - TailWatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .leaderboard-hero {
+            background: linear-gradient(135deg, #3498db, #3498db);
+            color: white;
+            padding: 150px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .leaderboard-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .leaderboard-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .leaderboard-container {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .leaderboard-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .leaderboard-title i {
+            font-size: 2rem;
+            color: #9b59b6;
+        }
+
+        .leaderboard-title h2 {
+            margin: 0;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .leaderboard-filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn.active {
+            background: #9b59b6;
+            color: white;
+            border-color: #9b59b6;
+        }
+
+        .leaderboard-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        .leaderboard-main {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table thead {
+            background: #f8f9fa;
+        }
+
+        .leaderboard-table th {
+            padding: 20px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .leaderboard-table th:first-child {
+            padding-left: 30px;
+            width: 60px;
+            text-align: center;
+        }
+
+        .leaderboard-table th:nth-child(2) {
+            width: 60px;
+        }
+
+        .leaderboard-table th:last-child {
+            padding-right: 30px;
+        }
+
+        .leaderboard-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-table td:first-child {
+            padding-left: 30px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+
+        .leaderboard-table td:last-child {
+            padding-right: 30px;
+        }
+
+        .leaderboard-table tbody tr:hover td {
+            background: rgba(155, 89, 182, 0.05);
+        }
+
+        .rank-1 td:first-child {
+            color: #ffc107;
+            font-size: 1.5rem;
+        }
+
+        .rank-2 td:first-child {
+            color: #c0c0c0;
+            font-size: 1.4rem;
+        }
+
+        .rank-3 td:first-child {
+            color: #cd7f32;
+            font-size: 1.3rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e9ecef;
+            color: #6c757d;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-details h4 {
+            margin: 0 0 5px;
+            font-size: 1.1rem;
+        }
+
+        .user-details p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .user-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #495057;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        .points-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 15px;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .leaderboard-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar-card h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-card h3 i {
+            color: #9b59b6;
+        }
+
+        .current-user-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .user-rank {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .user-rank-info h4 {
+            margin: 0 0 5px;
+            font-size: 1.1rem;
+        }
+
+        .user-rank-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .user-rank-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #9b59b6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #9b59b6;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+
+        .badges-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .badge-info h4 {
+            margin: 0 0 5px;
+            font-size: 1rem;
+        }
+
+        .badge-info p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .badge-earned {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .badge-locked {
+            background: #e9ecef;
+            color: #6c757d !important;
+        }
+
+        .monthly-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .progress-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .progress-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #9b59b6;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .pagination-btn.active {
+            background: #9b59b6;
+            color: white;
+            border-color: #9b59b6;
+        }
+
+        .pagination-btn:hover:not(.active) {
+            border-color: #9b59b6;
+            color: #9b59b6;
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 992px) {
+            .leaderboard-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .leaderboard-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .leaderboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .leaderboard-filters {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .leaderboard-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .user-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Alert Banner -->
+    <div class="alert-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        Alert: Rabid dog reported in Colombo 05 area. Please avoid the area and report any sightings.
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <h1>TailWatch</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#map">Map</a></li>
+                        <li><a href="index.html#report">Report</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    <a href="signup.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="leaderboard-hero">
+        <div class="container">
+            <h1>Community Leaderboard</h1>
+            <p>Celebrating our top volunteers making a difference in stray dog care and rabies prevention</p>
+        </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section class="leaderboard-container">
+        <div class="container">
+            <div class="leaderboard-header">
+                <div class="leaderboard-title">
+                    <i class="fas fa-trophy"></i>
+                    <h2>Top Volunteers</h2>
+                </div>
+                <div class="leaderboard-filters">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="fas fa-globe"></i> All Time
+                    </button>
+                    <button class="filter-btn" data-filter="monthly">
+                        <i class="fas fa-calendar-alt"></i> This Month
+                    </button>
+                    <button class="filter-btn" data-filter="weekly">
+                        <i class="fas fa-calendar-week"></i> This Week
+                    </button>
+                </div>
+            </div>
+
+            <div class="leaderboard-content">
+                <div class="leaderboard-main">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th></th>
+                                <th>Volunteer</th>
+                                <th>Reports</th>
+                                <th>Actions</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboardBody">
+                            <!-- Leaderboard data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <button class="pagination-btn disabled">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="pagination-btn active">1</button>
+                        <button class="pagination-btn">2</button>
+                        <button class="pagination-btn">3</button>
+                        <button class="pagination-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="leaderboard-sidebar">
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-user"></i> Your Stats</h3>
+                        <div class="current-user-stats">
+                            <div class="user-rank">
+                                <div class="user-rank-info">
+                                    <h4>Your Rank</h4>
+                                    <p>Based on your contributions</p>
+                                </div>
+                                <div class="user-rank-value">#24</div>
+                            </div>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="value">156</div>
+                                    <div class="label">Points</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="value">42</div>
+                                    <div class="label">Reports</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="value">18</div>
+                                    <div class="label">Actions</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="value">3</div>
+                                    <div class="label">Badges</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-award"></i> Your Badges</h3>
+                        <div class="badges-list">
+                            <div class="badge-item">
+                                <div class="badge-icon badge-earned">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>First Report</h4>
+                                    <p>Submitted your first dog report</p>
+                                </div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon badge-earned">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>Animal Lover</h4>
+                                    <p>Helped 10+ dogs</p>
+                                </div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon badge-earned">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>Local Hero</h4>
+                                    <p>Reported in 5 different areas</p>
+                                </div>
+                            </div>
+                            <div class="badge-item">
+                                <div class="badge-icon badge-locked">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>Top Contributor</h4>
+                                    <p>Reach top 10 on leaderboard</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-chart-line"></i> Monthly Progress</h3>
+                        <div class="monthly-stats">
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">Reports</span>
+                                    <span class="progress-value">12/20</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">Actions</span>
+                                    <span class="progress-value">8/15</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 53%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-label">Points</span>
+                                    <span class="progress-value">45/100</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About TailWatch</h3>
+                    <p>A community-driven platform to monitor stray dogs, prevent rabies, and coordinate care efforts through collective action.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-Whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="index.html#map"><i class="fas fa-chevron-right"></i> Interactive Map</a></li>
+                        <li><a href="index.html#report"><i class="fas fa-chevron-right"></i> Report a Dog</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Volunteer</a></li>
+                        <li><a href="leaderboard.html"><i class="fas fa-chevron-right"></i> Leaderboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Rabies Information</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Safety Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Volunteer Training</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Community Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@tailwatch.org</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +94 769776315</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Malabe, Sri Lanka</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TailWatch. All rights reserved. | Community-Powered Stray Dog Care & Rabies Prevention</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Sample leaderboard data
+        const leaderboardData = [
+            {
+                id: 1,
+                name: "Deshan",
+                role: "Animal Rescue Volunteer",
+                location: "Colombo",
+                reports: 142,
+                actions: 89,
+                points: 845,
+                avatar: "SJ"
+            },
+            {
+                id: 2,
+                name: " Silva",
+                role: "Veterinarian",
+                location: "Kandy",
+                reports: 128,
+                actions: 112,
+                points: 812,
+                avatar: "DS"
+            },
+            {
+                id: 3,
+                name: " Fernando",
+                role: "Community Member",
+                location: "Galle",
+                reports: 98,
+                actions: 76,
+                points: 698,
+                avatar: "PF"
+            },
+            {
+                id: 4,
+                name: "kasun",
+                role: "Animal Welfare Activist",
+                location: "Negombo",
+                reports: 87,
+                actions: 94,
+                points: 645,
+                avatar: "MC"
+            },
+            {
+                id: 5,
+                name: "Nimal ",
+                role: "Dog Shelter Volunteer",
+                location: "Colombo",
+                reports: 76,
+                actions: 68,
+                points: 532,
+                avatar: "NP"
+            },
+            {
+                id: 6,
+                name: "pasindu",
+                role: "Veterinary Student",
+                location: "Jaffna",
+                reports: 65,
+                actions: 72,
+                points: 498,
+                avatar: "LR"
+            },
+            {
+                id: 7,
+                name: "Kamal ",
+                role: "Community Leader",
+                location: "Kurunegala",
+                reports: 54,
+                actions: 61,
+                points: 421,
+                avatar: "KB"
+            },
+            {
+                id: 8,
+                name: "Tharindu",
+                role: "Animal Rights Advocate",
+                location: "Gampaha",
+                reports: 48,
+                actions: 55,
+                points: 398,
+                avatar: "EW"
+            },
+            {
+                id: 9,
+                name: "Ravi ",
+                role: "Animal Rescue Volunteer",
+                location: "Matara",
+                reports: 42,
+                actions: 49,
+                points: 365,
+                avatar: "RK"
+            },
+            {
+                id: 10,
+                name: "Anusha ",
+                role: "Community Member",
+                location: "Ratnapura",
+                reports: 38,
+                actions: 42,
+                points: 312,
+                avatar: "AS"
+            }
+        ];
+
+        // Populate leaderboard table
+        function populateLeaderboard() {
+            const leaderboardBody = document.getElementById('leaderboardBody');
+            leaderboardBody.innerHTML = '';
+
+            leaderboardData.forEach((user, index) => {
+                const row = document.createElement('tr');
+                if (index === 0) row.classList.add('rank-1');
+                if (index === 1) row.classList.add('rank-2');
+                if (index === 2) row.classList.add('rank-3');
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>
+                        <div class="user-avatar">${user.avatar}</div>
+                    </td>
+                    <td>
+                        <div class="user-info">
+                            <div class="user-details">
+                                <h4>${user.name}</h4>
+                                <p>${user.role} • ${user.location}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${user.reports}</div>
+                                <div class="stat-label">Reports</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${user.actions}</div>
+                                <div class="stat-label">Actions</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="points-badge">
+                            <i class="fas fa-star"></i> ${user.points}
+                        </span>
+                    </td>
+                `;
+
+                leaderboardBody.appendChild(row);
+            });
+        }
+
+        // Initialize leaderboard
+        document.addEventListener('DOMContentLoaded', function() {
+            populateLeaderboard();
+
+            // Filter buttons functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // In a real app, this would fetch new data based on the filter
+                    // For now, we'll just show a toast message
+                    showToast(`Showing ${this.textContent.trim()} rankings`, 'info');
+                });
+            });
+
+            // Pagination buttons functionality
+            const paginationButtons = document.querySelectorAll('.pagination-btn:not(.disabled)');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (!this.classList.contains('active') && !this.classList.contains('disabled')) {
+                        document.querySelectorAll('.pagination-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // In a real app, this would fetch the next page of data
+                        showToast(`Loading page ${this.textContent}`, 'info');
+                    }
+                });
+            });
+        });
+
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            
+            toast.textContent = message;
+            toast.className = 'toast show';
+            toast.classList.add(type);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.classList.remove(type), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
