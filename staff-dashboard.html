@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Dashboard - TailWatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .staff-header {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+        .staff-tools {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px 0;
+        }
+        .tool-card {
+            background: #25262b;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #373a40;
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover {
+            border-color: #2ecc71;
+            transform: translateY(-5px);
+        }
+        .priority-high { border-left: 4px solid #f44336; }
+        .priority-medium { border-left: 4px solid #ff9800; }
+        .priority-low { border-left: 4px solid #4CAF50; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <h1>TailWatch Staff</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="staff-dashboard.html" class="active">Dashboard</a></li>
+                        <li><a href="staff-cases.html">My Cases</a></li>
+                        <li><a href="staff-schedule.html">Schedule</a></li>
+                        <li><a href="staff-resources.html">Resources</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <span class="user-greeting">Staff Member</span>
+                    <a href="index.html" class="btn btn-outline">
+                        <i class="fas fa-home"></i> Main Site
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="staff-header">
+        <div class="container">
+            <h1>Staff Dashboard</h1>
+            <p>Manage assigned cases, update statuses, and coordinate with team members</p>
+        </div>
+    </section>
+
+    <section class="dashboard-container">
+        <div class="container">
+            <div class="staff-tools">
+                <div class="tool-card priority-high">
+                    <h3><i class="fas fa-ambulance"></i> Urgent Cases</h3>
+                    <p>3 high-priority cases need immediate attention</p>
+                    <div style="margin-top: 15px;">
+                        <a href="staff-cases.html?priority=high" class="btn btn-primary">
+                            View Cases <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <h3><i class="fas fa-calendar-check"></i> Today's Schedule</h3>
+                    <p>4 vaccinations, 2 check-ups scheduled</p>
+                    <div style="margin-top: 15px;">
+                        <a href="staff-schedule.html" class="btn btn-outline">
+                            View Schedule <i class="fas fa-calendar-alt"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <h3><i class="fas fa-file-medical"></i> My Reports</h3>
+                    <p>12 reports assigned, 8 completed</p>
+                    <div style="margin-top: 15px;">
+                        <a href="staff-reports.html" class="btn btn-outline">
+                            View Reports <i class="fas fa-file-alt"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <h3><i class="fas fa-toolbox"></i> Resources</h3>
+                    <p>Vaccine stock: 42 doses, Supplies: Good</p>
+                    <div style="margin-top: 15px;">
+                        <a href="staff-resources.html" class="btn btn-outline">
+                            Check Stock <i class="fas fa-boxes"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-section" style="margin-top: 40px;">
+                <h3><i class="fas fa-tasks"></i> My Assigned Cases</h3>
+                <table class="admin-table" style="margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Case ID</th>
+                            <th>Dog Description</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#C-2023-124</td>
+                            <td>Black dog with limp - Left hind leg injury</td>
+                            <td>Colombo 05, Main Street</td>
+                            <td><span class="status-badge status-pending">High</span></td>
+                            <td><span class="status-badge" style="background: #2196F3;">Assigned</span></td>
+                            <td>
+                                <button class="btn btn-primary" style="padding: 5px 10px;">
+                                    <i class="fas fa-edit"></i> Update
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userRole = localStorage.getItem('userRole');
+        const userName = localStorage.getItem('userName');
+        const userType = localStorage.getItem('userType');
+        
+        if (!userRole || (userRole !== 'staff' && userRole !== 'admin')) {
+            const allowedTypes = ['veterinarian', 'animal_rescue', 'community_member'];
+            
+            if (!allowedTypes.includes(userType)) {
+                alert('Access denied. Please login as staff member or sign up with appropriate credentials.');
+                window.location.href = 'login.html';
+                return;
+            }
+            localStorage.setItem('userRole', 'staff');
+        }
+        
+        if (userName) {
+            const greetingElement = document.querySelector('.user-greeting');
+            const userType = localStorage.getItem('userType');
+            
+            if (userType === 'veterinarian') {
+                greetingElement.textContent = `Vet: ${userName}`;
+            } else if (userType === 'animal_rescue') {
+                greetingElement.textContent = `Rescue: ${userName}`;
+            } else if (userType === 'community_member') {
+                greetingElement.textContent = `Community: ${userName}`;
+            } else if (userName.includes('Dr.')) {
+                greetingElement.textContent = `Vet: ${userName}`;
+            } else {
+                greetingElement.textContent = `Staff: ${userName}`;
+            }
+        }
+        
+        const addLogoutButton = () => {
+            const authButtons = document.querySelector('.auth-buttons');
+            if (authButtons) {
+                const logoutBtn = document.createElement('a');
+                logoutBtn.href = '#';
+                logoutBtn.className = 'btn btn-outline';
+                logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+                logoutBtn.style.marginLeft = '10px';
+                
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('userRole');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userType');
+                    localStorage.removeItem('redirectTo');
+                    localStorage.removeItem('rememberMe');
+                    localStorage.removeItem('savedEmail');
+                    alert('Logged out successfully');
+                    window.location.href = 'index.html';
+                });
+                
+                authButtons.appendChild(logoutBtn);
+            }
+        };
+        
+        addLogoutButton();
+        
+        const isNewSignup = sessionStorage.getItem('newSignup');
+        if (isNewSignup === 'true') {
+            alert(`Welcome to TailWatch Staff Dashboard, ${userName}! You can now manage cases and reports.`);
+            sessionStorage.removeItem('newSignup');
+        }
+    });
+</script>
+</body>
+</html>

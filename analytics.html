@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - TailWatch Admin</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container { min-height: 100vh; background: var(--dark-color); }
+        .admin-header { background: linear-gradient(135deg, #1a1b1e, #25262b); padding: 20px 0; border-bottom: 2px solid var(--primary-color); position: sticky; top: 0; z-index: 100; }
+        .admin-nav { display: flex; align-items: center; gap: 30px; }
+        .admin-nav a { color: var(--text-color); text-decoration: none; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; transition: all 0.3s ease; }
+        .admin-nav a:hover, .admin-nav a.active { background: rgba(52, 152, 219, 0.1); color: var(--primary-color); }
+        .admin-nav a.logout { color: var(--danger-color); }
+        .admin-nav a.logout:hover { background: rgba(255, 107, 107, 0.1); }
+        .admin-content { padding: 40px 20px; max-width: 1400px; margin: 0 auto; }
+        .admin-card { background: var(--light-color); border-radius: 15px; padding: 25px; border: 1px solid var(--border-color); box-shadow: var(--shadow); margin-bottom: 30px; }
+        .admin-section h2 { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: var(--text-color); }
+        .admin-section h2 i { color: var(--primary-color); }
+        
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            height: 100%;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chart-header h3 {
+            margin: 0;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chart-header h3 i {
+            color: var(--primary-color);
+        }
+        
+        .period-select {
+            padding: 8px 15px;
+            background: var(--dark-color);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .chart-container {
+            height: 250px;
+            position: relative;
+        }
+        
+        .chart-placeholder {
+            width: 100%;
+            height: 100%;
+            background: var(--dark-color);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+        }
+        
+        .chart-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .chart-placeholder.large {
+            height: 350px;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .metric-card {
+            background: var(--dark-color);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value.positive { color: var(--secondary-color); }
+        .metric-value.negative { color: var(--danger-color); }
+        .metric-value.neutral { color: var(--primary-color); }
+        
+        .metric-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .metric-change {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .metric-change.positive { color: var(--secondary-color); }
+        .metric-change.negative { color: var(--danger-color); }
+        
+        .top-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .top-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--dark-color);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .top-rank {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .top-info {
+            flex: 1;
+        }
+        
+        .top-info h4 {
+            margin: 0 0 5px;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+        
+        .top-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .top-value {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .region-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .region-item {
+            background: var(--dark-color);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .region-name {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        
+        .region-metrics {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .region-metric {
+            text-align: center;
+        }
+        
+        .region-metric .value {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        
+        .region-metric .label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .insight-card {
+            background: var(--dark-color);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .insight-header h4 {
+            margin: 0;
+            color: var(--text-color);
+        }
+        
+        .insight-content p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .export-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .export-btn {
+            background: var(--secondary-color);
+            color: var(--dark-color);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .export-btn:hover {
+            background: #40c057;
+            transform: translateY(-2px);
+        }
+        
+        .analytics-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .analytics-tab {
+            padding: 12px 24px;
+            background: var(--dark-color);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .analytics-tab.active {
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border-color: var(--primary-color);
+        }
+        
+        .analytics-tab:hover:not(.active) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-paw"></i>
+                        <h1>TailWatch Admin</h1>
+                    </div>
+                    <nav class="admin-nav">
+                        <a href="dashboard.html">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                        <a href="users.html">
+                            <i class="fas fa-users"></i> Users
+                        </a>
+                        <a href="reports.html">
+                            <i class="fas fa-flag"></i> Reports
+                        </a>
+                        <a href="analytics.html" class="active">
+                            <i class="fas fa-chart-bar"></i> Analytics
+                        </a>
+                        <a href="../index.html" style="margin-left: auto;">
+                            <i class="fas fa-home"></i> Main Site
+                        </a>
+                        <a href="../login.html" class="logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <div class="analytics-tabs">
+                <div class="analytics-tab active" data-tab="overview">Overview</div>
+                <div class="analytics-tab" data-tab="reports">Reports Analytics</div>
+                <div class="analytics-tab" data-tab="users">User Analytics</div>
+                <div class="analytics-tab" data-tab="geographic">Geographic</div>
+            </div>
+
+            <div id="overviewTab" class="analytics-tab-content">
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-line"></i> Report Trends</h3>
+                            <select class="period-select">
+                                <option>Last 7 Days</option>
+                                <option>Last 30 Days</option>
+                                <option>Last 3 Months</option>
+                                <option>Last Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line"></i>
+                                <p>Report volume chart</p>
+                                <small>Daily report submissions over time</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-chart-pie"></i> Report Types</h3>
+                            <select class="period-select">
+                                <option>Current Month</option>
+                                <option>Last Month</option>
+                                <option>Quarter</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-pie"></i>
+                                <p>Report distribution</p>
+                                <small>Healthy vs Sick vs Rabid reports</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-section">
+                        <h2><i class="fas fa-tachometer-alt"></i> Key Metrics</h2>
+                        <div class="metric-grid">
+                            <div class="metric-card">
+                                <div class="metric-value positive">1,247</div>
+                                <div class="metric-label">Total Reports</div>
+                                <div class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i> 12% from last month
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value positive">567</div>
+                                <div class="metric-label">Active Users</div>
+                                <div class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i> 8% from last month
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value negative">89</div>
+                                <div class="metric-label">Rabid Cases</div>
+                                <div class="metric-change negative">
+                                    <i class="fas fa-arrow-down"></i> 3% from last month
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value positive">75%</div>
+                                <div class="metric-label">Resolution Rate</div>
+                                <div class="metric-change positive">
+                                    <i class="fas fa-arrow-up"></i> 5% from last month
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-users"></i> User Growth</h3>
+                            <select class="period-select">
+                                <option>Last 30 Days</option>
+                                <option>Last 3 Months</option>
+                                <option>Last Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-users"></i>
+                                <p>User growth chart</p>
+                                <small>New user registrations over time</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-map-marked-alt"></i> Regional Activity</h3>
+                            <select class="period-select">
+                                <option>Top Regions</option>
+                                <option>All Regions</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-map"></i>
+                                <p>Geographic distribution</p>
+                                <small>Reports by region</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reportsTab" class="analytics-tab-content" style="display: none;">
+                <div class="admin-card">
+                    <div class="admin-section">
+                        <h2><i class="fas fa-flag"></i> Reports Analytics</h2>
+                        <div class="chart-container">
+                            <div class="chart-placeholder large">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>Detailed reports analytics</p>
+                                <small>Time series, categories, and status breakdown</small>
+                            </div>
+                        </div>
+                        
+                        <div class="region-stats">
+                            <div class="region-item">
+                                <div class="region-name">Colombo District</div>
+                                <div class="region-metrics">
+                                    <div class="region-metric">
+                                        <div class="value">642</div>
+                                        <div class="label">Reports</div>
+                                    </div>
+                                    <div class="region-metric">
+                                        <div class="value">45</div>
+                                        <div class="label">Rabid</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="region-item">
+                                <div class="region-name">Kandy District</div>
+                                <div class="region-metrics">
+                                    <div class="region-metric">
+                                        <div class="value">234</div>
+                                        <div class="label">Reports</div>
+                                    </div>
+                                    <div class="region-metric">
+                                        <div class="value">18</div>
+                                        <div class="label">Rabid</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="region-item">
+                                <div class="region-name">Galle District</div>
+                                <div class="region-metrics">
+                                    <div class="region-metric">
+                                        <div class="value">187</div>
+                                        <div class="label">Reports</div>
+                                    </div>
+                                    <div class="region-metric">
+                                        <div class="value">12</div>
+                                        <div class="label">Rabid</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="region-item">
+                                <div class="region-name">Other Areas</div>
+                                <div class="region-metrics">
+                                    <div class="region-metric">
+                                        <div class="value">184</div>
+                                        <div class="label">Reports</div>
+                                    </div>
+                                    <div class="region-metric">
+                                        <div class="value">14</div>
+                                        <div class="label">Rabid</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="usersTab" class="analytics-tab-content" style="display: none;">
+                <div class="admin-card">
+                    <div class="admin-section">
+                        <h2><i class="fas fa-users"></i> User Analytics</h2>
+                        
+                        <div class="top-list">
+                            <div class="top-item">
+                                <div class="top-rank">1</div>
+                                <div class="top-info">
+                                    <h4>Deshan Silva</h4>
+                                    <p>Top contributor - Colombo</p>
+                                </div>
+                                <div class="top-value">142 Reports</div>
+                            </div>
+                            <div class="top-item">
+                                <div class="top-rank">2</div>
+                                <div class="top-info">
+                                    <h4>Kasun Fernando</h4>
+                                    <p>Most active staff - Kandy</p>
+                                </div>
+                                <div class="top-value">128 Reports</div>
+                            </div>
+                            <div class="top-item">
+                                <div class="top-rank">3</div>
+                                <div class="top-info">
+                                    <h4>Nimal Perera</h4>
+                                    <p>Community leader - Galle</p>
+                                </div>
+                                <div class="top-value">98 Reports</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="geographicTab" class="analytics-tab-content" style="display: none;">
+                <div class="admin-card">
+                    <div class="admin-section">
+                        <h2><i class="fas fa-map-marked-alt"></i> Geographic Analysis</h2>
+                        <div class="chart-container">
+                            <div class="chart-placeholder large">
+                                <i class="fas fa-globe-asia"></i>
+                                <p>Geographic heat map</p>
+                                <small>Report density across Sri Lanka</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="admin-section">
+                    <h2><i class="fas fa-lightbulb"></i> Insights & Recommendations</h2>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <div class="insight-header">
+                                <div class="insight-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <h4>High Rabid Activity</h4>
+                            </div>
+                            <div class="insight-content">
+                                <p>Colombo district shows 45% increase in rabid cases this month. Recommend targeted vaccination campaign.</p>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-header">
+                                <div class="insight-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h4>User Engagement Peak</h4>
+                            </div>
+                            <div class="insight-content">
+                                <p>Weekend afternoons show highest user activity. Schedule community events during these times.</p>
+                            </div>
+                        </div>
+                        <div class="insight-card">
+                            <div class="insight-header">
+                                <div class="insight-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <h4>Under-reported Areas</h4>
+                            </div>
+                            <div class="insight-content">
+                                <p>Northern provinces show low reporting rates. Consider awareness campaigns in these regions.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="export-section">
+                        <button class="export-btn" onclick="exportAnalytics()">
+                            <i class="fas fa-file-export"></i> Export Analytics Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            
+            toast.textContent = message;
+            toast.className = 'toast show';
+            toast.classList.add(type);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.classList.remove(type), 300);
+            }, 3000);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.analytics-tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.analytics-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabId + 'Tab').style.display = 'block';
+            
+            event.target.classList.add('active');
+        }
+
+        function exportAnalytics() {
+            showToast('Exporting analytics report...', 'info');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.analytics-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    switchTab(this.dataset.tab);
+                });
+            });
+            
+            document.querySelectorAll('.period-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    const period = this.value;
+                    const chartType = this.closest('.chart-header').querySelector('h3 i').className;
+                    
+                    showToast(`Loading ${period} data for ${chartType.includes('chart-line') ? 'trends' : 'distribution'}`, 'info');
+                });
+            });
+            
+            const metricValues = document.querySelectorAll('.metric-value');
+            metricValues.forEach(metric => {
+                const finalValue = metric.textContent;
+                let currentValue = 0;
+                const isPercent = finalValue.includes('%');
+                const numericValue = parseFloat(finalValue.replace(/[^0-9.]/g, ''));
+                
+                if (!isNaN(numericValue)) {
+                    const increment = numericValue / 30;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            metric.textContent = finalValue;
+                            clearInterval(timer);
+                        } else {
+                            metric.textContent = isPercent ? 
+                                Math.floor(currentValue) + '%' : 
+                                Math.floor(currentValue).toLocaleString();
+                        }
+                    }, 30);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - TailWatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .settings-hero {
+            background: linear-gradient(135deg, rgba(77, 171, 247, 0.9), rgba(81, 207, 102, 0.9));
+            color: white;
+            padding: 150px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .settings-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .settings-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .settings-container {
+            padding: 80px 0;
+            background: var(--dark-color);
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .settings-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .settings-title i {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .settings-title h2 {
+            margin: 0;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .settings-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        .settings-sidebar {
+            background: var(--light-color);
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .settings-nav {
+            list-style: none;
+        }
+
+        .settings-nav li {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-nav li:last-child {
+            border-bottom: none;
+        }
+
+        .settings-nav a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 25px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .settings-nav a:hover {
+            background: rgba(77, 171, 247, 0.1);
+            color: var(--primary-color);
+        }
+
+        .settings-nav a.active {
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+
+        .settings-nav a i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .settings-main {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .settings-section {
+            background: var(--light-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+        }
+
+        .section-header h3 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .section-header h3 i {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: var(--dark-color);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.15);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        .toggle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .toggle-item:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-info h4 {
+            margin: 0 0 5px;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .toggle-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .danger-zone {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid var(--danger-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        .danger-zone h4 {
+            color: var(--danger-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .danger-zone p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: var(--dark-color);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .notification-info h4 {
+            margin: 0 0 5px;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .notification-info p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .privacy-item {
+            background: var(--dark-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .privacy-item h4 {
+            margin: 0 0 10px;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .privacy-item p {
+            margin: 0 0 15px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 992px) {
+            .settings-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-sidebar {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .settings-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .settings-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .settings-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .settings-section {
+                padding: 20px;
+            }
+            
+            .toggle-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .toggle-switch {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
+        <div class="floating-element" style="width: 80px; height: 80px; top: 80%; left: 10%; animation-delay: -10s;"></div>
+        <div class="floating-element" style="width: 120px; height: 120px; top: 30%; left: 90%; animation-delay: -15s;"></div>
+    </div>
+
+    <div class="alert-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        Alert: Rabid dog reported in Colombo 05 area. Please avoid the area and report any sightings.
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <h1>TailWatch</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#map">Map</a></li>
+                        <li><a href="index.html#report">Report</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="leaderboard.html">Leaderboard</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons-container" id="authButtonsContainer">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="settings-hero">
+        <div class="container">
+            <h1>Account Settings</h1>
+            <p>Customize your TailWatch experience and manage your account preferences</p>
+        </div>
+    </section>
+
+    <section class="settings-container">
+        <div class="container">
+            <div class="settings-header">
+                <div class="settings-title">
+                    <i class="fas fa-cog"></i>
+                    <h2>Settings</h2>
+                </div>
+                <div class="settings-actions">
+                    <a href="dashboard.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                </div>
+            </div>
+
+            <div class="settings-content">
+                <div class="settings-sidebar">
+                    <ul class="settings-nav">
+                        <li>
+                            <a href="#account" class="active" data-section="account">
+                                <i class="fas fa-user-cog"></i>
+                                Account Settings
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#notifications" data-section="notifications">
+                                <i class="fas fa-bell"></i>
+                                Notifications
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#privacy" data-section="privacy">
+                                <i class="fas fa-shield-alt"></i>
+                                Privacy & Security
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#preferences" data-section="preferences">
+                                <i class="fas fa-sliders-h"></i>
+                                Preferences
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="settings-main">
+                    <!-- Account Settings Section -->
+                    <div class="settings-section active" id="accountSection">
+                        <div class="section-header">
+                            <h3><i class="fas fa-user-cog"></i> Account Settings</h3>
+                            <p>Manage your account information and security settings</p>
+                        </div>
+                        
+                        <form class="settings-form" id="accountForm">
+                            <div class="form-group">
+                                <label for="accountEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                                <input type="email" id="accountEmail" value="deshan@example.com" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="currentPassword"><i class="fas fa-lock"></i> Current Password</label>
+                                <input type="password" id="currentPassword" placeholder="Enter current password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="newPassword"><i class="fas fa-key"></i> New Password</label>
+                                <input type="password" id="newPassword" placeholder="Enter new password">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword"><i class="fas fa-key"></i> Confirm New Password</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetAccountForm()">Reset</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="settings-section" id="notificationsSection">
+                        <div class="section-header">
+                            <h3><i class="fas fa-bell"></i> Notification Settings</h3>
+                            <p>Choose how and when you want to be notified about community activity</p>
+                        </div>
+                        
+                        <div class="notification-settings">
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>New Reports in Your Area</h4>
+                                    <p>Get notified when new dogs are reported near your location</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="notifNewReports" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Rabid Dog Alerts</h4>
+                                    <p>Immediate alerts for rabid dog reports in your vicinity</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="notifRabidAlerts" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Volunteer Opportunities</h4>
+                                    <p>Notifications about nearby volunteer activities</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="notifVolunteer" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Community Updates</h4>
+                                    <p>Weekly digest of community activity and achievements</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="notifCommunity" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Email Notifications</h4>
+                                    <p>Receive important updates via email</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="notifEmail" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-info">
+                                    <h4>Push Notifications</h4>
+                                    <p>Enable browser push notifications</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="notifPush" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" onclick="resetNotificationSettings()">Reset to Default</button>
+                            <button type="button" class="btn btn-primary" onclick="saveNotificationSettings()"><i class="fas fa-save"></i> Save Settings</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section" id="privacySection">
+                        <div class="section-header">
+                            <h3><i class="fas fa-shield-alt"></i> Privacy & Security</h3>
+                            <p>Control your privacy settings and security preferences</p>
+                        </div>
+                        
+                        <div class="privacy-settings">
+                            <div class="privacy-item">
+                                <h4>Profile Visibility</h4>
+                                <p>Choose who can see your profile information</p>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="visibilityPublic" name="visibility" value="public" checked>
+                                        <label for="visibilityPublic">Public (Everyone)</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="visibilityCommunity" name="visibility" value="community">
+                                        <label for="visibilityCommunity">Community Members Only</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="visibilityPrivate" name="visibility" value="private">
+                                        <label for="visibilityPrivate">Private</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="privacy-item">
+                                <h4>Report Anonymity</h4>
+                                <p>Submit reports anonymously if you prefer</p>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="anonymousReports">
+                                    <label for="anonymousReports">Submit reports anonymously by default</label>
+                                </div>
+                            </div>
+                            
+                            <div class="privacy-item">
+                                <h4>Location Sharing</h4>
+                                <p>Control how your location data is used</p>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="shareLocation" checked>
+                                    <label for="shareLocation">Share my approximate location for better alerts</label>
+                                </div>
+                            </div>
+                            
+                            <div class="privacy-item">
+                                <h4>Data Collection</h4>
+                                <p>Help improve TailWatch by sharing usage data</p>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="shareAnalytics" checked>
+                                    <label for="shareAnalytics">Share anonymous usage data to improve the platform</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" onclick="resetPrivacySettings()">Reset</button>
+                            <button type="button" class="btn btn-primary" onclick="savePrivacySettings()"><i class="fas fa-save"></i> Save Privacy Settings</button>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Section -->
+                    <div class="settings-section" id="preferencesSection">
+                        <div class="section-header">
+                            <h3><i class="fas fa-sliders-h"></i> Preferences</h3>
+                            <p>Customize your TailWatch experience</p>
+                        </div>
+                        
+                        <form class="settings-form" id="preferencesForm">
+                            <div class="form-group">
+                                <label for="language"><i class="fas fa-language"></i> Language</label>
+                                <select id="language">
+                                    <option value="en">English</option>
+                                    <option value="si">Sinhala</option>
+                                    <option value="ta">Tamil</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="theme"><i class="fas fa-palette"></i> Theme</label>
+                                <select id="theme">
+                                    <option value="dark">Dark Mode</option>
+                                    <option value="light">Light Mode</option>
+                                    <option value="auto">Auto (System)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="distanceUnit"><i class="fas fa-ruler"></i> Distance Unit</label>
+                                <select id="distanceUnit">
+                                    <option value="km">Kilometers (km)</option>
+                                    <option value="miles">Miles</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mapStyle"><i class="fas fa-map"></i> Default Map View</label>
+                                <select id="mapStyle">
+                                    <option value="standard">Standard Map</option>
+                                    <option value="satellite">Satellite View</option>
+                                    <option value="terrain">Terrain View</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="autoRefresh"><i class="fas fa-sync-alt"></i> Auto-refresh Map</label>
+                                <select id="autoRefresh">
+                                    <option value="5">Every 5 minutes</option>
+                                    <option value="15" selected>Every 15 minutes</option>
+                                    <option value="30">Every 30 minutes</option>
+                                    <option value="60">Every hour</option>
+                                    <option value="0">Never (Manual only)</option>
+                                </select>
+                            </div>
+                        </form>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline" onclick="resetPreferences()">Reset to Default</button>
+                            <button type="button" class="btn btn-primary" onclick="savePreferences()"><i class="fas fa-save"></i> Save Preferences</button>
+                        </div>
+                        
+                        <div class="danger-zone">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Danger Zone</h4>
+                            <p>These actions are irreversible. Please proceed with caution.</p>
+                            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                <button type="button" class="btn btn-outline" style="border-color: var(--warning-color); color: var(--warning-color);" onclick="exportData()">
+                                    <i class="fas fa-download"></i> Export My Data
+                                </button>
+                                <button type="button" class="btn btn-outline" style="border-color: var(--danger-color); color: var(--danger-color);" onclick="deleteAccount()">
+                                    <i class="fas fa-trash"></i> Delete My Account
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About TailWatch</h3>
+                    <p>A community-driven platform to monitor stray dogs, prevent rabies, and coordinate care efforts through collective action.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="index.html#map"><i class="fas fa-chevron-right"></i> Interactive Map</a></li>
+                        <li><a href="index.html#report"><i class="fas fa-chevron-right"></i> Report a Dog</a></li>
+                        <li><a href="dashboard.html"><i class="fas fa-chevron-right"></i> Dashboard</a></li>
+                        <li><a href="leaderboard.html"><i class="fas fa-chevron-right"></i> Leaderboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Rabies Information</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Safety Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Volunteer Training</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Community Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@tailwatch.org</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +94 769776315</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Malabe, Sri Lanka</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TailWatch. All rights reserved. | Community-Powered Stray Dog Care & Rabies Prevention</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function getInitials(name) {
+            return name.split(' ')
+                .map(word => word.charAt(0))
+                .join('')
+                .toUpperCase()
+                .substring(0, 2);
+        }
+
+        function renderAuthButtons() {
+            const authButtonsContainer = document.getElementById('authButtonsContainer');
+            const userRole = localStorage.getItem('userRole') || 'animal_rescue';
+            const userName = localStorage.getItem('userName') || 'Deshan Silva';
+            
+            const initials = getInitials(userName);
+            
+            authButtonsContainer.innerHTML = `
+                <div class="user-dropdown">
+                    <div class="user-dropdown-toggle">
+                        <div class="user-avatar-small">${initials}</div>
+                        <span class="user-name">${userName}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="dropdown-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </a>
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="my-reports.html" class="dropdown-item">
+                            <i class="fas fa-flag"></i>
+                            My Reports
+                        </a>
+                        <a href="settings.html" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            const dropdownToggle = document.querySelector('.user-dropdown-toggle');
+            const dropdownMenu = document.querySelector('.user-dropdown-menu');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function() {
+                    dropdownMenu.classList.remove('show');
+                });
+                
+                dropdownMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.clear();
+                    window.location.href = 'index.html';
+                });
+            }
+        }
+
+        function setupSettingsNavigation() {
+            const navLinks = document.querySelectorAll('.settings-nav a');
+            const sections = document.querySelectorAll('.settings-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === `${targetSection}Section`) {
+                            section.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+
+        function loadSavedSettings() {
+            const savedEmail = localStorage.getItem('userEmail') || 'deshan@example.com';
+            document.getElementById('accountEmail').value = savedEmail;
+            
+            const notifSettings = JSON.parse(localStorage.getItem('notificationSettings') || '{}');
+            document.getElementById('notifNewReports').checked = notifSettings.newReports !== false;
+            document.getElementById('notifRabidAlerts').checked = notifSettings.rabidAlerts !== false;
+            document.getElementById('notifVolunteer').checked = notifSettings.volunteer !== false;
+            document.getElementById('notifCommunity').checked = notifSettings.community !== false;
+            document.getElementById('notifEmail').checked = notifSettings.email !== false;
+            document.getElementById('notifPush').checked = notifSettings.push !== false;
+            
+            const privacySettings = JSON.parse(localStorage.getItem('privacySettings') || '{}');
+            document.getElementById('visibilityPublic').checked = privacySettings.visibility === 'public' || !privacySettings.visibility;
+            document.getElementById('visibilityCommunity').checked = privacySettings.visibility === 'community';
+            document.getElementById('visibilityPrivate').checked = privacySettings.visibility === 'private';
+            document.getElementById('anonymousReports').checked = privacySettings.anonymousReports === true;
+            document.getElementById('shareLocation').checked = privacySettings.shareLocation !== false;
+            document.getElementById('shareAnalytics').checked = privacySettings.shareAnalytics !== false;
+            
+            const preferences = JSON.parse(localStorage.getItem('preferences') || '{}');
+            document.getElementById('language').value = preferences.language || 'en';
+            document.getElementById('theme').value = preferences.theme || 'dark';
+            document.getElementById('distanceUnit').value = preferences.distanceUnit || 'km';
+            document.getElementById('mapStyle').value = preferences.mapStyle || 'standard';
+            document.getElementById('autoRefresh').value = preferences.autoRefresh || '15';
+        }
+
+        function saveAccountSettings(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('accountEmail').value;
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword && newPassword !== confirmPassword) {
+                showToast('New passwords do not match', 'error');
+                return;
+            }
+            
+            if (newPassword && newPassword.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            localStorage.setItem('userEmail', email);
+            
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            showToast('Account settings saved successfully', 'success');
+        }
+
+        function saveNotificationSettings() {
+            const settings = {
+                newReports: document.getElementById('notifNewReports').checked,
+                rabidAlerts: document.getElementById('notifRabidAlerts').checked,
+                volunteer: document.getElementById('notifVolunteer').checked,
+                community: document.getElementById('notifCommunity').checked,
+                email: document.getElementById('notifEmail').checked,
+                push: document.getElementById('notifPush').checked
+            };
+            
+            localStorage.setItem('notificationSettings', JSON.stringify(settings));
+            showToast('Notification settings saved', 'success');
+        }
+
+        function savePrivacySettings() {
+            const visibility = document.querySelector('input[name="visibility"]:checked').value;
+            const settings = {
+                visibility: visibility,
+                anonymousReports: document.getElementById('anonymousReports').checked,
+                shareLocation: document.getElementById('shareLocation').checked,
+                shareAnalytics: document.getElementById('shareAnalytics').checked
+            };
+            
+            localStorage.setItem('privacySettings', JSON.stringify(settings));
+            showToast('Privacy settings saved', 'success');
+        }
+
+        function savePreferences() {
+            const preferences = {
+                language: document.getElementById('language').value,
+                theme: document.getElementById('theme').value,
+                distanceUnit: document.getElementById('distanceUnit').value,
+                mapStyle: document.getElementById('mapStyle').value,
+                autoRefresh: document.getElementById('autoRefresh').value
+            };
+            
+            localStorage.setItem('preferences', JSON.stringify(preferences));
+            
+            if (preferences.theme === 'light') {
+                document.body.style.setProperty('--dark-color', '#f8f9fa');
+                document.body.style.setProperty('--light-color', '#ffffff');
+                document.body.style.setProperty('--text-color', '#212529');
+                document.body.style.setProperty('--text-light', '#6c757d');
+                document.body.style.setProperty('--border-color', '#dee2e6');
+            } else {
+                document.body.style.setProperty('--dark-color', '#1a1b1e');
+                document.body.style.setProperty('--light-color', '#25262b');
+                document.body.style.setProperty('--text-color', '#e9ecef');
+                document.body.style.setProperty('--text-light', '#adb5bd');
+                document.body.style.setProperty('--border-color', '#373a40');
+            }
+            
+            showToast('Preferences saved and applied', 'success');
+        }
+
+        function resetAccountForm() {
+            document.getElementById('accountEmail').value = localStorage.getItem('userEmail') || 'deshan@example.com';
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            showToast('Account form reset', 'info');
+        }
+
+        function resetNotificationSettings() {
+            document.getElementById('notifNewReports').checked = true;
+            document.getElementById('notifRabidAlerts').checked = true;
+            document.getElementById('notifVolunteer').checked = true;
+            document.getElementById('notifCommunity').checked = true;
+            document.getElementById('notifEmail').checked = true;
+            document.getElementById('notifPush').checked = true;
+            showToast('Notification settings reset to default', 'info');
+        }
+
+        function resetPrivacySettings() {
+            document.getElementById('visibilityPublic').checked = true;
+            document.getElementById('anonymousReports').checked = false;
+            document.getElementById('shareLocation').checked = true;
+            document.getElementById('shareAnalytics').checked = true;
+            showToast('Privacy settings reset', 'info');
+        }
+
+        function resetPreferences() {
+            document.getElementById('language').value = 'en';
+            document.getElementById('theme').value = 'dark';
+            document.getElementById('distanceUnit').value = 'km';
+            document.getElementById('mapStyle').value = 'standard';
+            document.getElementById('autoRefresh').value = '15';
+            showToast('Preferences reset to default', 'info');
+        }
+
+        function exportData() {
+            if (confirm('This will export all your data from TailWatch. Continue?')) {
+                showToast('Data export started. You will receive an email with your data.', 'info');
+            }
+        }
+
+        function deleteAccount() {
+            if (confirm('WARNING: This will permanently delete your account and all your data. This action cannot be undone. Are you absolutely sure?')) {
+                if (prompt('Type "DELETE" to confirm account deletion:') === 'DELETE') {
+                    localStorage.clear();
+                    showToast('Account deleted. Redirecting to homepage...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                } else {
+                    showToast('Account deletion cancelled', 'info');
+                }
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            toast.classList.add(type);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAuthButtons();
+            setupSettingsNavigation();
+            loadSavedSettings();
+            
+            document.getElementById('accountForm').addEventListener('submit', saveAccountSettings);
+            
+            const savedTheme = localStorage.getItem('themePreference') || 'dark';
+            if (savedTheme === 'light') {
+                document.getElementById('theme').value = 'light';
+                document.body.style.setProperty('--dark-color', '#f8f9fa');
+                document.body.style.setProperty('--light-color', '#ffffff');
+                document.body.style.setProperty('--text-color', '#212529');
+                document.body.style.setProperty('--text-light', '#6c757d');
+                document.body.style.setProperty('--border-color', '#dee2e6');
+            }
+        });
+    </script>
+</body>
+</html>

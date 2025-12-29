@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - TailWatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .profile-hero {
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(155, 89, 182, 0.9));
+            color: white;
+            padding: 150px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .profile-hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .profile-container {
+            padding: 80px 0;
+            background: var(--dark-color);
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .profile-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-title i {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-title h2 {
+            margin: 0;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .profile-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        .profile-sidebar {
+            background: var(--light-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-avatar-change {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .profile-avatar:hover .profile-avatar-change {
+            opacity: 1;
+        }
+
+        .profile-info h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            color: var(--text-color);
+        }
+
+        .profile-info p {
+            text-align: center;
+            margin: 5px 0;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .profile-role {
+            display: inline-block;
+            padding: 5px 15px;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .profile-stat {
+            text-align: center;
+            padding: 15px 10px;
+            background: var(--dark-color);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .profile-stat .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .profile-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .profile-main {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .profile-section {
+            background: var(--light-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .profile-section h3 {
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .profile-section h3 i {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: var(--dark-color);
+            color: var(--text-color);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.15);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .badge-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 15px;
+            border-radius: 12px;
+            background: var(--dark-color);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .badge-card.earned:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .badge-card.locked {
+            opacity: 0.7;
+        }
+
+        .badge-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .badge-card.earned .badge-icon {
+            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+        }
+
+        .badge-card.locked .badge-icon {
+            background: var(--border-color);
+        }
+
+        .badge-info {
+            text-align: center;
+        }
+
+        .badge-info h4 {
+            margin: 0 0 5px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .badge-info p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .recent-activity {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--dark-color);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            font-size: 1rem;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 3px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+
+        @media (max-width: 992px) {
+            .profile-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-sidebar {
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                flex-wrap: wrap;
+            }
+            
+            .profile-stats {
+                grid-template-columns: repeat(4, 1fr);
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .badges-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .profile-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .profile-sidebar {
+                flex-direction: column;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .badges-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
+        <div class="floating-element" style="width: 80px; height: 80px; top: 80%; left: 10%; animation-delay: -10s;"></div>
+        <div class="floating-element" style="width: 120px; height: 120px; top: 30%; left: 90%; animation-delay: -15s;"></div>
+    </div>
+
+    <div class="alert-banner">
+        <i class="fas fa-exclamation-triangle"></i>
+        Alert: Rabid dog reported in Colombo 05 area. Please avoid the area and report any sightings.
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <h1>TailWatch</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#map">Map</a></li>
+                        <li><a href="index.html#report">Report</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="leaderboard.html">Leaderboard</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons-container" id="authButtonsContainer">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="profile-hero">
+        <div class="container">
+            <h1>My Profile</h1>
+            <p>Manage your account, view your achievements, and update your preferences</p>
+        </div>
+    </section>
+
+    <section class="profile-container">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-title">
+                    <i class="fas fa-user-circle"></i>
+                    <h2>Profile Settings</h2>
+                </div>
+                <div class="profile-actions">
+                    <a href="dashboard.html" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+                </div>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar" id="profileAvatarContainer">
+                        <span id="avatarInitials">DS</span>
+                        <div class="profile-avatar-change">Change Photo</div>
+                    </div>
+                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                    
+                    <div class="profile-info">
+                        <h3 id="profileNameDisplay">Deshan Silva</h3>
+                        <p>Colombo, Sri Lanka</p>
+                        <p>Member since: Jan 2023</p>
+                        <span class="profile-role" id="profileRoleDisplay">Animal Rescue Volunteer</span>
+                    </div>
+                    
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <span class="value" id="statReports">12</span>
+                            <span class="label">Reports</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="value" id="statPoints">156</span>
+                            <span class="label">Points</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="value" id="statRank">#24</span>
+                            <span class="label">Rank</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="value" id="statBadges">3</span>
+                            <span class="label">Badges</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-main">
+                    <div class="profile-section">
+                        <h3><i class="fas fa-user-edit"></i> Personal Information</h3>
+                        <form class="profile-form" id="personalInfoForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName"><i class="fas fa-user"></i> First Name</label>
+                                    <input type="text" id="firstName" value="Deshan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName"><i class="fas fa-user"></i> Last Name</label>
+                                    <input type="text" id="lastName" value="Silva" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                                    <input type="email" id="email" value="deshan@example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                                    <input type="tel" id="phone" value="+94 77 123 4567">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="location"><i class="fas fa-map-marker-alt"></i> City</label>
+                                    <input type="text" id="location" value="Colombo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="userRole"><i class="fas fa-user-tag"></i> Role</label>
+                                    <select id="userRole">
+                                        <option value="volunteer">Volunteer</option>
+                                        <option value="veterinarian">Veterinarian</option>
+                                        <option value="animal_rescue" selected>Animal Rescue</option>
+                                        <option value="community_member">Community Member</option>
+                                        <option value="staff">Staff</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bio"><i class="fas fa-align-left"></i> Bio</label>
+                                <textarea id="bio" rows="3">Passionate animal lover dedicated to helping stray dogs and preventing rabies in our community.</textarea>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-outline" onclick="resetForm()">Reset</button>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3><i class="fas fa-award"></i> Badges & Achievements</h3>
+                        <div class="badges-grid">
+                            <div class="badge-card earned">
+                                <div class="badge-icon">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>First Report</h4>
+                                    <p>Submitted first dog report</p>
+                                </div>
+                            </div>
+                            <div class="badge-card earned">
+                                <div class="badge-icon">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>Animal Lover</h4>
+                                    <p>Helped 10+ dogs</p>
+                                </div>
+                            </div>
+                            <div class="badge-card earned">
+                                <div class="badge-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>Local Hero</h4>
+                                    <p>5+ areas covered</p>
+                                </div>
+                            </div>
+                            <div class="badge-card locked">
+                                <div class="badge-icon">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>Top Contributor</h4>
+                                    <p>Top 10 ranking</p>
+                                </div>
+                            </div>
+                            <div class="badge-card locked">
+                                <div class="badge-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="badge-info">
+                                    <h4>Safety Hero</h4>
+                                    <p>Reported 5+ rabid cases</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        <div class="recent-activity">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-flag"></i>
+                                </div>
+                                <div class="activity-info">
+                                    <p>Reported a healthy dog near Galle Face</p>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="activity-info">
+                                    <p>Earned 10 points for a detailed report</p>
+                                    <div class="activity-time">1 day ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-badge-check"></i>
+                                </div>
+                                <div class="activity-info">
+                                    <p>Unlocked "Local Hero" badge</p>
+                                    <div class="activity-time">3 days ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About TailWatch</h3>
+                    <p>A community-driven platform to monitor stray dogs, prevent rabies, and coordinate care efforts through collective action.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="index.html#map"><i class="fas fa-chevron-right"></i> Interactive Map</a></li>
+                        <li><a href="index.html#report"><i class="fas fa-chevron-right"></i> Report a Dog</a></li>
+                        <li><a href="dashboard.html"><i class="fas fa-chevron-right"></i> Dashboard</a></li>
+                        <li><a href="leaderboard.html"><i class="fas fa-chevron-right"></i> Leaderboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Rabies Information</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Safety Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Volunteer Training</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Community Guidelines</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@tailwatch.org</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +94 769776315</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Malabe, Sri Lanka</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TailWatch. All rights reserved. | Community-Powered Stray Dog Care & Rabies Prevention</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        function getInitials(name) {
+            return name.split(' ')
+                .map(word => word.charAt(0))
+                .join('')
+                .toUpperCase()
+                .substring(0, 2);
+        }
+
+        function renderAuthButtons() {
+            const authButtonsContainer = document.getElementById('authButtonsContainer');
+            const userRole = localStorage.getItem('userRole') || 'animal_rescue';
+            const userName = localStorage.getItem('userName') || 'Deshan Silva';
+            const userEmail = localStorage.getItem('userEmail') || 'deshan@example.com';
+            const userLocation = localStorage.getItem('userLocation') || 'Colombo';
+            
+            const initials = getInitials(userName);
+            
+            authButtonsContainer.innerHTML = `
+                <div class="user-dropdown">
+                    <div class="user-dropdown-toggle">
+                        <div class="user-avatar-small">${initials}</div>
+                        <span class="user-name">${userName}</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-dropdown-menu">
+                        <a href="dashboard.html" class="dropdown-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Dashboard
+                        </a>
+                        <a href="profile.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Profile
+                        </a>
+                        <a href="my-reports.html" class="dropdown-item">
+                            <i class="fas fa-flag"></i>
+                            My Reports
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            const dropdownToggle = document.querySelector('.user-dropdown-toggle');
+            const dropdownMenu = document.querySelector('.user-dropdown-menu');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function() {
+                    dropdownMenu.classList.remove('show');
+                });
+                
+                dropdownMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+            
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.clear();
+                    window.location.href = 'index.html';
+                });
+            }
+            
+            updateProfileDisplay(userName, userEmail, userRole, userLocation);
+        }
+
+        function updateProfileDisplay(name, email, role, location) {
+            const roleMap = {
+                'volunteer': 'Volunteer',
+                'veterinarian': 'Veterinarian',
+                'animal_rescue': 'Animal Rescue Volunteer',
+                'community_member': 'Community Member',
+                'staff': 'Staff Member'
+            };
+            
+            const roleDisplay = roleMap[role] || role;
+            
+            const nameParts = name.split(' ');
+            document.getElementById('firstName').value = nameParts[0] || '';
+            document.getElementById('lastName').value = nameParts.slice(1).join(' ') || '';
+            document.getElementById('email').value = email || '';
+            document.getElementById('location').value = location || '';
+            document.getElementById('userRole').value = role;
+            
+            document.getElementById('profileNameDisplay').textContent = name;
+            document.getElementById('profileRoleDisplay').textContent = roleDisplay;
+            document.getElementById('avatarInitials').textContent = getInitials(name);
+            
+            const reports = localStorage.getItem('userReports') || '12';
+            const points = localStorage.getItem('userPoints') || '156';
+            const rank = localStorage.getItem('userRank') || '#24';
+            const badges = localStorage.getItem('userBadges') || '3';
+            
+            document.getElementById('statReports').textContent = reports;
+            document.getElementById('statPoints').textContent = points;
+            document.getElementById('statRank').textContent = rank;
+            document.getElementById('statBadges').textContent = badges;
+        }
+
+        function saveProfileChanges(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const location = document.getElementById('location').value;
+            const role = document.getElementById('userRole').value;
+            const bio = document.getElementById('bio').value;
+            
+            const fullName = `${firstName} ${lastName}`.trim();
+            
+            localStorage.setItem('userName', fullName);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userPhone', phone);
+            localStorage.setItem('userLocation', location);
+            localStorage.setItem('userRole', role);
+            localStorage.setItem('userBio', bio);
+            
+            updateProfileDisplay(fullName, email, role, location);
+            
+            showToast('Profile updated successfully!', 'success');
+            
+            setTimeout(() => {
+                renderAuthButtons();
+            }, 100);
+        }
+
+        function resetForm() {
+            const savedName = localStorage.getItem('userName') || 'Deshan Silva';
+            const savedEmail = localStorage.getItem('userEmail') || 'deshan@example.com';
+            const savedRole = localStorage.getItem('userRole') || 'animal_rescue';
+            const savedLocation = localStorage.getItem('userLocation') || 'Colombo';
+            
+            updateProfileDisplay(savedName, savedEmail, savedRole, savedLocation);
+            showToast('Form reset to saved values', 'info');
+        }
+
+        function setupAvatarUpload() {
+            const avatarContainer = document.getElementById('profileAvatarContainer');
+            const avatarUpload = document.getElementById('avatarUpload');
+            
+            avatarContainer.addEventListener('click', function() {
+                avatarUpload.click();
+            });
+            
+            avatarUpload.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (!file.type.match('image.*')) {
+                        showToast('Please select an image file', 'error');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        localStorage.setItem('profileImage', e.target.result);
+                        
+                        const avatarContainer = document.getElementById('profileAvatarContainer');
+                        avatarContainer.innerHTML = `
+                            <img src="${e.target.result}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div class="profile-avatar-change">Change Photo</div>
+                        `;
+                        
+                        showToast('Profile picture updated successfully!', 'success');
+                        
+                        setupAvatarUpload();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            const savedImage = localStorage.getItem('profileImage');
+            if (savedImage) {
+                const avatarContainer = document.getElementById('profileAvatarContainer');
+                avatarContainer.innerHTML = `
+                    <img src="${savedImage}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="profile-avatar-change">Change Photo</div>
+                `;
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            toast.classList.add(type);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAuthButtons();
+            setupAvatarUpload();
+            
+            const savedName = localStorage.getItem('userName') || 'Deshan Silva';
+            const savedEmail = localStorage.getItem('userEmail') || 'deshan@example.com';
+            const savedRole = localStorage.getItem('userRole') || 'animal_rescue';
+            const savedLocation = localStorage.getItem('userLocation') || 'Colombo';
+            const savedBio = localStorage.getItem('userBio') || 'Passionate animal lover dedicated to helping stray dogs and preventing rabies in our community.';
+            
+            updateProfileDisplay(savedName, savedEmail, savedRole, savedLocation);
+            document.getElementById('bio').value = savedBio;
+            document.getElementById('phone').value = localStorage.getItem('userPhone') || '+94 77 123 4567';
+            
+            document.getElementById('personalInfoForm').addEventListener('submit', saveProfileChanges);
+            
+            document.querySelectorAll('.badge-card.earned').forEach(badge => {
+                badge.addEventListener('click', function() {
+                    const badgeName = this.querySelector('h4').textContent;
+                    showToast(`You earned the "${badgeName}" badge!`, 'success');
+                });
+            });
+            
+            document.querySelectorAll('.badge-card.locked').forEach(badge => {
+                badge.addEventListener('click', function() {
+                    const badgeName = this.querySelector('h4').textContent;
+                    showToast(`Complete more tasks to unlock the "${badgeName}" badge!`, 'info');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
