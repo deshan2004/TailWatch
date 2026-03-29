@@ -595,348 +595,39 @@
     </div>
 
     <div class="toast" id="toast"></div>
+<script type="module">
+    // 1. Firebase libraries import kireema
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    <script>
-        const reportsData = [
-            {
-                id: 1,
-                title: "Black dog with limp in left hind leg",
-                description: "Found near Main Street, seems injured but not aggressive. Medium size black dog with white patch on chest.",
-                location: "Colombo 05, Main Street",
-                reporter: "Deshan Silva",
-                contact: "deshan@example.com",
-                type: "sick",
-                status: "pending",
-                priority: "high",
-                date: "2023-11-15 14:30",
-                selected: false
-            },
-            {
-                id: 2,
-                title: "Aggressive white dog foaming at mouth",
-                description: "Very aggressive behavior, foaming at mouth, disoriented movement. Near university campus.",
-                location: "Malabe, University Road",
-                reporter: "Kasun Fernando",
-                contact: "kasun@example.com",
-                type: "rabid",
-                status: "pending",
-                priority: "urgent",
-                date: "2023-11-15 13:45",
-                selected: false
-            },
-            {
-                id: 3,
-                title: "Friendly brown dog playing with children",
-                description: "Appears healthy, playing safely with children in park. No visible injuries or aggression.",
-                location: "Galle Face Green",
-                reporter: "Nimal Perera",
-                contact: "nimal@example.com",
-                type: "healthy",
-                status: "approved",
-                priority: "low",
-                date: "2023-11-14 11:20",
-                selected: false
-            },
-            {
-                id: 4,
-                title: "Old dog with skin issues",
-                description: "Old dog with visible skin problems, moving slowly but not aggressive. Needs medical attention.",
-                location: "Pettah Market Area",
-                reporter: "Samantha Jay",
-                contact: "samantha@example.com",
-                type: "sick",
-                status: "pending",
-                priority: "medium",
-                date: "2023-11-14 09:15",
-                selected: false
-            },
-            {
-                id: 5,
-                title: "Small puppy abandoned near station",
-                description: "Small brown puppy, appears healthy but abandoned. No collar or identification.",
-                location: "Fort Railway Station",
-                reporter: "Admin System",
-                contact: "system@tailwatch.org",
-                type: "healthy",
-                status: "rejected",
-                priority: "low",
-                date: "2023-11-13 16:40",
-                selected: false
-            }
-        ];
+    // 2. Oyaage Firebase Config eka (Piyawara 1 dee copy karagaththa eka)
+    const firebaseConfig = {
+        apiKey: "AIzaSy...", 
+        authDomain: "tailwatch-71333.firebaseapp.com",
+        projectId: "tailwatch-71333",
+        storageBucket: "tailwatch-71333.firebasestorage.app",
+        messagingSenderId: "749007965376",
+        appId: "1:749007965376:web:3164db7c22225632017125"
+    };
 
-        let currentReportId = null;
+    // 3. Firebase Initialize kireema
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        function populateReportsTable(filterStatus = 'all', filterType = 'all', filterDate = 'all', searchTerm = '') {
-            const tableBody = document.getElementById('reportTableBody');
-            tableBody.innerHTML = '';
-            
-            let filteredReports = reportsData.filter(report => {
-                if (filterStatus !== 'all' && report.status !== filterStatus) return false;
-                
-                if (filterType !== 'all' && report.type !== filterType) return false;
-                
-                if (filterDate === 'today') {
-                    return true;
-                }
-                
-                if (searchTerm) {
-                    const searchLower = searchTerm.toLowerCase();
-                    return report.title.toLowerCase().includes(searchLower) ||
-                           report.description.toLowerCase().includes(searchLower) ||
-                           report.location.toLowerCase().includes(searchLower) ||
-                           report.reporter.toLowerCase().includes(searchLower);
-                }
-                
-                return true;
+    // --- Database ekata Data danna use karana code eka ---
+    async function saveData() {
+        try {
+            await addDoc(collection(db, "users"), {
+                name: "Deshan",
+                role: "Admin"
             });
-            
-            if (filteredReports.length === 0) {
-                document.getElementById('noReportsMessage').style.display = 'block';
-                return;
-            }
-            
-            document.getElementById('noReportsMessage').style.display = 'none';
-            
-            filteredReports.forEach(report => {
-                const row = document.createElement('tr');
-                
-                let statusBadge = '';
-                if (report.status === 'pending') {
-                    statusBadge = `<span class="status-badge status-pending">Pending</span>`;
-                } else if (report.status === 'approved') {
-                    statusBadge = `<span class="status-badge status-approved">Approved</span>`;
-                } else if (report.status === 'rejected') {
-                    statusBadge = `<span class="status-badge status-rejected">Rejected</span>`;
-                }
-                
-                let priorityBadge = '';
-                if (report.priority === 'urgent') {
-                    priorityBadge = `<span class="status-badge status-urgent">Urgent</span>`;
-                } else {
-                    priorityBadge = `<div class="report-urgency">
-                        <div class="priority-dot priority-${report.priority}"></div>
-                        <span>${report.priority}</span>
-                    </div>`;
-                }
-                
-                const typeDisplay = report.type.charAt(0).toUpperCase() + report.type.slice(1);
-                
-                row.innerHTML = `
-                    <td class="checkbox-cell">
-                        <input type="checkbox" class="report-checkbox" data-id="${report.id}" ${report.selected ? 'checked' : ''}>
-                    </td>
-                    <td>
-                        <div class="report-details">
-                            <h4>${report.title}</h4>
-                            <p>${report.description.substring(0, 100)}...</p>
-                            <div class="report-meta">
-                                <span><i class="fas fa-user"></i> ${report.reporter}</span>
-                                <span><i class="fas fa-map-marker-alt"></i> ${report.location}</span>
-                            </div>
-                        </div>
-                    </td>
-                    <td>${statusBadge}</td>
-                    <td>${typeDisplay}</td>
-                    <td>${priorityBadge}</td>
-                    <td>${report.date}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="action-btn view" onclick="viewReport(${report.id})">
-                                <i class="fas fa-eye"></i> View
-                            </button>
-                            <button class="action-btn approve" onclick="approveSingleReport(${report.id})">
-                                <i class="fas fa-check"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            document.querySelectorAll('.report-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const reportId = parseInt(this.dataset.id);
-                    const report = reportsData.find(r => r.id === reportId);
-                    if (report) report.selected = this.checked;
-                });
-            });
+            console.log("Data Saved!");
+        } catch (e) {
+            console.error("Error: ", e);
         }
-
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-            
-            toast.textContent = message;
-            toast.className = 'toast show';
-            toast.classList.add(type);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.classList.remove(type), 300);
-            }, 3000);
-        }
-
-        function viewReport(reportId) {
-            currentReportId = reportId;
-            const report = reportsData.find(r => r.id === reportId);
-            
-            if (report) {
-                document.getElementById('modalDescription').textContent = report.description;
-                document.getElementById('modalLocation').textContent = report.location;
-                document.getElementById('modalReporter').textContent = report.reporter;
-                document.getElementById('modalType').textContent = report.type.charAt(0).toUpperCase() + report.type.slice(1);
-                document.getElementById('modalStatus').textContent = report.status.charAt(0).toUpperCase() + report.status.slice(1);
-                document.getElementById('modalPriority').textContent = report.priority.charAt(0).toUpperCase() + report.priority.slice(1);
-                document.getElementById('modalDate').textContent = report.date;
-                document.getElementById('modalContact').textContent = report.contact;
-                
-                document.getElementById('reportModal').classList.add('show');
-            }
-        }
-
-        function closeReportModal() {
-            document.getElementById('reportModal').classList.remove('show');
-            currentReportId = null;
-        }
-
-        function approveSingleReport(reportId) {
-            const report = reportsData.find(r => r.id === reportId);
-            if (report) {
-                report.status = 'approved';
-                showToast(`Report #${reportId} approved`, 'success');
-                populateReportsTable(
-                    document.getElementById('statusFilter').value,
-                    document.getElementById('typeFilter').value,
-                    document.getElementById('dateFilter').value,
-                    document.getElementById('searchReports').value
-                );
-            }
-        }
-
-        function approveReport() {
-            if (currentReportId) {
-                approveSingleReport(currentReportId);
-                closeReportModal();
-            }
-        }
-
-        function rejectReport() {
-            if (currentReportId) {
-                const report = reportsData.find(r => r.id === currentReportId);
-                if (report) {
-                    report.status = 'rejected';
-                    showToast(`Report #${currentReportId} rejected`, 'error');
-                    closeReportModal();
-                    populateReportsTable(
-                        document.getElementById('statusFilter').value,
-                        document.getElementById('typeFilter').value,
-                        document.getElementById('dateFilter').value,
-                        document.getElementById('searchReports').value
-                    );
-                }
-            }
-        }
-
-        function exportReports() {
-            showToast('Exporting reports to CSV...', 'info');
-        }
-
-        function selectAllReports(select) {
-            reportsData.forEach(report => {
-                report.selected = select;
-            });
-            document.querySelectorAll('.report-checkbox').forEach(checkbox => {
-                checkbox.checked = select;
-            });
-        }
-
-        function approveSelectedReports() {
-            const selectedReports = reportsData.filter(r => r.selected);
-            selectedReports.forEach(report => {
-                report.status = 'approved';
-            });
-            showToast(`Approved ${selectedReports.length} reports`, 'success');
-            populateReportsTable(
-                document.getElementById('statusFilter').value,
-                document.getElementById('typeFilter').value,
-                document.getElementById('dateFilter').value,
-                document.getElementById('searchReports').value
-            );
-        }
-
-        function rejectSelectedReports() {
-            const selectedReports = reportsData.filter(r => r.selected);
-            selectedReports.forEach(report => {
-                report.status = 'rejected';
-            });
-            showToast(`Rejected ${selectedReports.length} reports`, 'error');
-            populateReportsTable(
-                document.getElementById('statusFilter').value,
-                document.getElementById('typeFilter').value,
-                document.getElementById('dateFilter').value,
-                document.getElementById('searchReports').value
-            );
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            populateReportsTable();
-            
-            document.getElementById('statusFilter').addEventListener('change', function() {
-                populateReportsTable(
-                    this.value,
-                    document.getElementById('typeFilter').value,
-                    document.getElementById('dateFilter').value,
-                    document.getElementById('searchReports').value
-                );
-            });
-            
-            document.getElementById('typeFilter').addEventListener('change', function() {
-                populateReportsTable(
-                    document.getElementById('statusFilter').value,
-                    this.value,
-                    document.getElementById('dateFilter').value,
-                    document.getElementById('searchReports').value
-                );
-            });
-            
-            document.getElementById('dateFilter').addEventListener('change', function() {
-                populateReportsTable(
-                    document.getElementById('statusFilter').value,
-                    document.getElementById('typeFilter').value,
-                    this.value,
-                    document.getElementById('searchReports').value
-                );
-            });
-            
-            document.getElementById('searchReports').addEventListener('input', function() {
-                populateReportsTable(
-                    document.getElementById('statusFilter').value,
-                    document.getElementById('typeFilter').value,
-                    document.getElementById('dateFilter').value,
-                    this.value
-                );
-            });
-            
-            document.getElementById('selectAllBtn').addEventListener('click', function() {
-                const allChecked = reportsData.every(r => r.selected);
-                selectAllReports(!allChecked);
-            });
-            
-            document.getElementById('approveSelectedBtn').addEventListener('click', approveSelectedReports);
-            document.getElementById('rejectSelectedBtn').addEventListener('click', rejectSelectedReports);
-            
-            document.getElementById('selectAllCheckbox').addEventListener('change', function() {
-                selectAllReports(this.checked);
-            });
-            
-            document.getElementById('reportModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeReportModal();
-                }
-            });
-        });
-    </script>
+    }
+</script>
+   
+   
 </body>
 </html>

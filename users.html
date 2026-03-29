@@ -452,234 +452,38 @@
 
     <div class="toast" id="toast"></div>
 
-    <script>
-        const usersData = [
-            {
-                id: 1,
-                name: "Deshan Silva",
-                email: "deshan@example.com",
-                role: "admin",
-                location: "Colombo",
-                status: "active",
-                reports: 142,
-                actions: 89,
-                joinDate: "2023-01-15",
-                avatar: "DS"
-            },
-            {
-                id: 2,
-                name: "Kasun Fernando",
-                email: "kasun@example.com",
-                role: "staff",
-                location: "Kandy",
-                status: "active",
-                reports: 128,
-                actions: 112,
-                joinDate: "2023-02-20",
-                avatar: "KF"
-            },
-            {
-                id: 3,
-                name: "Nimal Perera",
-                email: "nimal@example.com",
-                role: "volunteer",
-                location: "Galle",
-                status: "active",
-                reports: 98,
-                actions: 76,
-                joinDate: "2023-03-10",
-                avatar: "NP"
-            },
-            {
-                id: 4,
-                name: "Samantha Jay",
-                email: "samantha@example.com",
-                role: "volunteer",
-                location: "Negombo",
-                status: "inactive",
-                reports: 45,
-                actions: 32,
-                joinDate: "2023-04-05",
-                avatar: "SJ"
-            },
-            {
-                id: 5,
-                name: "Admin System",
-                email: "admin@tailwatch.org",
-                role: "admin",
-                location: "System",
-                status: "active",
-                reports: 0,
-                actions: 0,
-                joinDate: "2023-01-01",
-                avatar: "AS"
-            }
-        ];
+   <script type="module">
+    // 1. Firebase libraries import kireema
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        function populateUserTable(filter = 'all') {
-            const tableBody = document.getElementById('userTableBody');
-            tableBody.innerHTML = '';
-            
-            const filteredUsers = usersData.filter(user => {
-                if (filter === 'all') return true;
-                if (filter === 'volunteers') return user.role === 'volunteer';
-                if (filter === 'staff') return user.role === 'staff';
-                if (filter === 'admins') return user.role === 'admin';
-                return true;
+    // 2. Oyaage Firebase Config eka (Piyawara 1 dee copy karagaththa eka)
+    const firebaseConfig = {
+        apiKey: "AIzaSy...", 
+        authDomain: "tailwatch-71333.firebaseapp.com",
+        projectId: "tailwatch-71333",
+        storageBucket: "tailwatch-71333.firebasestorage.app",
+        messagingSenderId: "749007965376",
+        appId: "1:749007965376:web:3164db7c22225632017125"
+    };
+
+    // 3. Firebase Initialize kireema
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // --- Database ekata Data danna use karana code eka ---
+    async function saveData() {
+        try {
+            await addDoc(collection(db, "users"), {
+                name: "Deshan",
+                role: "Admin"
             });
-            
-            filteredUsers.forEach(user => {
-                const row = document.createElement('tr');
-                
-                let statusBadge = '';
-                if (user.status === 'active') {
-                    statusBadge = `<span class="status-badge status-active">Active</span>`;
-                } else if (user.status === 'inactive') {
-                    statusBadge = `<span class="status-badge status-inactive">Inactive</span>`;
-                } else if (user.status === 'banned') {
-                    statusBadge = `<span class="status-badge status-banned">Banned</span>`;
-                }
-                
-                let roleBadge = '';
-                if (user.role === 'admin') {
-                    roleBadge = `<span class="status-badge status-admin">Admin</span>`;
-                } else if (user.role === 'staff') {
-                    roleBadge = `<span class="status-badge status-staff">Staff</span>`;
-                } else {
-                    roleBadge = `<span class="status-badge status-active">Volunteer</span>`;
-                }
-                
-                row.innerHTML = `
-                    <td>
-                        <div class="user-avatar-cell">
-                            <div class="user-avatar">${user.avatar}</div>
-                            <div class="user-info">
-                                <h4>${user.name}</h4>
-                                <p>${user.email}</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>${roleBadge}</td>
-                    <td>${statusBadge}</td>
-                    <td>
-                        <div class="user-stats">
-                            <div class="user-stat">
-                                <div class="value">${user.reports}</div>
-                                <div class="label">Reports</div>
-                            </div>
-                            <div class="user-stat">
-                                <div class="value">${user.actions}</div>
-                                <div class="label">Actions</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>${user.joinDate}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="action-btn edit" onclick="editUser(${user.id})">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="action-btn reset" onclick="resetPassword(${user.id})">
-                                <i class="fas fa-key"></i> Reset
-                            </button>
-                            ${user.role !== 'admin' ? `
-                            <button class="action-btn delete" onclick="deleteUser(${user.id})">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                            ` : ''}
-                        </div>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
+            console.log("Data Saved!");
+        } catch (e) {
+            console.error("Error: ", e);
         }
-
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-            
-            toast.textContent = message;
-            toast.className = 'toast show';
-            toast.classList.add(type);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.classList.remove(type), 300);
-            }, 3000);
-        }
-
-        function openModal() {
-            document.getElementById('addUserModal').classList.add('show');
-        }
-
-        function closeModal() {
-            document.getElementById('addUserModal').classList.remove('show');
-        }
-
-        function editUser(userId) {
-            const user = usersData.find(u => u.id === userId);
-            showToast(`Editing user: ${user.name}`, 'info');
-        }
-
-        function resetPassword(userId) {
-            const user = usersData.find(u => u.id === userId);
-            showToast(`Password reset email sent to ${user.email}`, 'success');
-        }
-
-        function deleteUser(userId) {
-            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-                showToast('User deleted successfully', 'success');
-                populateUserTable(document.querySelector('.filter-tab.active').dataset.filter);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            populateUserTable();
-            
-            document.querySelectorAll('.filter-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    populateUserTable(this.dataset.filter);
-                });
-            });
-            
-            document.getElementById('userSearch').addEventListener('input', function(e) {
-                const searchTerm = e.target.value.toLowerCase();
-                const rows = document.querySelectorAll('#userTableBody tr');
-                
-                rows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(searchTerm) ? '' : 'none';
-                });
-            });
-            
-            document.getElementById('addUserBtn').addEventListener('click', openModal);
-            
-            document.getElementById('addUserForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                showToast('New user created successfully', 'success');
-                closeModal();
-                this.reset();
-            });
-            
-            document.getElementById('addUserModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal();
-                }
-            });
-            
-            document.querySelectorAll('.pagination-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (!this.classList.contains('active')) {
-                        document.querySelectorAll('.pagination-btn').forEach(b => b.classList.remove('active'));
-                        this.classList.add('active');
-                        showToast(`Loading page ${this.textContent}`, 'info');
-                    }
-                });
-            });
-        });
-    </script>
+    }
+</script>
+    
 </body>
 </html>
