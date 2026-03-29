@@ -1,25 +1,3 @@
-// 1. Firebase libraries import කිරීම (අපි මෙතැනට Firestore එකත් එකතු කළා)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-// 2. ඔයාට ලැබුණු Firebase configuration එක
-const firebaseConfig = {
-    apiKey: "AIzaSyC9j9Wp1hiXzOGrOY4dJPbFnESMBYBo_-4",
-    authDomain: "tailwatch-71333.firebaseapp.com",
-    projectId: "tailwatch-71333",
-    storageBucket: "tailwatch-71333.firebasestorage.app",
-    messagingSenderId: "749007965376",
-    appId: "1:749007965376:web:3164db7c22225632017125",
-    measurementId: "G-D6BERS8RJ2"
-};
-
-// 3. Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app); // Database එක පාවිච්චි කරන්න මෙය අනිවාර්යයි
-
-// --- මෙතැනින් පහළට ඔයාගේ දැනට තිබෙන code එක තියාගන්න ---
-// document.addEventListener('DOMContentLoaded', function() { ... })
-
 const ROLES = {
     USER: 'user',
     STAFF: 'staff',
@@ -165,4 +143,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-

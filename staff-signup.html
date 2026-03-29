@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Sign Up - TailWatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .staff-signup-hero {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .staff-signup-container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: var(--light-color);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .staff-role-card {
+            background: var(--dark-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .staff-role-card:hover,
+        .staff-role-card.selected {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.1);
+        }
+        
+        .staff-role-card h4 {
+            color: var(--text-color);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .staff-role-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .staff-signup-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .staff-signup-btn:hover {
+            background: linear-gradient(135deg, #27ae60, #219653);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <h1>TailWatch Staff</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="staff-dashboard.html">Staff Dashboard</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="staff-signup-hero">
+        <div class="container">
+            <h1>Staff Sign Up</h1>
+            <p>Join our team of dedicated professionals helping stray dogs</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="staff-signup-container">
+            <h2 style="text-align: center; margin-bottom: 30px;">Create Staff Account</h2>
+            
+            <form id="staffSignupForm">
+                <div class="form-group">
+                    <label for="staffName"><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="staffName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="staffEmail" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffPassword"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="staffPassword" placeholder="Create a password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-user-md"></i> Staff Role</label>
+                    <div id="roleSelection">
+                        <div class="staff-role-card" data-role="veterinarian">
+                            <h4><i class="fas fa-stethoscope"></i> Veterinarian</h4>
+                            <p>Provide medical care, vaccinations, and treatment</p>
+                        </div>
+                        <div class="staff-role-card" data-role="animal_rescue">
+                            <h4><i class="fas fa-ambulance"></i> Animal Rescue</h4>
+                            <p>Rescue and transport animals in need</p>
+                        </div>
+                        <div class="staff-role-card" data-role="health_officer">
+                            <h4><i class="fas fa-shield-alt"></i> Health Officer</h4>
+                            <p>Monitor public health and rabies prevention</p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="staffRole" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffPhone"><i class="fas fa-phone"></i> Phone Number</label>
+                    <input type="tel" id="staffPhone" placeholder="Enter your phone number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="staffLocation"><i class="fas fa-map-marker-alt"></i> Location</label>
+                    <input type="text" id="staffLocation" placeholder="Your city or region">
+                </div>
+                
+                <button type="submit" class="staff-signup-btn">
+                    <i class="fas fa-user-plus"></i> Create Staff Account
+                </button>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                    <p>Or <a href="signup.html">sign up as a regular user</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>TailWatch Staff</h3>
+                    <p>Professional portal for staff and volunteers working with stray dogs</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TailWatch. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleCards = document.querySelectorAll('.staff-role-card');
+            const roleInput = document.getElementById('staffRole');
+            
+            roleCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    roleCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    roleInput.value = this.dataset.role;
+                });
+            });
+            
+            const form = document.getElementById('staffSignupForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('staffName').value;
+                const email = document.getElementById('staffEmail').value;
+                const password = document.getElementById('staffPassword').value;
+                const role = document.getElementById('staffRole').value;
+                const phone = document.getElementById('staffPhone').value;
+                const location = document.getElementById('staffLocation').value;
+                
+                if (!name || !email || !password || !role) {
+                    showToast('Please fill in all required fields', 'error');
+                    return;
+                }
+                
+                if (!roleInput.value) {
+                    showToast('Please select a staff role', 'error');
+                    return;
+                }
+                
+                localStorage.setItem('userName', name);
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userRole', 'staff');
+                localStorage.setItem('userType', role);
+                localStorage.setItem('userPhone', phone);
+                localStorage.setItem('userLocation', location);
+                localStorage.setItem('signupSuccess', 'true');
+                localStorage.setItem('userReturnToStaffDashboard', 'true');
+                sessionStorage.setItem('newSignup', 'true');
+                
+                showToast('Staff account created successfully!', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'staff-dashboard.html';
+                }, 1500);
+            });
+            
+            function showToast(message, type = 'info') {
+                const toast = document.getElementById('toast');
+                if (!toast) return;
+                
+                toast.textContent = message;
+                toast.className = 'toast show ' + type;
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        toast.className = 'toast';
+                    }, 300);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

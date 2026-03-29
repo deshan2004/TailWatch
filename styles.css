@@ -244,7 +244,6 @@ p {
     background: linear-gradient(135deg, var(--danger-color), #ff4757);
     color: var(--dark-color);
     padding: 12px 20px;
-    text-align: center;
     font-weight: 500;
     position: relative;
     z-index: 1000;
@@ -1221,7 +1220,210 @@ footer {
     text-decoration: none;
     transition: var(--transition);
 }
+/* Add these to the end of styles.css */
 
+/* Staff Dashboard Specific Styles */
+.staff-badge {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: var(--dark-color);
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.staff-sidebar {
+    background: var(--light-color);
+    min-height: 100vh;
+    padding: 20px;
+    border-right: 1px solid var(--border-color);
+}
+
+.staff-sidebar .nav-item {
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: var(--transition);
+}
+
+.staff-sidebar .nav-item:hover,
+.staff-sidebar .nav-item.active {
+    background: var(--staff-light);
+    color: var(--staff-color);
+}
+
+.staff-sidebar .nav-item i {
+    width: 20px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.staff-modal {
+    background: var(--light-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.staff-modal h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.case-details {
+    background: var(--dark-color);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.case-details h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.case-details p {
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.status-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    background: var(--dark-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    margin-top: 10px;
+}
+
+.status-select:focus {
+    outline: none;
+    border-color: var(--staff-color);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-staff {
+    background: var(--staff-color);
+    color: var(--dark-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-staff:hover {
+    background: var(--staff-dark);
+    transform: translateY(-2px);
+}
+
+.btn-staff-outline {
+    background: transparent;
+    color: var(--staff-color);
+    border: 2px solid var(--staff-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-staff-outline:hover {
+    background: var(--staff-light);
+}
+
+/* Staff Calendar Styles */
+.staff-calendar {
+    background: var(--light-color);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-date {
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.calendar-date:hover {
+    background: var(--staff-light);
+}
+
+.calendar-date.today {
+    background: var(--staff-color);
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+.calendar-date.has-appointment {
+    background: rgba(77, 171, 247, 0.2);
+    border: 2px solid var(--primary-color);
+}
+
+.appointment-list {
+    margin-top: 20px;
+}
+
+.appointment-item {
+    background: var(--dark-color);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--staff-color);
+}
+
+.appointment-item h4 {
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.appointment-item p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
 .social-icons a:hover {
     background: var(--primary-color);
     transform: translateY(-3px);
@@ -1275,7 +1477,220 @@ footer {
     z-index: 2;
     border: 1px solid var(--border-color);
 }
+.user-profile-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 20px;
+        }
 
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: #7f8c8d;
+            text-transform: capitalize;
+        }
+
+        .auth-buttons-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+
+        .user-dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .user-dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-avatar-small {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .user-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--light-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            padding: 10px 0;
+            margin-top: 10px;
+            display: none;
+            z-index: 1000;
+            border: 1px solid var(--border-color);
+        }
+
+        .user-dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(77, 171, 247, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 8px 0;
+        }
+
+        .dropdown-logout {
+            color: #e74c3c !important;
+        }
+
+        .dropdown-logout:hover {
+            background: #ffeaea !important;
+        }
+        
+        /* Map Container Enhancements */
+        #mapContainer {
+            min-height: 600px !important;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .map-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 600px;
+            background: var(--light-color);
+            color: var(--text-color);
+            border-radius: 15px;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--border-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .map-instructions {
+            background: rgba(77, 171, 247, 0.1);
+            border: 1px solid rgba(77, 171, 247, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .map-instructions ul {
+            margin: 10px 0 0 20px;
+        }
+        
+        .map-instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .map-legend {
+            background: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            border: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;

@@ -475,7 +475,7 @@
         <video autoplay muted loop playsinline>
             <source src="videos/signup-bg.mp4" type="video/mp4">
             <source src="videos/signup.webm" type="video/webm">
-            <img src="images/hero-fallback.jpg" alt="Hero background" style="width: 100%; height: 100%; object-fit: cover;">
+            Your browser does not support HTML5 video. Please use a modern browser.
         </video>
         <div class="hero-overlay"></div>
     </div>
@@ -505,20 +505,20 @@
                 <p>Create your account to start making a difference</p>
             </div>
 
-            <form class="auth-form" id="signupForm">
+            <form class="auth-form" id="signupForm" method="POST">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
                         <div class="input-with-icon">
                             <i class="fas fa-user"></i>
-                            <input type="text" id="firstName" placeholder="First name" required>
+                            <input type="text" id="firstName" name="firstName" placeholder="First name" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last Name</label>
                         <div class="input-with-icon">
                             <i class="fas fa-user"></i>
-                            <input type="text" id="lastName" placeholder="Last name" required>
+                            <input type="text" id="lastName" name="lastName" placeholder="Last name" required>
                         </div>
                     </div>
                 </div>
@@ -527,7 +527,7 @@
                     <label for="email">Email Address</label>
                     <div class="input-with-icon">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" placeholder="Enter your email" required>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
                     </div>
                 </div>
 
@@ -535,7 +535,7 @@
                     <label for="phone">Phone Number (Optional)</label>
                     <div class="input-with-icon">
                         <i class="fas fa-phone"></i>
-                        <input type="tel" id="phone" placeholder="Enter your phone number">
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
                     </div>
                 </div>
 
@@ -543,7 +543,7 @@
                     <label for="userType">I am a</label>
                     <div class="input-with-icon">
                         <i class="fas fa-users"></i>
-                        <select id="userType" required>
+                        <select id="userType" name="userType" required>
                             <option value="">Select your role</option>
                             <option value="volunteer">Volunteer</option>
                             <option value="veterinarian">Veterinarian</option>
@@ -559,7 +559,7 @@
                     <label for="password">Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" placeholder="Create a password" required>
+                        <input type="password" id="password" name="password" placeholder="Create a password" required>
                         <button type="button" class="password-toggle" id="togglePassword">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -574,7 +574,7 @@
                     <label for="confirmPassword">Confirm Password</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
                         <button type="button" class="password-toggle" id="toggleConfirmPassword">
                             <i class="fas fa-eye"></i>
                         </button>
@@ -582,14 +582,14 @@
                 </div>
 
                 <div class="terms-agreement">
-                    <input type="checkbox" id="agreeTerms" required>
+                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
                     <label for="agreeTerms">
                         I agree to the <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>
                     </label>
                 </div>
 
                 <div class="terms-agreement">
-                    <input type="checkbox" id="newsletter">
+                    <input type="checkbox" id="newsletter" name="newsletter">
                     <label for="newsletter">
                         Send me updates about stray dog welfare and community events
                     </label>
@@ -692,68 +692,94 @@
             const agreeTerms = document.getElementById('agreeTerms').checked;
             
             if (password !== confirmPassword) {
-                const errorDiv = document.createElement('div');
-                errorDiv.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: rgba(37, 38, 43, 0.95);
-                    backdrop-filter: blur(10px);
-                    border: 2px solid var(--danger-color);
-                    border-radius: 15px;
-                    padding: 30px;
-                    z-index: 10000;
-                    text-align: center;
-                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-                    min-width: 300px;
-                    max-width: 400px;
-                    animation: fadeIn 0.3s ease-out;
-                `;
-                errorDiv.innerHTML = `
-                    <div style="margin-bottom: 20px;">
-                        <div style="width: 60px; height: 60px; background: var(--danger-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                            <i class="fas fa-exclamation-triangle" style="color: var(--dark-color); font-size: 1.5rem;"></i>
-                        </div>
-                        <h3 style="color: var(--text-color); margin-bottom: 10px;">Passwords Don't Match</h3>
-                        <p style="color: var(--text-light);">Please make sure both passwords are identical</p>
-                    </div>
-                    <button onclick="this.parentElement.remove(); document.querySelector('.overlay-error')?.remove();" style="
-                        background: var(--danger-color);
-                        color: var(--dark-color);
-                        border: none;
-                        padding: 12px 30px;
-                        border-radius: 8px;
-                        font-weight: 600;
-                        cursor: pointer;
-                        transition: var(--transition);
-                    ">
-                        Try Again
-                    </button>
-                `;
-                errorDiv.classList.add('overlay-error');
-                document.body.appendChild(errorDiv);
-                
-                const overlay = document.createElement('div');
-                overlay.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.7);
-                    z-index: 9999;
-                `;
-                document.body.appendChild(overlay);
+                showErrorModal('Passwords Don\'t Match', 'Please make sure both passwords are identical');
                 return;
             }
             
             if (!agreeTerms) {
-                alert('Please agree to the Terms of Service and Privacy Policy.');
+                showErrorModal('Terms Required', 'Please agree to the Terms of Service and Privacy Policy.');
                 return;
             }
             
-            const submitBtn = this.querySelector('.auth-btn');
+            const strengthBar = document.getElementById('strengthBar');
+            if (strengthBar.classList.contains('strength-weak')) {
+                showErrorModal('Weak Password', 'Please choose a stronger password for better security.');
+                return;
+            }
+            
+            simulateAccountCreation();
+        });
+
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const platform = this.classList.contains('google') ? 'Google' : 'Facebook';
+                alert(`This would connect to ${platform} in a real application`);
+            });
+        });
+
+        function showErrorModal(title, message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(37, 38, 43, 0.95);
+                backdrop-filter: blur(10px);
+                border: 2px solid #e74c3c;
+                border-radius: 15px;
+                padding: 30px;
+                z-index: 10000;
+                text-align: center;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+                min-width: 300px;
+                max-width: 400px;
+                animation: fadeIn 0.3s ease-out;
+            `;
+            errorDiv.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; background: #e74c3c; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                        <i class="fas fa-exclamation-triangle" style="color: #fff; font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 style="color: #fff; margin-bottom: 10px;">${title}</h3>
+                    <p style="color: #ccc;">${message}</p>
+                </div>
+                <button onclick="this.parentElement.remove(); document.querySelector('.overlay-error')?.remove();" style="
+                    background: #e74c3c;
+                    color: #fff;
+                    border: none;
+                    padding: 12px 30px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                ">
+                    Try Again
+                </button>
+            `;
+            errorDiv.classList.add('overlay-error');
+            
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 9999;
+            `;
+            overlay.onclick = function() {
+                errorDiv.remove();
+                overlay.remove();
+            };
+            
+            document.body.appendChild(errorDiv);
+            document.body.appendChild(overlay);
+        }
+
+        function simulateAccountCreation() {
+            const submitBtn = document.querySelector('.auth-btn');
             const originalText = submitBtn.innerHTML;
             
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
@@ -765,98 +791,111 @@
                 const email = document.getElementById('email').value;
                 const userType = document.getElementById('userType').value;
                 
-                let redirectUrl = 'index.html';
                 let role = 'user';
-                let message = `Account created successfully! Welcome to TailWatch community, ${firstName}.`;
+                let redirectUrl = 'dashboard.html';
                 
                 if (userType === 'veterinarian' || 
                     userType === 'animal_rescue' || 
                     userType === 'community_member') {
-                    redirectUrl = 'staff-dashboard.html';
                     role = 'staff';
-                    message = `Account created successfully! Welcome ${firstName} ${lastName}. You'll be redirected to the staff dashboard.`;
-                    
-                    localStorage.setItem('userRole', role);
-                    localStorage.setItem('userEmail', email);
-                    localStorage.setItem('userName', `${firstName} ${lastName}`);
-                    localStorage.setItem('userType', userType);
-                    localStorage.setItem('redirectTo', redirectUrl);
-                } else {
-                    localStorage.setItem('userRole', userType);
-                    localStorage.setItem('userName', `${firstName} ${lastName}`);
-                    localStorage.setItem('userEmail', email);
-                    localStorage.setItem('userType', userType);
-                    localStorage.setItem('signupSuccess', 'true');
+                    redirectUrl = 'staff-dashboard.html';
                 }
                 
-                const successDiv = document.createElement('div');
-                successDiv.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: rgba(37, 38, 43, 0.95);
-                    backdrop-filter: blur(10px);
-                    border: 2px solid var(--secondary-color);
-                    border-radius: 15px;
-                    padding: 30px;
-                    z-index: 10000;
-                    text-align: center;
-                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-                    min-width: 300px;
-                    max-width: 400px;
-                    animation: fadeIn 0.3s ease-out;
-                `;
-                successDiv.innerHTML = `
-                    <div style="margin-bottom: 20px;">
-                        <div style="width: 60px; height: 60px; background: var(--secondary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
-                            <i class="fas fa-check" style="color: var(--dark-color); font-size: 1.5rem;"></i>
-                        </div>
-                        <h3 style="color: var(--text-color); margin-bottom: 10px;">Welcome to TailWatch!</h3>
-                        <p style="color: var(--text-light);">Account created successfully for ${firstName} ${lastName}</p>
-                    </div>
-                    <button id="continueBtn" style="
-                        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-                        color: var(--dark-color);
-                        border: none;
-                        padding: 12px 30px;
-                        border-radius: 8px;
-                        font-weight: 600;
-                        cursor: pointer;
-                        transition: var(--transition);
-                    ">
-                        Continue to Dashboard
-                    </button>
-                `;
-                document.body.appendChild(successDiv);
+                localStorage.setItem('userRole', role);
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userName', `${firstName} ${lastName}`);
+                localStorage.setItem('userType', userType);
+                localStorage.setItem('signupSuccess', 'true');
                 
-                const overlay = document.createElement('div');
-                overlay.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.7);
-                    z-index: 9999;
-                `;
-                document.body.appendChild(overlay);
-                
-                document.getElementById('continueBtn').addEventListener('click', function() {
-                    window.location.href = redirectUrl;
-                });
+                showSuccessModal(firstName, lastName, userType, redirectUrl);
                 
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }, 2000);
-        });
+        }
 
-        document.querySelectorAll('.social-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const platform = this.classList[1];
-                alert(`This would connect to ${platform.charAt(0).toUpperCase() + platform.slice(1)} in a real application`);
+        function showSuccessModal(firstName, lastName, userType, redirectUrl) {
+            const dashboardType = redirectUrl.includes('staff') ? 'Staff Dashboard' : 'Dashboard';
+            const formattedUserType = userType.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+            
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(37, 38, 43, 0.95);
+                backdrop-filter: blur(10px);
+                border: 2px solid #51cf66;
+                border-radius: 15px;
+                padding: 30px;
+                z-index: 10000;
+                text-align: center;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+                min-width: 300px;
+                max-width: 400px;
+                animation: fadeIn 0.3s ease-out;
+            `;
+            successDiv.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <div style="width: 60px; height: 60px; background: #51cf66; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                        <i class="fas fa-check" style="color: #fff; font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 style="color: #fff; margin-bottom: 10px;">Welcome to TailWatch!</h3>
+                    <p style="color: #ccc;">Account created successfully for ${firstName} ${lastName}</p>
+                    <p style="color: #4dabf7; font-weight: 500; margin-top: 10px;">
+                        Role: ${formattedUserType}
+                    </p>
+                    <p style="color: #ccc; font-size: 0.9rem; margin-top: 5px;">
+                        You will be redirected to ${dashboardType}
+                    </p>
+                </div>
+                <button id="continueBtn" style="
+                    background: linear-gradient(135deg, #4dabf7, #51cf66);
+                    color: #fff;
+                    border: none;
+                    padding: 12px 30px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                ">
+                    Continue to ${dashboardType}
+                </button>
+            `;
+            
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 9999;
+            `;
+            
+            document.body.appendChild(successDiv);
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 5000);
+            
+            document.getElementById('continueBtn').addEventListener('click', function() {
+                window.location.href = redirectUrl;
             });
-        });
+        }
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
+    
 </body>
 </html>

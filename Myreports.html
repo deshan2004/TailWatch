@@ -15,6 +15,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            margin-top: 60px;
         }
 
         .reports-hero h1 {
@@ -53,19 +54,12 @@
         .reports-title i {
             font-size: 2.2rem;
             color: var(--warning-color);
-            background: linear-gradient(135deg, var(--warning-color), var(--danger-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .reports-title h2 {
             margin: 0;
             font-size: 2.2rem;
-            background: linear-gradient(135deg, var(--warning-color), var(--danger-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-color);
             font-weight: 700;
         }
 
@@ -331,6 +325,7 @@
             text-align: center;
             padding: 60px 20px;
             color: var(--text-light);
+            display: none;
         }
 
         .no-reports i {
@@ -464,8 +459,7 @@
                         <li><a href="leaderboard.html">Leaderboard</a></li>
                     </ul>
                 </nav>
-                <div class="auth-buttons-container" id="authButtonsContainer">
-                </div>
+                <div class="auth-buttons-container" id="authButtonsContainer"></div>
             </div>
         </div>
     </header>
@@ -489,13 +483,13 @@
                         <i class="fas fa-list"></i> All Reports
                     </button>
                     <button class="filter-btn" data-filter="healthy">
-                        <i class="fas fa-paw healthy-paw"></i> Healthy
+                        <i class="fas fa-paw"></i> Healthy
                     </button>
                     <button class="filter-btn" data-filter="sick">
-                        <i class="fas fa-paw sick-paw"></i> Sick
+                        <i class="fas fa-paw"></i> Sick
                     </button>
                     <button class="filter-btn" data-filter="rabid">
-                        <i class="fas fa-paw rabid-paw"></i> Rabid
+                        <i class="fas fa-paw"></i> Rabid
                     </button>
                 </div>
             </div>
@@ -535,8 +529,7 @@
                 <div class="reports-list">
                     <h3><i class="fas fa-history"></i> Recent Reports</h3>
                     
-                    <div class="report-items" id="reportsList">
-                    </div>
+                    <div class="report-items" id="reportsList"></div>
                     
                     <div id="noReportsMessage" class="no-reports" style="display: none;">
                         <i class="fas fa-flag"></i>
@@ -610,79 +603,10 @@
 
     <div class="toast" id="toast"></div>
 
+    <script src="shared.js"></script>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
-        function getInitials(name) {
-            return name.split(' ')
-                .map(word => word.charAt(0))
-                .join('')
-                .toUpperCase()
-                .substring(0, 2);
-        }
-
-        function renderAuthButtons() {
-            const authButtonsContainer = document.getElementById('authButtonsContainer');
-            const userRole = localStorage.getItem('userRole') || 'animal_rescue';
-            const userName = localStorage.getItem('userName') || 'Deshan Silva';
-            
-            const initials = getInitials(userName);
-            
-            authButtonsContainer.innerHTML = `
-                <div class="user-dropdown">
-                    <div class="user-dropdown-toggle">
-                        <div class="user-avatar-small">${initials}</div>
-                        <span class="user-name">${userName}</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="user-dropdown-menu">
-                        <a href="dashboard.html" class="dropdown-item">
-                            <i class="fas fa-tachometer-alt"></i>
-                            Dashboard
-                        </a>
-                        <a href="profile.html" class="dropdown-item">
-                            <i class="fas fa-user"></i>
-                            Profile
-                        </a>
-                        <a href="my-reports.html" class="dropdown-item">
-                            <i class="fas fa-flag"></i>
-                            My Reports
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Logout
-                        </a>
-                    </div>
-                </div>
-            `;
-            
-            const dropdownToggle = document.querySelector('.user-dropdown-toggle');
-            const dropdownMenu = document.querySelector('.user-dropdown-menu');
-            const logoutBtn = document.getElementById('logoutBtn');
-            
-            if (dropdownToggle && dropdownMenu) {
-                dropdownToggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    dropdownMenu.classList.toggle('show');
-                });
-                
-                document.addEventListener('click', function() {
-                    dropdownMenu.classList.remove('show');
-                });
-                
-                dropdownMenu.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
-            }
-            
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    localStorage.clear();
-                    window.location.href = 'index.html';
-                });
-            }
-        }
-
         const sampleReports = [
             {
                 id: 1,
@@ -733,14 +657,22 @@
 
         function loadUserReports() {
             const savedReports = localStorage.getItem('userReports');
-            return savedReports ? JSON.parse(savedReports) : sampleReports;
+            if (savedReports) {
+                return JSON.parse(savedReports);
+            } else {
+                // Save sample reports if none exist
+                saveUserReports(sampleReports);
+                return sampleReports;
+            }
         }
 
         function saveUserReports(reports) {
             localStorage.setItem('userReports', JSON.stringify(reports));
+            updateReportStats();
         }
 
-        function calculateReportStats(reports) {
+        function updateReportStats() {
+            const reports = loadUserReports();
             const stats = {
                 total: reports.length,
                 healthy: reports.filter(r => r.status === 'healthy').length,
@@ -748,29 +680,18 @@
                 rabid: reports.filter(r => r.status === 'rabid').length
             };
             
+            document.getElementById('totalReports').textContent = stats.total;
             document.getElementById('healthyReports').textContent = stats.healthy;
             document.getElementById('sickReports').textContent = stats.sick;
             document.getElementById('rabidReports').textContent = stats.rabid;
             
             localStorage.setItem('userReportsCount', stats.total.toString());
-            
-            return stats;
-        }
-
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric'
-            });
         }
 
         function createReportCard(report) {
             const statusClass = report.status;
             const statusIcon = report.status === 'healthy' ? 'fa-paw' : 
                              report.status === 'sick' ? 'fa-medkit' : 'fa-exclamation-triangle';
-            const statusText = report.status.charAt(0).toUpperCase() + report.status.slice(1);
             
             const tagsHTML = report.tags.map(tag => 
                 `<span class="report-tag">${tag}</span>`
@@ -791,9 +712,7 @@
                             <span>${report.location}</span>
                         </div>
                         <p class="report-description">${report.description}</p>
-                        <div class="report-tags">
-                            ${tagsHTML}
-                        </div>
+                        <div class="report-tags">${tagsHTML}</div>
                     </div>
                     <div class="report-actions">
                         <button class="action-btn view" onclick="viewReport(${report.id})">
@@ -819,7 +738,7 @@
                 ? reports 
                 : reports.filter(report => report.status === filter);
             
-            calculateReportStats(reports);
+            updateReportStats();
             
             if (filteredReports.length === 0) {
                 reportsList.style.display = 'none';
@@ -860,18 +779,8 @@
             }
         }
 
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show';
-            toast.classList.add(type);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
+            setupDefaultUser();
             renderAuthButtons();
             populateReportsList();
             
@@ -884,7 +793,6 @@
                     this.classList.add('active');
                     
                     populateReportsList(filter);
-                    
                     showToast(`Showing ${filter === 'all' ? 'all' : filter} reports`, 'info');
                 });
             });
@@ -897,7 +805,6 @@
                             btn.classList.remove('active');
                         });
                         this.classList.add('active');
-                        
                         showToast(`Loading page ${this.textContent}`, 'info');
                     }
                 });

@@ -113,6 +113,22 @@
             background: rgba(255, 107, 107, 0.1);
         }
 
+        .admin-nav a.view-switch {
+            background: linear-gradient(135deg, var(--secondary-color), #27ae60);
+            color: var(--dark-color) !important;
+            font-weight: 600;
+        }
+
+        .admin-nav a.view-switch:hover {
+            background: linear-gradient(135deg, #27ae60, #219653) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(81, 207, 102, 0.3);
+        }
+
+        .admin-nav a.view-switch i {
+            color: var(--dark-color) !important;
+        }
+
         .admin-info {
             display: flex;
             align-items: center;
@@ -491,6 +507,12 @@
                         <a href="analytics.html">
                             <i class="fas fa-chart-bar"></i> Analytics
                         </a>
+                        
+                        <!-- Unified View Switch Button -->
+                        <a href="#" id="switchViewBtn" class="view-switch">
+                            <i class="fas fa-exchange-alt"></i> Switch to Staff View
+                        </a>
+                        
                         <div class="admin-info" id="adminInfo">
                             <i class="fas fa-user-shield"></i>
                             <span>Loading...</span>
@@ -683,6 +705,9 @@
             const userEmail = localStorage.getItem('userEmail');
             const userName = localStorage.getItem('userName');
             
+            console.log('Admin dashboard auth check:', { userRole, userEmail, userName });
+            
+            // Only allow admin to access admin dashboard
             if (!userRole || userRole !== 'admin') {
                 alert('Access denied. Admin privileges required.');
                 window.location.href = '../login.html';
@@ -693,14 +718,11 @@
             if (adminInfo) {
                 adminInfo.innerHTML = `
                     <i class="fas fa-user-shield"></i>
-                    <span>${userEmail} (${userRole})</span>
+                    <span>${userName || userEmail} (${userRole})</span>
                 `;
             }
             
-            console.log('Admin dashboard loaded');
-            console.log('User Role:', userRole);
-            console.log('User Email:', userEmail);
-            console.log('User Name:', userName);
+            console.log('Admin dashboard loaded successfully');
             
             return true;
         }
@@ -723,7 +745,7 @@
                     toast.classList.add('warning');
                     break;
                 default:
-                    toast.classList.add('info');
+                    toast.style.borderLeftColor = 'var(--primary-color)';
             }
             
             setTimeout(() => {
@@ -739,6 +761,8 @@
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userName');
             localStorage.removeItem('rememberMe');
+            localStorage.removeItem('storedEmail');
+            localStorage.removeItem('adminViewingAsStaff');
             
             window.location.href = '../login.html';
         }
@@ -755,20 +779,33 @@
         }
         
         document.addEventListener('DOMContentLoaded', function() {
-          
+            // Check authentication first
             if (!checkAdminAuth()) {
                 return;
             }
+            
+            // Setup logout button
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+            
+            // Setup view switching button
+            document.getElementById('switchViewBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Store admin context for switching back
+                localStorage.setItem('adminViewingAsStaff', 'true');
+                localStorage.setItem('adminOriginalView', 'admin-dashboard');
+                
+                // Redirect to staff dashboard
+                window.location.href = '../staff-dashboard.html';
+            });
             
             resetSession();
             
             ['click', 'mousemove', 'keypress'].forEach(event => {
                 document.addEventListener(event, resetSession);
-            });
-            
-            document.getElementById('logoutBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                logout();
             });
             
             const statNumbers = document.querySelectorAll('.stat-big');
@@ -823,10 +860,16 @@
                     showToast(`Viewing activity: ${activityText.substring(0, 50)}...`, 'info');
                 });
             });
+            
+            const userName = localStorage.getItem('userName') || localStorage.getItem('userEmail');
+            showToast(`Welcome back, Admin ${userName}!`, 'success');
         });
         
         window.addEventListener('beforeunload', function() {
+            clearTimeout(sessionTimeout);
         });
     </script>
+    <script src="shared.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 </html>

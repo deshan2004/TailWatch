@@ -12,165 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
    
-    <style>
-        .user-profile-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-left: 20px;
-        }
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3498db, #9b59b6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            overflow: hidden;
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.05);
-        }
-
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .user-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .user-name {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-
-        .user-role {
-            font-size: 0.75rem;
-            color: #7f8c8d;
-            text-transform: capitalize;
-        }
-
-        .auth-buttons-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logout-btn {
-            padding: 8px 16px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        .logout-btn:hover {
-            background: #c0392b;
-            transform: translateY(-2px);
-        }
-
-        .user-dropdown {
-            position: relative;
-        }
-
-        .user-dropdown-toggle {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            padding: 10px 15px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .user-dropdown-toggle:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .user-avatar-small {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3498db, #9b59b6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-
-        .user-dropdown-menu {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--light-color);
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            min-width: 200px;
-            padding: 10px 0;
-            margin-top: 10px;
-            display: none;
-            z-index: 1000;
-            border: 1px solid var(--border-color);
-        }
-
-        .user-dropdown-menu.show {
-            display: block;
-        }
-
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 20px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .dropdown-item:hover {
-            background: rgba(77, 171, 247, 0.1);
-            color: var(--primary-color);
-        }
-
-        .dropdown-divider {
-            height: 1px;
-            background: var(--border-color);
-            margin: 8px 0;
-        }
-
-        .dropdown-logout {
-            color: #e74c3c !important;
-        }
-
-        .dropdown-logout:hover {
-            background: #ffeaea !important;
-        }
-    </style>
 </head>
 <body>
     <div class="floating-elements">
@@ -221,7 +63,7 @@
             <p>Join our mission to monitor stray dogs, identify health risks, and protect communities from rabies through collective action.</p>
             <div class="hero-buttons">
                 <button class="btn btn-light" onclick="scrollToSection('report')"><i class="fas fa-flag"></i> Report a Dog</button>
-                <button class="btn btn-outline" style="color: white; border-color: white;" onclick="scrollToSection('map')"><i class="fas fa-map-marked-alt"></i> View Map</button>
+                <button class="btn btn-outline" style="color: white; border-color: white;" onclick="scrollToSection('map')"><i class="fas fa-map-marked-alt"></i> View Interactive Map</button>
                 <a href="leaderboard.html" class="btn btn-light"><i class="fas fa-trophy"></i> View Leaderboard</a>
                 <a href="dashboard.html" class="btn btn-light"><i class="fas fa-tachometer-alt"></i> Your Dashboard</a>
             </div>
@@ -301,15 +143,26 @@
     <section class="map-section" id="map">
         <div class="container">
             <div class="section-title">
-                <h2>Stray Dog Map</h2>
-                <p>Track reported dogs in your area and filter by health status</p>
+                <h2>Interactive Stray Dog Map</h2>
+                <p>Track reported dogs across Sri Lanka with our user-friendly interactive map</p>
+            </div>
+            
+            <div class="map-instructions">
+                <strong><i class="fas fa-info-circle"></i> How to use the map:</strong>
+                <ul>
+                    <li><strong>Click on any marker</strong> to view dog details and health status</li>
+                    <li><strong>Use the search box</strong> to find specific locations in Sri Lanka</li>
+                    <li><strong>Filter by health status</strong> using the buttons below</li>
+                    <li><strong>Click "Use Current Location"</strong> to center the map on your position</li>
+                    <li><strong>Drag and zoom</strong> to explore different areas</li>
+                </ul>
             </div>
             
             <div class="map-controls">
                 <div class="search-container">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="locationSearch" placeholder="Search for a location...">
+                        <input type="text" id="locationSearch" placeholder="Search for a location in Sri Lanka...">
                         <button id="currentLocationBtn" title="Use Current Location">
                             <i class="fas fa-location-arrow"></i>
                         </button>
@@ -329,36 +182,58 @@
                     <button class="filter-btn rabid" data-filter="rabid">
                         <i class="fas fa-paw rabid-paw"></i> Rabid
                     </button>
+                    
+                    <select class="province-filter" id="provinceFilter">
+                        <option value="all">All Provinces</option>
+                        <option value="Western">Western Province</option>
+                        <option value="Central">Central Province</option>
+                        <option value="Southern">Southern Province</option>
+                        <option value="Northern">Northern Province</option>
+                        <option value="Eastern">Eastern Province</option>
+                        <option value="North Western">North Western</option>
+                        <option value="North Central">North Central</option>
+                        <option value="Uva">Uva Province</option>
+                        <option value="Sabaragamuwa">Sabaragamuwa</option>
+                    </select>
                 </div>
             </div>
             
-            <div class="map-container">
-                <div id="mapContainer">
-                    <div class="map-loading">
-                        <div class="spinner"></div>
-                        <h3>Loading Interactive Map...</h3>
-                        <p>Interactive map powered by OpenStreetMap (100% Free)</p>
-                    </div>
+            <div id="mapContainer">
+                <div class="map-loading">
+                    <div class="spinner"></div>
+                    <h3>Loading Interactive Map...</h3>
+                    <p>Interactive map powered by OpenStreetMap (100% Free)</p>
+                    <p><small>Map will load in a moment...</small></p>
                 </div>
-                <div class="map-legend">
-                    <h4>Legend</h4>
-                    <div class="legend-item">
-                        <i class="fas fa-paw healthy-paw"></i>
-                        <span>Healthy Dog</span>
-                    </div>
-                    <div class="legend-item">
-                        <i class="fas fa-paw sick-paw"></i>
-                        <span>Sick Dog</span>
-                    </div>
-                    <div class="legend-item">
-                        <i class="fas fa-paw rabid-paw"></i>
-                        <span>Rabid Dog</span>
-                    </div>
+            </div>
+            
+            <div class="map-legend">
+                <h4><i class="fas fa-key"></i> Map Legend</h4>
+                <div class="legend-item">
+                    <i class="fas fa-paw healthy-paw"></i>
+                    <span>Healthy Dog (Safe to approach)</span>
+                </div>
+                <div class="legend-item">
+                    <i class="fas fa-paw sick-paw"></i>
+                    <span>Sick Dog (Caution advised)</span>
+                </div>
+                <div class="legend-item">
+                    <i class="fas fa-paw rabid-paw"></i>
+                    <span>Rabid Dog (Stay away, report immediately)</span>
+                </div>
+                <div class="legend-item">
+                    <i class="fas fa-map-marker-alt" style="color: #4CAF50;"></i>
+                    <span>Your Location</span>
+                </div>
+                <div class="legend-item">
+                    <i class="fas fa-map-marker-alt" style="color: #FF9800;"></i>
+                    <span>Searched Location</span>
                 </div>
             </div>
             
             <div class="dog-list-panel">
-                <h3>Recently Reported Dogs</h3>
+                <h3><i class="fas fa-list"></i> Recently Reported Dogs</h3>
+                <p class="subtitle">Click any dog to view it on the map</p>
                 <div class="dog-list" id="dogList">
                 </div>
             </div>
@@ -399,13 +274,29 @@
                 <p>Help your community by reporting stray dogs with accurate information</p>
             </div>
             <div class="report-form-container">
-                <form id="reportForm">
+                <form id="reportForm">                      
                     <div class="form-group">
                         <label for="dogLocation"><i class="fas fa-map-marker-alt"></i> Location</label>
                         <input type="text" id="dogLocation" placeholder="Enter the location where you saw the dog" required>
                         <button type="button" class="btn-location" id="useCurrentLocation">
                             <i class="fas fa-location-arrow"></i> Use My Current Location
                         </button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dogProvince"><i class="fas fa-map-pin"></i> Province</label>
+                        <select id="dogProvince" required>
+                            <option value="">Select Province</option>
+                            <option value="Western">Western Province</option>
+                            <option value="Central">Central Province</option>
+                            <option value="Southern">Southern Province</option>
+                            <option value="Northern">Northern Province</option>
+                            <option value="Eastern">Eastern Province</option>
+                            <option value="North Western">North Western Province</option>
+                            <option value="North Central">North Central Province</option>
+                            <option value="Uva">Uva Province</option>
+                            <option value="Sabaragamuwa">Sabaragamuwa Province</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">
@@ -481,7 +372,7 @@
                 </div>
                 <div class="footer-column">
                     <h3>Contact Us</h3>
-                    <ul>
+         <ul>
                         <li><a href="#"><i class="fas fa-envelope"></i> info@tailwatch.org</a></li>
                         <li><a href="#"><i class="fas fa-phone"></i> +94 769776315</a></li>
                         <li><a href="#"><i class="fas fa-map-marker-alt"></i> Malabe, Sri Lanka</a></li>
@@ -496,116 +387,17 @@
 
     <div class="toast" id="toast"></div>
 
+    <script src="shared.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
     <script src="map.js"></script>
     
     <script>
-        
-        function getInitials(name) {
-            return name.split(' ')
-                .map(word => word.charAt(0))
-                .join('')
-                .toUpperCase()
-                .substring(0, 2);
-        }
-
-        function isUserLoggedIn() {
-            return localStorage.getItem('userRole') && localStorage.getItem('userName');
-        }
-
-        function getCurrentUser() {
-            return {
-                role: localStorage.getItem('userRole'),
-                name: localStorage.getItem('userName'),
-                email: localStorage.getItem('userEmail'),
-                type: localStorage.getItem('userType'),
-                location: localStorage.getItem('userLocation')
-            };
-        }
-
-        function renderAuthButtons() {
-            const authButtonsContainer = document.getElementById('authButtonsContainer');
-            if (!authButtonsContainer) return;
-            
-            const user = getCurrentUser();
-            
-            if (isUserLoggedIn()) {
-                const initials = getInitials(user.name);
-                
-                authButtonsContainer.innerHTML = `
-                    <div class="user-dropdown">
-                        <div class="user-dropdown-toggle">
-                            <div class="user-avatar-small">${initials}</div>
-                            <span class="user-name">${user.name}</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="user-dropdown-menu">
-                            <a href="dashboard.html" class="dropdown-item">
-                                <i class="fas fa-tachometer-alt"></i> Dashboard
-                            </a>
-                            <a href="profile.html" class="dropdown-item">
-                                <i class="fas fa-user"></i> My Profile
-                            </a>
-                            <a href="myreports.html" class="dropdown-item">
-                                <i class="fas fa-flag"></i> My Reports
-                            </a>
-                            <a href="settings.html" class="dropdown-item">
-                                <i class="fas fa-cog"></i> Settings
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item" id="logoutBtn">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
-                        </div>
-                    </div>
-                `;
-                
-                setupDropdown();
-                
-                document.getElementById('logoutBtn').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    logoutUser();
-                });
-            } else {
-                authButtonsContainer.innerHTML = `
-                    <div class="auth-buttons">
-                        <a href="login.html" class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
-                        <a href="signup.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a>
-                    </div>
-                `;
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
             }
-        }
-
-        function setupDropdown() {
-            const dropdownToggle = document.querySelector('.user-dropdown-toggle');
-            const dropdownMenu = document.querySelector('.user-dropdown-menu');
-            
-            if (dropdownToggle && dropdownMenu) {
-                dropdownToggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    dropdownMenu.classList.toggle('show');
-                });
-                
-                document.addEventListener('click', function() {
-                    dropdownMenu.classList.remove('show');
-                });
-                
-                dropdownMenu.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
-            }
-        }
-
-        function logoutUser() {
-            localStorage.removeItem('userRole');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userType');
-            localStorage.removeItem('userLocation');
-            localStorage.removeItem('profileImage');
-            
-            window.location.href = 'index.html';
         }
 
         function showToast(message, type = 'info') {
@@ -619,17 +411,76 @@
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.classList.remove(type), 300);
-            }, 3000);
+            }, 4000);
         }
 
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-count'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 20);
+            });
+        }
+
+        function setupFileUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('dogPhoto');
+            const fileInfo = uploadArea.querySelector('.file-info');
+            
+            if (!uploadArea || !fileInput) return;
+            
+            uploadArea.addEventListener('click', () => fileInput.click());
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#3498db';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#ddd';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#ddd';
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    updateFileName();
+                }
+            });
+            
+            fileInput.addEventListener('change', updateFileName);
+            
+            function updateFileName() {
+                if (fileInput.files.length > 0) {
+                    const fileName = fileInput.files[0].name;
+                    fileInfo.textContent = fileName;
+                    uploadArea.style.borderColor = '#27ae60';
+                } else {
+                    fileInfo.textContent = 'No file selected';
+                    uploadArea.style.borderColor = '#ddd';
+                }
             }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('userName')) {
+                setupDefaultUser();
+            }
+            
             renderAuthButtons();
             
             if (localStorage.getItem('loginSuccess') === 'true') {
@@ -642,16 +493,270 @@
                 localStorage.removeItem('signupSuccess');
             }
             
+            animateStats();
+            
+            setupFileUpload();
+            
             if (typeof initMap === 'function') {
-                initMap();
+                setTimeout(initMap, 500);
             }
             
-            if (typeof initReportForm === 'function') {
-                initReportForm();
+            initializeDogReports();
+            
+            initReportForm();
+            
+            const reportForm = document.getElementById('reportForm');
+            if (reportForm) {
+                reportForm.addEventListener('submit', handleReportSubmission);
+            }
+            
+            const useCurrentLocationBtn = document.getElementById('useCurrentLocation');
+            if (useCurrentLocationBtn) {
+                useCurrentLocationBtn.addEventListener('click', handleCurrentLocation);
+            }
+            
+            if (typeof updateDogList === 'function') {
+                updateDogList();
             }
         });
-
-     
+        
+        function handleReportSubmission(e) {
+            e.preventDefault();
+            
+            const location = document.getElementById('dogLocation').value;
+            const province = document.getElementById('dogProvince').value;
+            const status = document.getElementById('dogStatus').value;
+            const description = document.getElementById('dogDescription').value;
+            const contact = document.getElementById('reporterContact').value || 'Anonymous';
+            
+            if (!location || !province || !status || !description) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            const currentUser = {
+                name: localStorage.getItem('userName') || 'Anonymous User',
+                role: localStorage.getItem('userRole') || 'user'
+            };
+            
+            const report = {
+                id: Date.now(),
+                location: location,
+                province: province,
+                status: status,
+                description: description,
+                contact: contact,
+                reporter: currentUser.name,
+                reporterRole: currentUser.role,
+                date: new Date().toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                }),
+                timestamp: new Date().toISOString(),
+                coordinates: getRandomCoordinates()
+            };
+            
+            const existingReports = JSON.parse(localStorage.getItem('dogReports')) || [];
+            existingReports.unshift(report);
+            localStorage.setItem('dogReports', JSON.stringify(existingReports));
+            
+            updateStatsAfterReport();
+            
+            showToast('Report submitted successfully! The dog will appear on the map shortly.', 'success');
+            
+            document.getElementById('reportForm').reset();
+            
+            const fileInfo = document.querySelector('.file-info');
+            if (fileInfo) {
+                fileInfo.textContent = 'No file selected';
+            }
+            
+            if (typeof window.updateMapWithReports === 'function') {
+                window.updateMapWithReports();
+            }
+            
+            if (typeof window.updateDogList === 'function') {
+                window.updateDogList();
+            }
+            
+            updateUserDataAfterReport(report);
+        }
+        
+        function handleCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        
+                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                const address = data.display_name || `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                                document.getElementById('dogLocation').value = address;
+                                showToast('Location detected successfully!', 'success');
+                            })
+                            .catch(() => {
+                                document.getElementById('dogLocation').value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                                showToast('Location detected!', 'success');
+                            });
+                    },
+                    (error) => {
+                        showToast('Could not get your location. Please enter manually.', 'error');
+                    }
+                );
+            } else {
+                showToast('Geolocation is not supported by your browser', 'error');
+            }
+        }
+        
+        function getRandomCoordinates() {
+            const minLat = 5.916667;
+            const maxLat = 9.833333;
+            const minLng = 79.516667;
+            const maxLng = 81.883333;
+            
+            const lat = minLat + Math.random() * (maxLat - minLat);
+            const lng = minLng + Math.random() * (maxLng - minLng);
+            
+            return { lat, lng };
+        }
+        
+        function updateStatsAfterReport() {
+            const statNumber = document.querySelector('.stat-number[data-count="1247"]');
+            if (statNumber) {
+                const current = parseInt(statNumber.textContent.replace(/,/g, '')) || 1247;
+                const newCount = current + 1;
+                statNumber.textContent = newCount.toLocaleString();
+                statNumber.setAttribute('data-count', newCount);
+                localStorage.setItem('totalReports', newCount.toString());
+            }
+        }
+        
+        function updateUserDataAfterReport(report) {
+            const userName = localStorage.getItem('userName');
+            if (userName && userName !== 'Deshan Silva') {
+                const userReports = JSON.parse(localStorage.getItem('userReports')) || [];
+                userReports.push(report);
+                localStorage.setItem('userReports', JSON.stringify(userReports));
+                
+                const userPoints = parseInt(localStorage.getItem('userPoints') || '0') + 10;
+                localStorage.setItem('userPoints', userPoints.toString());
+            }
+        }
+        
+        function initializeDogReports() {
+            if (!localStorage.getItem('dogReports')) {
+                const sampleReports = [
+                    {
+                        id: 1001,
+                        location: 'Colombo Fort',
+                        province: 'Western',
+                        status: 'healthy',
+                        description: 'Brown stray dog near railway station',
+                        contact: '0771234567',
+                        reporter: 'Kamal Perera',
+                        reporterRole: 'user',
+                        date: 'Mon, Jan 20, 2025',
+                        timestamp: '2025-01-20T10:30:00Z',
+                        coordinates: { lat: 6.9344, lng: 79.8428 }
+                    },
+                    {
+                        id: 1002,
+                        location: 'Kandy Lake',
+                        province: 'Central',
+                        status: 'sick',
+                        description: 'White dog with limping leg',
+                        contact: '0719876543',
+                        reporter: 'Samantha Silva',
+                        reporterRole: 'veterinarian',
+                        date: 'Sun, Jan 19, 2025',
+                        timestamp: '2025-01-19T15:45:00Z',
+                        coordinates: { lat: 7.2906, lng: 80.6337 }
+                    },
+                    {
+                        id: 1003,
+                        location: 'Galle Fort',
+                        province: 'Southern',
+                        status: 'rabid',
+                        description: 'Aggressive dog near lighthouse',
+                        contact: '0765551234',
+                        reporter: 'Chathura Fernando',
+                        reporterRole: 'health_officer',
+                        date: 'Sat, Jan 18, 2025',
+                        timestamp: '2025-01-18T09:15:00Z',
+                        coordinates: { lat: 6.0256, lng: 80.2170 }
+                    }
+                ];
+                
+                localStorage.setItem('dogReports', JSON.stringify(sampleReports));
+            }
+        }
+        
+        function setupDefaultUser() {
+            if (!localStorage.getItem('userName')) {
+                localStorage.setItem('userName', 'Deshan Silva');
+                localStorage.setItem('userRole', 'guest');
+                localStorage.setItem('userPoints', '0');
+            }
+        }
+        
+        window.focusOnDog = function(reportId) {
+            const reports = JSON.parse(localStorage.getItem('dogReports')) || [];
+            const report = reports.find(r => r.id === reportId);
+            
+            if (report && report.coordinates && typeof window.focusMapOnLocation === 'function') {
+                window.focusMapOnLocation(report.coordinates.lat, report.coordinates.lng);
+                showToast(`Focused on ${report.location}`, 'info');
+            } else {
+                showToast('Could not locate this report on map', 'error');
+            }
+        };
+        
+        window.updateDogList = function() {
+            const dogList = document.getElementById('dogList');
+            if (!dogList) return;
+            
+            const reports = JSON.parse(localStorage.getItem('dogReports')) || [];
+            const recentReports = reports.slice(0, 5);
+            
+            if (recentReports.length === 0) {
+                dogList.innerHTML = '<div class="no-data">No dogs reported yet. Be the first to report!</div>';
+                return;
+            }
+            
+            dogList.innerHTML = recentReports.map(report => `
+                <div class="dog-list-item" onclick="focusOnDog(${report.id})">
+                    <div class="dog-avatar ${report.status}">
+                        <i class="fas fa-dog"></i>
+                    </div>
+                    <div class="dog-info">
+                        <h4>Report #${report.id.toString().slice(-4)}</h4>
+                        <div class="dog-status ${report.status}">${report.status.toUpperCase()}</div>
+                        <div class="dog-location">
+                            <i class="fas fa-map-marker-alt"></i> ${report.location}
+                        </div>
+                        <div class="dog-date">
+                            <i class="fas fa-calendar-alt"></i> ${report.date}
+                        </div>
+                    </div>
+                    <div class="dog-action">
+                        <button onclick="event.stopPropagation(); focusOnDog(${report.id})">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        };
+        
+        window.updateMapWithReports = function() {
+            if (typeof window.updateMapMarkers === 'function') {
+                const reports = JSON.parse(localStorage.getItem('dogReports')) || [];
+                window.updateMapMarkers(reports);
+            }
+        };
     </script>
 </body>
 </html>

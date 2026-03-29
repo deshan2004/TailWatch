@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .dashboard-hero {
-            background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(155, 89, 182, 0.9));
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(81, 207, 102, 0.9));
             color: white;
             padding: 150px 0 80px;
             text-align: center;
@@ -165,7 +166,7 @@
         }
 
         .stat-icon.points {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
 
         .stat-icon.rank {
@@ -244,7 +245,7 @@
         }
 
         .view-all:hover {
-            color: #339af0;
+            color: var(--secondary-color);
             text-decoration: underline;
             transform: translateX(5px);
         }
@@ -383,7 +384,7 @@
             position: relative;
             z-index: 2;
             transition: all 0.3s ease;
-            background: linear-gradient(135deg, var(--primary-color), #339af0);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
 
         .action-card:hover .action-icon {
@@ -409,7 +410,7 @@
 
         .map-preview {
             height: 250px;
-            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -498,7 +499,7 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -604,7 +605,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), #339af0);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             border-radius: 5px;
             transition: width 1s ease-out;
             position: relative;
@@ -657,7 +658,7 @@
         }
 
         .badge-icon.earned {
-            background: linear-gradient(135deg, var(--primary-color), #339af0);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
 
         .badge-icon.locked {
@@ -698,7 +699,7 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color), #9b59b6);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -727,6 +728,56 @@
             font-size: 0.8rem;
             color: var(--text-light);
             margin-top: 3px;
+        }
+
+        /* Staff Dashboard Button Styles */
+        .staff-dashboard-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60) !important;
+            color: white !important;
+            border: none !important;
+        }
+
+        .staff-dashboard-btn:hover {
+            background: linear-gradient(135deg, #27ae60, #219653) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .staff-action-card {
+            background: var(--light-color);
+            border: 2px solid #2ecc71;
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .staff-action-card:hover {
+            border-color: #27ae60;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(46, 204, 113, 0.3);
+        }
+
+        .staff-action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        .staff-action-card:hover .staff-action-icon {
+            transform: rotateY(180deg) scale(1.1);
         }
 
         @media (max-width: 1200px) {
@@ -851,6 +902,7 @@
     </style>
 </head>
 <body>
+    
     <div class="floating-elements">
         <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 5%; animation-delay: 0s;"></div>
         <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
@@ -920,6 +972,9 @@
                 <div class="dashboard-actions">
                     <a href="index.html#report" class="btn btn-primary"><i class="fas fa-flag"></i> Report a Dog</a>
                     <a href="leaderboard.html" class="btn btn-outline"><i class="fas fa-trophy"></i> View Leaderboard</a>
+                    <a href="staff-dashboard.html" class="btn staff-dashboard-btn" id="staffDashboardNavBtn" style="display: none;">
+                        <i class="fas fa-user-md"></i> Staff Dashboard
+                    </a>
                 </div>
             </div>
 
@@ -993,7 +1048,7 @@
                         <div class="section-header">
                             <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
                         </div>
-                        <div class="quick-actions">
+                        <div class="quick-actions" id="quickActionsContainer">
                             <div class="action-card" onclick="window.location.href='index.html#report'">
                                 <div class="action-icon">
                                     <i class="fas fa-flag"></i>
@@ -1201,111 +1256,134 @@
 
     <div class="toast" id="toast"></div>
 
+    <script src="shared.js"></script>
     <script>
-        function getInitials(name) {
-            return name.split(' ')
-                .map(word => word.charAt(0))
-                .join('')
-                .toUpperCase()
-                .substring(0, 2);
-        }
-
-        function renderAuthButtons() {
-            const authButtonsContainer = document.getElementById('authButtonsContainer');
-            const userRole = localStorage.getItem('userRole');
-            const userName = localStorage.getItem('userName') || 'Deshan'; 
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof checkStaffRedirect === 'function') {
+                checkStaffRedirect();
+            }
             
-            if (userRole && userName) {
-                const initials = getInitials(userName);
-                
-                authButtonsContainer.innerHTML = `
-                    <div class="user-dropdown">
-                        <div class="user-dropdown-toggle">
-                            <div class="user-avatar-small">${initials}</div>
-                            <span class="user-name">${userName}</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="user-dropdown-menu">
-                            <a href="profile.html" class="dropdown-item">
-                                <i class="fas fa-user"></i>
-                                My Profile
-                            </a>
-                            <a href="dashboard.html" class="dropdown-item">
-                                <i class="fas fa-tachometer-alt"></i>
-                                Dashboard
-                            </a>
-                            <a href="my-reports.html" class="dropdown-item">
-                                <i class="fas fa-flag"></i>
-                                My Reports
-                            </a>
-                            <a href="settings.html" class="dropdown-item">
-                                <i class="fas fa-cog"></i>
-                                Settings
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item" id="logoutBtn">
-                                <i class="fas fa-sign-out-alt"></i>
-                                Logout
-                            </a>
-                        </div>
-                    </div>
-                `;
-                
-                const profileName = document.getElementById('profileName');
-                const profileAvatar = document.getElementById('profileAvatar');
-                if (profileName) profileName.textContent = userName;
-                if (profileAvatar) profileAvatar.textContent = initials;
-                
-                const dropdownToggle = document.querySelector('.user-dropdown-toggle');
-                const dropdownMenu = document.querySelector('.user-dropdown-menu');
-                const logoutBtn = document.getElementById('logoutBtn');
-                
-                if (dropdownToggle && dropdownMenu) {
-                    dropdownToggle.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        dropdownMenu.classList.toggle('show');
-                    });
-                    
-                    document.addEventListener('click', function() {
-                        dropdownMenu.classList.remove('show');
-                    });
-                    
-                    dropdownMenu.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                    });
+            if (typeof renderAuthButtons === 'function') {
+                renderAuthButtons();
+            }
+            
+            checkAndShowStaffNavigation();
+            
+            checkSignupSuccess();
+            
+            initializeDashboard();
+        });
+        
+        function checkAndShowStaffNavigation() {
+            const userRole = localStorage.getItem('userRole');
+            const userType = localStorage.getItem('userType');
+            const shouldReturnToStaff = localStorage.getItem('userReturnToStaffDashboard') === 'true';
+            
+            const isStaff = userRole === 'admin' || 
+                           userType === 'veterinarian' || 
+                           userType === 'animal_rescue' || 
+                           userType === 'health_officer' ||
+                           shouldReturnToStaff;
+            
+            if (isStaff) {
+                const staffNavBtn = document.getElementById('staffDashboardNavBtn');
+                if (staffNavBtn) {
+                    staffNavBtn.style.display = 'inline-flex';
                 }
                 
-                if (logoutBtn) {
-                    logoutBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        localStorage.clear();
-                        window.location.href = 'index.html';
-                    });
+                const nav = document.querySelector('nav ul');
+                if (nav) {
+                    const existingStaffLink = nav.querySelector('a[href="staff-dashboard.html"]');
+                    if (!existingStaffLink) {
+                        const li = document.createElement('li');
+                        li.innerHTML = '<a href="staff-dashboard.html"><i class="fas fa-user-md"></i> Staff</a>';
+                        nav.appendChild(li);
+                    }
                 }
-            } else {
-                authButtonsContainer.innerHTML = `
-                    <div class="auth-buttons">
-                        <a href="login.html" class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
-                        <a href="signup.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Sign Up</a>
-                    </div>
-                `;
+                
+                const quickActions = document.getElementById('quickActionsContainer');
+                if (quickActions) {
+                    const existingStaffAction = quickActions.querySelector('#staffDashboardAction');
+                    if (!existingStaffAction) {
+                        const staffAction = document.createElement('div');
+                        staffAction.className = 'staff-action-card';
+                        staffAction.id = 'staffDashboardAction';
+                        staffAction.innerHTML = `
+                            <div class="staff-action-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <h4>Staff Dashboard</h4>
+                            <p>Access staff tools and cases</p>
+                        `;
+                        staffAction.addEventListener('click', function() {
+                            window.location.href = 'staff-dashboard.html';
+                        });
+                        quickActions.appendChild(staffAction);
+                    }
+                }
+                
+                updateStaffProfileInfo(userType);
             }
         }
-
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show';
-            toast.classList.add(type);
+        
+        function updateStaffProfileInfo(userType) {
+            const profileName = document.getElementById('profileName');
+            const profileAvatar = document.getElementById('profileAvatar');
+            const userInfo = document.querySelector('.user-info p');
             
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            if (userType) {
+                let roleTitle = '';
+                let avatarText = 'ST';
+                
+                switch(userType) {
+                    case 'veterinarian':
+                        roleTitle = 'Veterinarian';
+                        avatarText = 'VT';
+                        break;
+                    case 'animal_rescue':
+                        roleTitle = 'Animal Rescue';
+                        avatarText = 'AR';
+                        break;
+                    case 'health_officer':
+                        roleTitle = 'Health Officer';
+                        avatarText = 'HO';
+                        break;
+                }
+                
+                if (roleTitle && userInfo) {
+                    userInfo.textContent = roleTitle;
+                }
+                
+                if (avatarText && profileAvatar) {
+                    profileAvatar.textContent = avatarText;
+                }
+            }
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            renderAuthButtons();
-            
+        
+        function checkSignupSuccess() {
+            const signupSuccess = localStorage.getItem('signupSuccess');
+            if (signupSuccess === 'true') {
+                const userType = localStorage.getItem('userType');
+                const isStaffSignup = userType === 'veterinarian' || 
+                                     userType === 'animal_rescue' || 
+                                     userType === 'health_officer';
+                
+                if (isStaffSignup) {
+                    showToast('Welcome to TailWatch! As staff, you can access both user and staff dashboards.', 'success');
+                    
+                    localStorage.setItem('userReturnToStaffDashboard', 'true');
+                    
+                    setTimeout(() => {
+                        if (confirm('Would you like to go to the Staff Dashboard now?')) {
+                            window.location.href = 'staff-dashboard.html';
+                        }
+                    }, 2000);
+                }
+                localStorage.removeItem('signupSuccess');
+            }
+        }
+        
+        function initializeDashboard() {
             const progressBars = document.querySelectorAll('.progress-fill');
             progressBars.forEach(bar => {
                 const width = bar.style.width;
@@ -1338,7 +1416,21 @@
             document.querySelectorAll('.action-card').forEach(card => {
                 card.style.cursor = 'pointer';
             });
-        });
+        }
+        
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            
+            toast.textContent = message;
+            toast.className = 'toast show';
+            toast.classList.add(type);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
     </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 </html>

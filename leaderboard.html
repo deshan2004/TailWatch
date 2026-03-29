@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         .leaderboard-hero {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(81, 207, 102, 0.9));
             color: white;
             padding: 150px 0 80px;
             text-align: center;
@@ -52,8 +52,8 @@
 
         .leaderboard-title i {
             font-size: 2.2rem;
-            color: #9b59b6;
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -62,7 +62,7 @@
         .leaderboard-title h2 {
             margin: 0;
             font-size: 2.2rem;
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -91,14 +91,14 @@
         }
 
         .filter-btn.active {
-            background: #9b59b6;
-            color: white;
-            border-color: #9b59b6;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border-color: var(--primary-color);
         }
 
         .filter-btn:hover:not(.active) {
-            border-color: #9b59b6;
-            color: #9b59b6;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
         }
 
         .leaderboard-content {
@@ -157,7 +157,7 @@
         }
 
         .leaderboard-table tbody tr:hover td {
-            background: rgba(155, 89, 182, 0.05);
+            background: rgba(77, 171, 247, 0.05);
         }
 
         .rank-1 td:first-child {
@@ -189,7 +189,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #3498db, #9b59b6);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             font-size: 1.2rem;
             font-weight: 600;
@@ -235,8 +235,8 @@
             align-items: center;
             gap: 5px;
             padding: 8px 15px;
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--dark-color);
             border-radius: 20px;
             font-weight: 600;
             font-size: 1rem;
@@ -267,7 +267,7 @@
         }
 
         .sidebar-card h3 i {
-            color: #9b59b6;
+            color: var(--primary-color);
         }
 
         .current-user-stats {
@@ -301,7 +301,7 @@
         .user-rank-value {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #9b59b6;
+            color: var(--primary-color);
         }
 
         .stats-grid {
@@ -321,7 +321,7 @@
         .stat-card .value {
             font-size: 1.8rem;
             font-weight: 700;
-            color: #9b59b6;
+            color: var(--primary-color);
             margin-bottom: 5px;
         }
 
@@ -352,7 +352,7 @@
         .badge-item:hover {
             transform: translateY(-3px);
             box-shadow: var(--shadow);
-            border-color: #9b59b6;
+            border-color: var(--primary-color);
         }
 
         .badge-icon {
@@ -363,7 +363,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            color: white;
+            color: var(--dark-color);
         }
 
         .badge-info h4 {
@@ -379,7 +379,7 @@
         }
 
         .badge-earned {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
 
         .badge-locked {
@@ -414,7 +414,7 @@
         .progress-value {
             font-size: 0.9rem;
             font-weight: 600;
-            color: #9b59b6;
+            color: var(--primary-color);
         }
 
         .progress-bar {
@@ -426,7 +426,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 4px;
             transition: width 0.5s ease;
         }
@@ -455,14 +455,14 @@
         }
 
         .pagination-btn.active {
-            background: #9b59b6;
-            color: white;
-            border-color: #9b59b6;
+            background: var(--primary-color);
+            color: var(--dark-color);
+            border-color: var(--primary-color);
         }
 
         .pagination-btn:hover:not(.active) {
-            border-color: #9b59b6;
-            color: #9b59b6;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
         }
 
         .pagination-btn.disabled {
@@ -1017,5 +1017,7 @@
             }
         });
     </script>
+    <script src="shared.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 </html>

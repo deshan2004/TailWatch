@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resources - TailWatch Staff</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background: rgba(26, 27, 30, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .staff-header {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 120px 0 40px;
+            margin-top: 60px;
+        }
+        
+        .resources-container {
+            padding: 40px 0;
+            min-height: 70vh;
+        }
+        
+        .resources-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .inventory-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--light-color);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-card.low {
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .stat-card.medium {
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .stat-card.good {
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card.low h3 {
+            color: var(--danger-color);
+        }
+        
+        .stat-card.medium h3 {
+            color: var(--warning-color);
+        }
+        
+        .stat-card.good h3 {
+            color: var(--secondary-color);
+        }
+        
+        .stat-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .resources-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 10px 25px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tab-btn.active,
+        .tab-btn:hover {
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+        
+        .resource-category {
+            margin-bottom: 40px;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .inventory-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .inventory-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border-color: #2ecc71;
+        }
+        
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+        
+        .stock-level {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .stock-low {
+            background: rgba(255, 107, 107, 0.15);
+            color: var(--danger-color);
+        }
+        
+        .stock-medium {
+            background: rgba(255, 146, 43, 0.15);
+            color: var(--warning-color);
+        }
+        
+        .stock-good {
+            background: rgba(81, 207, 102, 0.15);
+            color: var(--secondary-color);
+        }
+        
+        .inventory-details {
+            margin-bottom: 15px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .detail-label {
+            color: var(--text-light);
+        }
+        
+        .detail-value {
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--dark-color);
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-low {
+            background: var(--danger-color);
+        }
+        
+        .progress-medium {
+            background: var(--warning-color);
+        }
+        
+        .progress-good {
+            background: var(--secondary-color);
+        }
+        
+        .inventory-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn-small {
+            flex: 1;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .btn-request {
+            background: var(--primary-color);
+            color: var(--dark-color);
+        }
+        
+        .btn-request:hover {
+            background: #339af0;
+        }
+        
+        .btn-view {
+            background: var(--light-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-view:hover {
+            background: var(--border-color);
+        }
+        
+        .request-form {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            margin-top: 40px;
+            display: none;
+        }
+        
+        .request-form.active {
+            display: block;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background: var(--dark-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .btn-request-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--secondary-color);
+            color: var(--dark-color);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+        
+        .btn-request-submit:hover {
+            background: #40c057;
+        }
+        
+        .supplier-list {
+            background: var(--light-color);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+        
+        .supplier-card {
+            background: var(--dark-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .supplier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .supplier-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .supplier-rating {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+        }
+        
+        .supplier-details {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .resources-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .inventory-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .inventory-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .inventory-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <h1>TailWatch Staff</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="staff-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="staff-cases.html"><i class="fas fa-ambulance"></i> My Cases</a></li>
+                        <li><a href="staff-schedule.html"><i class="fas fa-calendar-check"></i> Schedule</a></li>
+                        <li><a href="staff-reports.html"><i class="fas fa-file-medical"></i> Reports</a></li>
+                        <li><a href="staff-resources.html" class="active"><i class="fas fa-toolbox"></i> Resources</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons-container" id="authButtonsContainer">
+                    <span class="user-greeting">Loading...</span>
+                    <a href="index.html" class="btn btn-outline">
+                        <i class="fas fa-home"></i> Main Site
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="staff-header">
+        <div class="container">
+            <h1>Resources & Inventory</h1>
+            <p>Manage supplies, equipment, and resource allocation</p>
+        </div>
+    </section>
+
+    <section class="resources-container">
+        <div class="container">
+            <div class="resources-header">
+                <h2><i class="fas fa-boxes"></i> Inventory Management</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="showRequestForm()">
+                        <i class="fas fa-shopping-cart"></i> Request Supplies
+                    </button>
+                    <button class="btn btn-outline" onclick="loadInventory()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div class="inventory-stats">
+                <div class="stat-card low">
+                    <h3>12</h3>
+                    <p>Low Stock Items</p>
+                </div>
+                <div class="stat-card medium">
+                    <h3>8</h3>
+                    <p>Medium Stock Items</p>
+                </div>
+                <div class="stat-card good">
+                    <h3>15</h3>
+                    <p>Good Stock Items</p>
+                </div>
+                <div class="stat-card">
+                    <h3>35</h3>
+                    <p>Total Items</p>
+                </div>
+            </div>
+
+            <div class="resources-tabs">
+                <button class="tab-btn active" data-category="all">
+                    <i class="fas fa-list"></i> All Resources
+                </button>
+                <button class="tab-btn" data-category="vaccines">
+                    <i class="fas fa-syringe"></i> Vaccines
+                </button>
+                <button class="tab-btn" data-category="medications">
+                    <i class="fas fa-pills"></i> Medications
+                </button>
+                <button class="tab-btn" data-category="equipment">
+                    <i class="fas fa-tools"></i> Equipment
+                </button>
+                <button class="tab-btn" data-category="supplies">
+                    <i class="fas fa-box-open"></i> Supplies
+                </button>
+            </div>
+
+            <div class="resource-category" id="vaccinesCategory">
+                <div class="category-header">
+                    <div class="category-title">
+                        <i class="fas fa-syringe"></i>
+                        <h3>Vaccines</h3>
+                    </div>
+                    <span class="stock-level stock-low">Alert: 5 items low</span>
+                </div>
+                
+                <div class="inventory-grid" id="vaccinesGrid">
+                </div>
+            </div>
+
+            <div class="resource-category" id="medicationsCategory">
+                <div class="category-header">
+                    <div class="category-title">
+                        <i class="fas fa-pills"></i>
+                        <h3>Medications</h3>
+                    </div>
+                    <span class="stock-level stock-medium">8 items medium</span>
+                </div>
+                
+                <div class="inventory-grid" id="medicationsGrid">
+                </div>
+            </div>
+
+            <div class="resource-category" id="equipmentCategory">
+                <div class="category-header">
+                    <div class="category-title">
+                        <i class="fas fa-tools"></i>
+                        <h3>Equipment</h3>
+                    </div>
+                    <span class="stock-level stock-good">All items good</span>
+                </div>
+                
+                <div class="inventory-grid" id="equipmentGrid">
+                </div>
+            </div>
+
+            <div class="resource-category" id="suppliesCategory">
+                <div class="category-header">
+                    <div class="category-title">
+                        <i class="fas fa-box-open"></i>
+                        <h3>Supplies</h3>
+                    </div>
+                    <span class="stock-level stock-low">Alert: 7 items low</span>
+                </div>
+                
+                <div class="inventory-grid" id="suppliesGrid">
+                </div>
+            </div>
+
+            <div class="request-form" id="requestForm">
+                <h3><i class="fas fa-shopping-cart"></i> Request Supplies</h3>
+                <form id="supplyRequestForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-box"></i> Item Name</label>
+                            <input type="text" class="form-control" id="itemName" placeholder="Enter item name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-list-ol"></i> Quantity Needed</label>
+                            <input type="number" class="form-control" id="itemQuantity" min="1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-tags"></i> Category</label>
+                            <select class="form-control" id="itemCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="vaccine">Vaccine</option>
+                                <option value="medication">Medication</option>
+                                <option value="equipment">Equipment</option>
+                                <option value="supply">General Supply</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar"></i> Needed By</label>
+                            <input type="date" class="form-control" id="neededBy" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-file-alt"></i> Reason for Request</label>
+                        <textarea class="form-control" id="requestReason" rows="3" placeholder="Explain why you need these supplies..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Delivery Location</label>
+                        <input type="text" class="form-control" id="deliveryLocation" placeholder="Where should supplies be delivered?" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-sticky-note"></i> Additional Notes</label>
+                        <textarea class="form-control" id="additionalNotes" rows="2" placeholder="Any additional information..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-request-submit">
+                        <i class="fas fa-paper-plane"></i> Submit Request
+                    </button>
+                </form>
+            </div>
+
+            <div class="supplier-list">
+                <h3><i class="fas fa-truck"></i> Approved Suppliers</h3>
+                <div class="supplier-card">
+                    <div class="supplier-header">
+                        <div class="supplier-name">PetCare Pharmaceuticals Ltd.</div>
+                        <div class="supplier-rating">★★★★☆ (4.2)</div>
+                    </div>
+                    <div class="supplier-details">
+                        <p><i class="fas fa-phone"></i> +94 11 234 5678</p>
+                        <p><i class="fas fa-envelope"></i> orders@petcarepharma.lk</p>
+                        <p><i class="fas fa-clock"></i> Delivery: 2-3 business days</p>
+                        <p><i class="fas fa-star"></i> Specializes in vaccines and medications</p>
+                    </div>
+                </div>
+                
+                <div class="supplier-card">
+                    <div class="supplier-header">
+                        <div class="supplier-name">Animal Health Supplies Inc.</div>
+                        <div class="supplier-rating">★★★★★ (4.8)</div>
+                    </div>
+                    <div class="supplier-details">
+                        <p><i class="fas fa-phone"></i> +94 77 890 1234</p>
+                        <p><i class="fas fa-envelope"></i> contact@animalhealth.lk</p>
+                        <p><i class="fas fa-clock"></i> Delivery: Next day available</p>
+                        <p><i class="fas fa-star"></i> Full range of veterinary equipment</p>
+                    </div>
+                </div>
+                
+                <div class="supplier-card">
+                    <div class="supplier-header">
+                        <div class="supplier-name">MediVet Distributors</div>
+                        <div class="supplier-rating">★★★★☆ (4.0)</div>
+                    </div>
+                    <div class="supplier-details">
+                        <p><i class="fas fa-phone"></i> +94 76 543 2109</p>
+                        <p><i class="fas fa-envelope"></i> sales@medivet.lk</p>
+                        <p><i class="fas fa-clock"></i> Delivery: 1-2 business days</p>
+                        <p><i class="fas fa-star"></i> Bulk discounts available</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="shared.js"></script>
+    <script>
+        let inventory = [];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof checkStaffAccess === 'function') {
+                if (!checkStaffAccess()) return;
+            }
+            
+            if (typeof renderAuthButtons === 'function') {
+                renderAuthButtons();
+            }
+            
+            loadInventory();
+            setupTabs();
+            setupRequestForm();
+            
+            const addLogoutButton = () => {
+                const authButtons = document.querySelector('.auth-buttons-container');
+                if (authButtons) {
+                    const logoutBtn = document.createElement('a');
+                    logoutBtn.href = '#';
+                    logoutBtn.className = 'btn btn-outline';
+                    logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+                    logoutBtn.style.marginLeft = '10px';
+                    
+                    logoutBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if (typeof logoutUser === 'function') {
+                            logoutUser();
+                        } else {
+                            localStorage.clear();
+                            window.location.href = 'index.html';
+                        }
+                    });
+                    
+                    authButtons.appendChild(logoutBtn);
+                }
+            };
+            
+            addLogoutButton();
+        });
+        
+        function loadInventory() {
+            inventory = [
+                {
+                    id: 'VAC-001',
+                    name: 'Rabies Vaccine',
+                    category: 'vaccines',
+                    currentStock: 42,
+                    minimumStock: 50,
+                    unit: 'doses',
+                    location: 'Main Storage',
+                    lastRestocked: '2023-11-10',
+                    supplier: 'PetCare Pharmaceuticals',
+                    status: 'low'
+                },
+                {
+                    id: 'VAC-002',
+                    name: 'DHPP Vaccine',
+                    category: 'vaccines',
+                    currentStock: 85,
+                    minimumStock: 100,
+                    unit: 'doses',
+                    location: 'Main Storage',
+                    lastRestocked: '2023-11-12',
+                    supplier: 'PetCare Pharmaceuticals',
+                    status: 'medium'
+                },
+                {
+                    id: 'VAC-003',
+                    name: 'Bordetella Vaccine',
+                    category: 'vaccines',
+                    currentStock: 120,
+                    minimumStock: 50,
+                    unit: 'doses',
+                    location: 'Clinic A',
+                    lastRestocked: '2023-11-05',
+                    supplier: 'Animal Health Supplies',
+                    status: 'good'
+                },
+                
+                {
+                    id: 'MED-001',
+                    name: 'Antibiotics - Amoxicillin',
+                    category: 'medications',
+                    currentStock: 150,
+                    minimumStock: 100,
+                    unit: 'tablets',
+                    location: 'Pharmacy',
+                    lastRestocked: '2023-11-08',
+                    supplier: 'MediVet Distributors',
+                    status: 'good'
+                },
+                {
+                    id: 'MED-002',
+                    name: 'Pain Relief - Carprofen',
+                    category: 'medications',
+                    currentStock: 45,
+                    minimumStock: 50,
+                    unit: 'tablets',
+                    location: 'Pharmacy',
+                    lastRestocked: '2023-11-01',
+                    supplier: 'PetCare Pharmaceuticals',
+                    status: 'low'
+                },
+                {
+                    id: 'MED-003',
+                    name: 'Dewormer - Praziquantel',
+                    category: 'medications',
+                    currentStock: 75,
+                    minimumStock: 60,
+                    unit: 'doses',
+                    location: 'Main Storage',
+                    lastRestocked: '2023-11-03',
+                    supplier: 'Animal Health Supplies',
+                    status: 'medium'
+                },
+                
+                {
+                    id: 'EQP-001',
+                    name: 'Digital Thermometer',
+                    category: 'equipment',
+                    currentStock: 8,
+                    minimumStock: 5,
+                    unit: 'units',
+                    location: 'Examination Room',
+                    lastRestocked: '2023-10-20',
+                    supplier: 'Medical Equipment Co.',
+                    status: 'good'
+                },
+                {
+                    id: 'EQP-002',
+                    name: 'Stethoscope',
+                    category: 'equipment',
+                    currentStock: 12,
+                    minimumStock: 8,
+                    unit: 'units',
+                    location: 'Equipment Cabinet',
+                    lastRestocked: '2023-10-25',
+                    supplier: 'Medical Equipment Co.',
+                    status: 'good'
+                },
+                
+                {
+                    id: 'SUP-001',
+                    name: 'Disposable Syringes (5ml)',
+                    category: 'supplies',
+                    currentStock: 200,
+                    minimumStock: 300,
+                    unit: 'pieces',
+                    location: 'Supply Room',
+                    lastRestocked: '2023-11-02',
+                    supplier: 'MediVet Distributors',
+                    status: 'low'
+                },
+                {
+                    id: 'SUP-002',
+                    name: 'Exam Gloves (Large)',
+                    category: 'supplies',
+                    currentStock: 150,
+                    minimumStock: 200,
+                    unit: 'pairs',
+                    location: 'Supply Room',
+                    lastRestocked: '2023-11-04',
+                    supplier: 'MediVet Distributors',
+                    status: 'low'
+                }
+            ];
+            
+            renderInventory();
+        }
+        
+        function renderInventory() {
+            document.getElementById('vaccinesGrid').innerHTML = '';
+            document.getElementById('medicationsGrid').innerHTML = '';
+            document.getElementById('equipmentGrid').innerHTML = '';
+            document.getElementById('suppliesGrid').innerHTML = '';
+            
+            const categoryCounts = {
+                vaccines: { total: 0, low: 0, medium: 0, good: 0 },
+                medications: { total: 0, low: 0, medium: 0, good: 0 },
+                equipment: { total: 0, low: 0, medium: 0, good: 0 },
+                supplies: { total: 0, low: 0, medium: 0, good: 0 }
+            };
+            
+            inventory.forEach(item => {
+                const card = createInventoryCard(item);
+                
+                switch(item.category) {
+                    case 'vaccines':
+                        document.getElementById('vaccinesGrid').appendChild(card);
+                        break;
+                    case 'medications':
+                        document.getElementById('medicationsGrid').appendChild(card);
+                        break;
+                    case 'equipment':
+                        document.getElementById('equipmentGrid').appendChild(card);
+                        break;
+                    case 'supplies':
+                        document.getElementById('suppliesGrid').appendChild(card);
+                        break;
+                }
+                
+                categoryCounts[item.category].total++;
+                categoryCounts[item.category][item.status]++;
+            });
+            
+            updateCategoryHeader('vaccinesCategory', categoryCounts.vaccines);
+            updateCategoryHeader('medicationsCategory', categoryCounts.medications);
+            updateCategoryHeader('equipmentCategory', categoryCounts.equipment);
+            updateCategoryHeader('suppliesCategory', categoryCounts.supplies);
+            
+            updateStatsCards(categoryCounts);
+        }
+        
+        function createInventoryCard(item) {
+            const card = document.createElement('div');
+            card.className = 'inventory-card';
+            card.dataset.id = item.id;
+            
+            const stockPercentage = (item.currentStock / item.minimumStock) * 100;
+            
+            let stockClass = '';
+            let stockText = '';
+            
+            if (stockPercentage < 80) {
+                stockClass = 'stock-low';
+                stockText = 'Low Stock';
+            } else if (stockPercentage < 120) {
+                stockClass = 'stock-medium';
+                stockText = 'Medium Stock';
+            } else {
+                stockClass = 'stock-good';
+                stockText = 'Good Stock';
+            }
+            
+            let progressClass = '';
+            if (stockPercentage < 80) {
+                progressClass = 'progress-low';
+            } else if (stockPercentage < 120) {
+                progressClass = 'progress-medium';
+            } else {
+                progressClass = 'progress-good';
+            }
+            
+            card.innerHTML = `
+                <div class="inventory-header">
+                    <div class="item-name">${item.name}</div>
+                    <span class="stock-level ${stockClass}">${stockText}</span>
+                </div>
+                
+                <div class="inventory-details">
+                    <div class="detail-row">
+                        <span class="detail-label">ID:</span>
+                        <span class="detail-value">${item.id}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Current Stock:</span>
+                        <span class="detail-value">${item.currentStock} ${item.unit}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Minimum Required:</span>
+                        <span class="detail-value">${item.minimumStock} ${item.unit}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Location:</span>
+                        <span class="detail-value">${item.location}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Last Restocked:</span>
+                        <span class="detail-value">${item.lastRestocked}</span>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill ${progressClass}" style="width: ${Math.min(stockPercentage, 100)}%"></div>
+                </div>
+                
+                <div class="inventory-actions">
+                    <button class="btn-small btn-request" onclick="requestItem('${item.id}')">
+                        <i class="fas fa-shopping-cart"></i> Request More
+                    </button>
+                    <button class="btn-small btn-view" onclick="viewItem('${item.id}')">
+                        <i class="fas fa-eye"></i> Details
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function updateCategoryHeader(categoryId, counts) {
+            const header = document.querySelector(`#${categoryId} .category-header`);
+            if (!header) return;
+            
+            const stockSpan = header.querySelector('.stock-level');
+            if (!stockSpan) return;
+            
+            let stockClass = '';
+            let stockText = '';
+            
+            if (counts.low > 0) {
+                stockClass = 'stock-low';
+                stockText = `Alert: ${counts.low} items low`;
+            } else if (counts.medium > 0) {
+                stockClass = 'stock-medium';
+                stockText = `${counts.medium} items medium`;
+            } else {
+                stockClass = 'stock-good';
+                stockText = 'All items good';
+            }
+            
+            stockSpan.className = `stock-level ${stockClass}`;
+            stockSpan.textContent = stockText;
+        }
+        
+        function updateStatsCards(categoryCounts) {
+            let totalLow = 0;
+            let totalMedium = 0;
+            let totalGood = 0;
+            let totalItems = 0;
+            
+            for (const category in categoryCounts) {
+                totalLow += categoryCounts[category].low;
+                totalMedium += categoryCounts[category].medium;
+                totalGood += categoryCounts[category].good;
+                totalItems += categoryCounts[category].total;
+            }
+            
+            document.querySelectorAll('.stat-card h3').forEach((element, index) => {
+                if (index === 0) element.textContent = totalLow;
+                if (index === 1) element.textContent = totalMedium;
+                if (index === 2) element.textContent = totalGood;
+                if (index === 3) element.textContent = totalItems;
+            });
+        }
+        
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const categories = document.querySelectorAll('.resource-category');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    categories.forEach(cat => {
+                        if (category === 'all') {
+                            cat.style.display = 'block';
+                        } else {
+                            cat.style.display = cat.id.includes(category) ? 'block' : 'none';
+                        }
+                    });
+                });
+            });
+        }
+        
+        function setupRequestForm() {
+            const form = document.getElementById('supplyRequestForm');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const requestData = {
+                    itemName: document.getElementById('itemName').value,
+                    quantity: document.getElementById('itemQuantity').value,
+                    category: document.getElementById('itemCategory').value,
+                    neededBy: document.getElementById('neededBy').value,
+                    reason: document.getElementById('requestReason').value,
+                    location: document.getElementById('deliveryLocation').value,
+                    notes: document.getElementById('additionalNotes').value,
+                    date: new Date().toISOString().split('T')[0],
+                    requester: localStorage.getItem('userName') || 'Staff Member'
+                };
+                
+                showToast('Supply request submitted successfully!', 'success');
+                
+                form.reset();
+                hideRequestForm();
+                
+                console.log('Supply Request:', requestData);
+            });
+            
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            document.getElementById('neededBy').valueAsDate = nextWeek;
+        }
+        
+        function showRequestForm() {
+            document.getElementById('requestForm').classList.add('active');
+            document.getElementById('requestForm').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function hideRequestForm() {
+            document.getElementById('requestForm').classList.remove('active');
+        }
+        
+        function requestItem(itemId) {
+            const item = inventory.find(i => i.id === itemId);
+            if (item) {
+                document.getElementById('itemName').value = item.name;
+                document.getElementById('itemCategory').value = item.category.slice(0, -1); 
+                const suggestedQty = Math.max(item.minimumStock - item.currentStock, 10);
+                document.getElementById('itemQuantity').value = suggestedQty;
+                
+                document.getElementById('requestReason').value = `Restock request for ${item.name}. Current stock: ${item.currentStock} ${item.unit}, Minimum required: ${item.minimumStock} ${item.unit}`;
+                
+                showRequestForm();
+            }
+        }
+        
+        function viewItem(itemId) {
+            const item = inventory.find(i => i.id === itemId);
+            if (item) {
+                showToast(`Viewing details for ${item.name}`, 'info');
+            }
+        }
+        
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            
+            toast.textContent = message;
+            toast.className = 'toast show ' + type;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.className = 'toast';
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

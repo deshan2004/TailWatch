@@ -15,6 +15,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            margin-top: 60px;
         }
 
         .profile-hero h1 {
@@ -53,19 +54,12 @@
         .profile-title i {
             font-size: 2.2rem;
             color: var(--primary-color);
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .profile-title h2 {
             margin: 0;
             font-size: 2.2rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-color);
             font-weight: 700;
         }
 
@@ -287,6 +281,7 @@
             background: var(--dark-color);
             border: 1px solid var(--border-color);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .badge-card.earned:hover {
@@ -379,51 +374,6 @@
             margin-top: 3px;
         }
 
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--border-color);
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .toggle-slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .toggle-slider {
-            background-color: var(--primary-color);
-        }
-
-        input:checked + .toggle-slider:before {
-            transform: translateX(30px);
-        }
-
         @media (max-width: 992px) {
             .profile-content {
                 grid-template-columns: 1fr;
@@ -509,8 +459,7 @@
                         <li><a href="leaderboard.html">Leaderboard</a></li>
                     </ul>
                 </nav>
-                <div class="auth-buttons-container" id="authButtonsContainer">
-                </div>
+                <div class="auth-buttons-container" id="authButtonsContainer"></div>
             </div>
         </div>
     </header>
@@ -544,7 +493,7 @@
                     
                     <div class="profile-info">
                         <h3 id="profileNameDisplay">Deshan Silva</h3>
-                        <p>Colombo, Sri Lanka</p>
+                        <p id="profileLocationDisplay">Colombo, Sri Lanka</p>
                         <p>Member since: Jan 2023</p>
                         <span class="profile-role" id="profileRoleDisplay">Animal Rescue Volunteer</span>
                     </div>
@@ -576,36 +525,36 @@
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="firstName"><i class="fas fa-user"></i> First Name</label>
-                                    <input type="text" id="firstName" value="Deshan" required>
+                                    <input type="text" id="firstName" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="lastName"><i class="fas fa-user"></i> Last Name</label>
-                                    <input type="text" id="lastName" value="Silva" required>
+                                    <input type="text" id="lastName" required>
                                 </div>
                             </div>
                             
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
-                                    <input type="email" id="email" value="deshan@example.com" required>
+                                    <input type="email" id="email" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
-                                    <input type="tel" id="phone" value="+94 77 123 4567">
+                                    <input type="tel" id="phone">
                                 </div>
                             </div>
                             
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="location"><i class="fas fa-map-marker-alt"></i> City</label>
-                                    <input type="text" id="location" value="Colombo">
+                                    <input type="text" id="location">
                                 </div>
                                 <div class="form-group">
                                     <label for="userRole"><i class="fas fa-user-tag"></i> Role</label>
                                     <select id="userRole">
                                         <option value="volunteer">Volunteer</option>
                                         <option value="veterinarian">Veterinarian</option>
-                                        <option value="animal_rescue" selected>Animal Rescue</option>
+                                        <option value="animal_rescue">Animal Rescue</option>
                                         <option value="community_member">Community Member</option>
                                         <option value="staff">Staff</option>
                                     </select>
@@ -614,7 +563,7 @@
                             
                             <div class="form-group">
                                 <label for="bio"><i class="fas fa-align-left"></i> Bio</label>
-                                <textarea id="bio" rows="3">Passionate animal lover dedicated to helping stray dogs and preventing rabies in our community.</textarea>
+                                <textarea id="bio" rows="3"></textarea>
                             </div>
                             
                             <div class="form-actions">
@@ -762,84 +711,20 @@
 
     <div class="toast" id="toast"></div>
 
+    <script src="shared.js"></script>
     <script>
-        function getInitials(name) {
-            return name.split(' ')
-                .map(word => word.charAt(0))
-                .join('')
-                .toUpperCase()
-                .substring(0, 2);
-        }
-
-        function renderAuthButtons() {
-            const authButtonsContainer = document.getElementById('authButtonsContainer');
-            const userRole = localStorage.getItem('userRole') || 'animal_rescue';
-            const userName = localStorage.getItem('userName') || 'Deshan Silva';
-            const userEmail = localStorage.getItem('userEmail') || 'deshan@example.com';
-            const userLocation = localStorage.getItem('userLocation') || 'Colombo';
+        function updateProfileDisplay() {
+            const user = getCurrentUser();
+            const nameParts = user.name.split(' ');
             
-            const initials = getInitials(userName);
+            document.getElementById('firstName').value = nameParts[0] || '';
+            document.getElementById('lastName').value = nameParts.slice(1).join(' ') || '';
+            document.getElementById('email').value = user.email;
+            document.getElementById('phone').value = user.phone || '';
+            document.getElementById('location').value = user.location || 'Colombo';
+            document.getElementById('userRole').value = user.role || 'volunteer';
+            document.getElementById('bio').value = user.bio || '';
             
-            authButtonsContainer.innerHTML = `
-                <div class="user-dropdown">
-                    <div class="user-dropdown-toggle">
-                        <div class="user-avatar-small">${initials}</div>
-                        <span class="user-name">${userName}</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="user-dropdown-menu">
-                        <a href="dashboard.html" class="dropdown-item">
-                            <i class="fas fa-tachometer-alt"></i>
-                            Dashboard
-                        </a>
-                        <a href="profile.html" class="dropdown-item">
-                            <i class="fas fa-user"></i>
-                            Profile
-                        </a>
-                        <a href="my-reports.html" class="dropdown-item">
-                            <i class="fas fa-flag"></i>
-                            My Reports
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Logout
-                        </a>
-                    </div>
-                </div>
-            `;
-            
-            const dropdownToggle = document.querySelector('.user-dropdown-toggle');
-            const dropdownMenu = document.querySelector('.user-dropdown-menu');
-            const logoutBtn = document.getElementById('logoutBtn');
-            
-            if (dropdownToggle && dropdownMenu) {
-                dropdownToggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    dropdownMenu.classList.toggle('show');
-                });
-                
-                document.addEventListener('click', function() {
-                    dropdownMenu.classList.remove('show');
-                });
-                
-                dropdownMenu.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
-            }
-            
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    localStorage.clear();
-                    window.location.href = 'index.html';
-                });
-            }
-            
-            updateProfileDisplay(userName, userEmail, userRole, userLocation);
-        }
-
-        function updateProfileDisplay(name, email, role, location) {
             const roleMap = {
                 'volunteer': 'Volunteer',
                 'veterinarian': 'Veterinarian',
@@ -848,28 +733,17 @@
                 'staff': 'Staff Member'
             };
             
-            const roleDisplay = roleMap[role] || role;
+            const roleDisplay = roleMap[user.role] || user.role;
             
-            const nameParts = name.split(' ');
-            document.getElementById('firstName').value = nameParts[0] || '';
-            document.getElementById('lastName').value = nameParts.slice(1).join(' ') || '';
-            document.getElementById('email').value = email || '';
-            document.getElementById('location').value = location || '';
-            document.getElementById('userRole').value = role;
-            
-            document.getElementById('profileNameDisplay').textContent = name;
+            document.getElementById('profileNameDisplay').textContent = user.name;
             document.getElementById('profileRoleDisplay').textContent = roleDisplay;
-            document.getElementById('avatarInitials').textContent = getInitials(name);
+            document.getElementById('profileLocationDisplay').textContent = user.location + ', Sri Lanka';
+            document.getElementById('avatarInitials').textContent = getInitials(user.name);
             
-            const reports = localStorage.getItem('userReports') || '12';
-            const points = localStorage.getItem('userPoints') || '156';
-            const rank = localStorage.getItem('userRank') || '#24';
-            const badges = localStorage.getItem('userBadges') || '3';
-            
-            document.getElementById('statReports').textContent = reports;
-            document.getElementById('statPoints').textContent = points;
-            document.getElementById('statRank').textContent = rank;
-            document.getElementById('statBadges').textContent = badges;
+            document.getElementById('statReports').textContent = localStorage.getItem('userReportsCount') || '12';
+            document.getElementById('statPoints').textContent = localStorage.getItem('userPoints') || '156';
+            document.getElementById('statRank').textContent = localStorage.getItem('userRank') || '#24';
+            document.getElementById('statBadges').textContent = localStorage.getItem('userBadges') || '3';
         }
 
         function saveProfileChanges(e) {
@@ -892,28 +766,26 @@
             localStorage.setItem('userRole', role);
             localStorage.setItem('userBio', bio);
             
-            updateProfileDisplay(fullName, email, role, location);
-            
+            updateProfileDisplay();
             showToast('Profile updated successfully!', 'success');
             
             setTimeout(() => {
-                renderAuthButtons();
+                if (typeof renderAuthButtons === 'function') {
+                    renderAuthButtons();
+                }
             }, 100);
         }
 
         function resetForm() {
-            const savedName = localStorage.getItem('userName') || 'Deshan Silva';
-            const savedEmail = localStorage.getItem('userEmail') || 'deshan@example.com';
-            const savedRole = localStorage.getItem('userRole') || 'animal_rescue';
-            const savedLocation = localStorage.getItem('userLocation') || 'Colombo';
-            
-            updateProfileDisplay(savedName, savedEmail, savedRole, savedLocation);
+            updateProfileDisplay();
             showToast('Form reset to saved values', 'info');
         }
 
         function setupAvatarUpload() {
             const avatarContainer = document.getElementById('profileAvatarContainer');
             const avatarUpload = document.getElementById('avatarUpload');
+            
+            if (!avatarContainer || !avatarUpload) return;
             
             avatarContainer.addEventListener('click', function() {
                 avatarUpload.click();
@@ -940,6 +812,10 @@
                         showToast('Profile picture updated successfully!', 'success');
                         
                         setupAvatarUpload();
+                        
+                        if (typeof renderAuthButtons === 'function') {
+                            renderAuthButtons();
+                        }
                     };
                     reader.readAsDataURL(file);
                 }
@@ -947,7 +823,6 @@
             
             const savedImage = localStorage.getItem('profileImage');
             if (savedImage) {
-                const avatarContainer = document.getElementById('profileAvatarContainer');
                 avatarContainer.innerHTML = `
                     <img src="${savedImage}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
                     <div class="profile-avatar-change">Change Photo</div>
@@ -955,32 +830,23 @@
             }
         }
 
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show';
-            toast.classList.add(type);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
-            renderAuthButtons();
+            if (typeof setupDefaultUser === 'function') {
+                setupDefaultUser();
+            }
+            
+            if (typeof renderAuthButtons === 'function') {
+                renderAuthButtons();
+            }
+            
+            updateProfileDisplay();
+            
             setupAvatarUpload();
             
-            const savedName = localStorage.getItem('userName') || 'Deshan Silva';
-            const savedEmail = localStorage.getItem('userEmail') || 'deshan@example.com';
-            const savedRole = localStorage.getItem('userRole') || 'animal_rescue';
-            const savedLocation = localStorage.getItem('userLocation') || 'Colombo';
-            const savedBio = localStorage.getItem('userBio') || 'Passionate animal lover dedicated to helping stray dogs and preventing rabies in our community.';
-            
-            updateProfileDisplay(savedName, savedEmail, savedRole, savedLocation);
-            document.getElementById('bio').value = savedBio;
-            document.getElementById('phone').value = localStorage.getItem('userPhone') || '+94 77 123 4567';
-            
-            document.getElementById('personalInfoForm').addEventListener('submit', saveProfileChanges);
+            const personalInfoForm = document.getElementById('personalInfoForm');
+            if (personalInfoForm) {
+                personalInfoForm.addEventListener('submit', saveProfileChanges);
+            }
             
             document.querySelectorAll('.badge-card.earned').forEach(badge => {
                 badge.addEventListener('click', function() {
@@ -995,6 +861,11 @@
                     showToast(`Complete more tasks to unlock the "${badgeName}" badge!`, 'info');
                 });
             });
+            
+            if (localStorage.getItem('profileUpdated') === 'true') {
+                showToast('Profile updated successfully!', 'success');
+                localStorage.removeItem('profileUpdated');
+            }
         });
     </script>
 </body>

@@ -3,33 +3,306 @@
 <head>
     <title>Staff Dashboard - TailWatch</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --staff-color: #2ecc71;
+            --staff-dark: #27ae60;
+            --staff-light: rgba(46, 204, 113, 0.1);
+            --admin-color: #e74c3c;
+            --admin-dark: #c0392b;
+            --admin-light: rgba(231, 76, 60, 0.1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background: rgba(26, 27, 30, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
         .staff-header {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, var(--staff-color), var(--staff-dark));
             color: white;
             padding: 120px 0 60px;
             text-align: center;
+            margin-top: 60px;
         }
+        
+        .admin-header {
+            background: linear-gradient(135deg, var(--admin-color), var(--admin-dark));
+        }
+        
+        .dashboard-container {
+            padding: 40px 0;
+            min-height: 60vh;
+        }
+        
+        .staff-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--light-color);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--staff-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--staff-color);
+            margin-bottom: 10px;
+        }
+        
+        .admin-stat .stat-number {
+            color: var(--admin-color);
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
         .staff-tools {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             padding: 40px 0;
         }
+        
         .tool-card {
-            background: #25262b;
+            background: var(--light-color);
             padding: 25px;
             border-radius: 10px;
-            border: 1px solid #373a40;
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
+        
         .tool-card:hover {
-            border-color: #2ecc71;
+            border-color: var(--staff-color);
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
-        .priority-high { border-left: 4px solid #f44336; }
-        .priority-medium { border-left: 4px solid #ff9800; }
-        .priority-low { border-left: 4px solid #4CAF50; }
+        
+        .admin-tool-card:hover {
+            border-color: var(--admin-color);
+        }
+        
+        .tool-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        .tool-card h3 i {
+            color: var(--staff-color);
+        }
+        
+        .admin-tool-card h3 i {
+            color: var(--admin-color);
+        }
+        
+        .tool-card p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+        
+        .priority-high { border-left: 4px solid var(--danger-color); }
+        .priority-medium { border-left: 4px solid var(--warning-color); }
+        .priority-low { border-left: 4px solid var(--secondary-color); }
+        
+        .user-greeting {
+            color: var(--text-color);
+            font-weight: 600;
+            margin-right: 15px;
+            background: var(--staff-light);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .admin-greeting {
+            background: var(--admin-light);
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: var(--light-color);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .admin-table th {
+            background: var(--dark-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .admin-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .admin-table tbody tr:hover {
+            background: var(--staff-light);
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-pending { 
+            background: rgba(255, 146, 43, 0.15); 
+            color: var(--warning-color); 
+        }
+        
+        .status-assigned { 
+            background: rgba(77, 171, 247, 0.15); 
+            color: var(--primary-color); 
+        }
+        
+        .status-success { 
+            background: rgba(81, 207, 102, 0.15); 
+            color: var(--secondary-color); 
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: var(--light-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: var(--staff-light);
+            border-color: var(--staff-color);
+            transform: translateY(-3px);
+        }
+        
+        .admin-action-btn:hover {
+            background: var(--admin-light);
+            border-color: var(--admin-color);
+        }
+        
+        .dashboard-section {
+            background: var(--light-color);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .dashboard-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+        
+        .dashboard-section h3 i {
+            color: var(--staff-color);
+        }
+        
+        .admin-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--admin-light);
+            border-radius: 10px;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .admin-controls h4 {
+            color: var(--admin-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .staff-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .staff-tools {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .staff-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-greeting {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -38,18 +311,22 @@
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-paw"></i>
-                    <h1>TailWatch Staff</h1>
+                    <h1 id="dashboardTitle">TailWatch Staff</h1>
                 </div>
                 <nav>
                     <ul>
-                        <li><a href="staff-dashboard.html" class="active">Dashboard</a></li>
-                        <li><a href="staff-cases.html">My Cases</a></li>
-                        <li><a href="staff-schedule.html">Schedule</a></li>
-                        <li><a href="staff-resources.html">Resources</a></li>
+                        <li><a href="staff-dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="dashboard.html"><i class="fas fa-users"></i> User Dashboard</a></li>
+                        <li><a href="staff-cases.html"><i class="fas fa-ambulance"></i> My Cases</a></li>
+                        <li><a href="staff-schedule.html"><i class="fas fa-calendar-check"></i> Schedule</a></li>
+                        <li><a href="staff-reports.html"><i class="fas fa-file-medical"></i> Reports</a></li>
+                        <li><a href="admin-dashboard.html" id="adminDashboardLink" style="display: none;">
+                            <i class="fas fa-user-shield"></i> Admin Dashboard
+                        </a></li>
                     </ul>
                 </nav>
-                <div class="auth-buttons">
-                    <span class="user-greeting">Staff Member</span>
+                <div class="auth-buttons-container" id="authButtonsContainer">
+                    <span class="user-greeting" id="staffGreeting">Loading...</span>
                     <a href="index.html" class="btn btn-outline">
                         <i class="fas fa-home"></i> Main Site
                     </a>
@@ -58,155 +335,462 @@
         </div>
     </header>
 
-    <section class="staff-header">
+    <section class="staff-header" id="dashboardHeader">
         <div class="container">
-            <h1>Staff Dashboard</h1>
-            <p>Manage assigned cases, update statuses, and coordinate with team members</p>
+            <h1 id="headerTitle">Staff Dashboard</h1>
+            <p id="headerDescription">Manage assigned cases, update statuses, and coordinate with team members</p>
         </div>
     </section>
 
     <section class="dashboard-container">
         <div class="container">
+            <div class="admin-controls" id="adminControls" style="display: none;">
+                <h4><i class="fas fa-user-shield"></i> Admin View Mode</h4>
+                <p>You are viewing the staff dashboard with admin privileges. You can edit all content.</p>
+            </div>
+
+            <div class="staff-stats">
+                <div class="stat-card" id="urgentCasesCard">
+                    <div class="stat-number" id="urgentCases">0</div>
+                    <div class="stat-label">Urgent Cases</div>
+                </div>
+                <div class="stat-card" id="todayAppointmentsCard">
+                    <div class="stat-number" id="todayAppointments">0</div>
+                    <div class="stat-label">Today's Appointments</div>
+                </div>
+                <div class="stat-card" id="completedCasesCard">
+                    <div class="stat-number" id="completedCases">0</div>
+                    <div class="stat-label">Completed Cases</div>
+                </div>
+                <div class="stat-card" id="pendingReportsCard">
+                    <div class="stat-number" id="pendingReports">0</div>
+                    <div class="stat-label">Pending Reports</div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <a href="staff-cases.html?priority=high" class="action-btn">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    View Urgent Cases
+                </a>
+                <a href="staff-schedule.html" class="action-btn">
+                    <i class="fas fa-calendar-plus"></i>
+                    Add New Appointment
+                </a>
+                <a href="staff-reports.html?action=new" class="action-btn">
+                    <i class="fas fa-file-upload"></i>
+                    Submit Report
+                </a>
+                <a href="staff-resources.html" class="action-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    Request Supplies
+                </a>
+                <a href="dashboard.html" class="action-btn" id="userDashboardBtn">
+                    <i class="fas fa-users"></i>
+                    User Dashboard
+                </a>
+            </div>
+
             <div class="staff-tools">
-                <div class="tool-card priority-high">
+                <div class="tool-card priority-high" id="urgentToolCard">
                     <h3><i class="fas fa-ambulance"></i> Urgent Cases</h3>
-                    <p>3 high-priority cases need immediate attention</p>
+                    <p>High-priority cases requiring immediate attention. These include aggressive dogs, rabies suspects, and emergency medical cases.</p>
                     <div style="margin-top: 15px;">
                         <a href="staff-cases.html?priority=high" class="btn btn-primary">
-                            View Cases <i class="fas fa-arrow-right"></i>
+                            <i class="fas fa-arrow-right"></i> View Urgent Cases
                         </a>
                     </div>
                 </div>
 
-                <div class="tool-card">
+                <div class="tool-card" id="scheduleToolCard">
                     <h3><i class="fas fa-calendar-check"></i> Today's Schedule</h3>
-                    <p>4 vaccinations, 2 check-ups scheduled</p>
+                    <p>View and manage your daily appointments, vaccinations, and check-ups. Add new appointments or reschedule existing ones.</p>
                     <div style="margin-top: 15px;">
                         <a href="staff-schedule.html" class="btn btn-outline">
-                            View Schedule <i class="fas fa-calendar-alt"></i>
+                            <i class="fas fa-calendar-alt"></i> View Schedule
                         </a>
                     </div>
                 </div>
 
-                <div class="tool-card">
+                <div class="tool-card" id="reportsToolCard">
                     <h3><i class="fas fa-file-medical"></i> My Reports</h3>
-                    <p>12 reports assigned, 8 completed</p>
+                    <p>Access all your submitted reports, update case statuses, and view case histories. Generate new reports for completed cases.</p>
                     <div style="margin-top: 15px;">
                         <a href="staff-reports.html" class="btn btn-outline">
-                            View Reports <i class="fas fa-file-alt"></i>
+                            <i class="fas fa-file-alt"></i> View Reports
                         </a>
                     </div>
                 </div>
 
-                <div class="tool-card">
-                    <h3><i class="fas fa-toolbox"></i> Resources</h3>
-                    <p>Vaccine stock: 42 doses, Supplies: Good</p>
+                <div class="tool-card" id="resourcesToolCard">
+                    <h3><i class="fas fa-toolbox"></i> Resources & Stock</h3>
+                    <p>Check vaccine and supply inventory, request new supplies, and manage equipment. View resource availability by location.</p>
                     <div style="margin-top: 15px;">
                         <a href="staff-resources.html" class="btn btn-outline">
-                            Check Stock <i class="fas fa-boxes"></i>
+                            <i class="fas fa-boxes"></i> Check Stock
                         </a>
                     </div>
                 </div>
             </div>
-            <div class="dashboard-section" style="margin-top: 40px;">
+
+            <div class="dashboard-section">
                 <h3><i class="fas fa-tasks"></i> My Assigned Cases</h3>
-                <table class="admin-table" style="margin-top: 20px;">
+                <div class="admin-edit-controls" style="display: none; margin-bottom: 15px;">
+                    <button onclick="editAllCases()" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Edit All Cases
+                    </button>
+                    <button onclick="deleteSelectedCases()" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete Selected
+                    </button>
+                </div>
+                <table class="admin-table">
                     <thead>
                         <tr>
                             <th>Case ID</th>
-                            <th>Dog Description</th>
+                            <th>Description</th>
                             <th>Location</th>
                             <th>Priority</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>#C-2023-124</td>
-                            <td>Black dog with limp - Left hind leg injury</td>
-                            <td>Colombo 05, Main Street</td>
-                            <td><span class="status-badge status-pending">High</span></td>
-                            <td><span class="status-badge" style="background: #2196F3;">Assigned</span></td>
-                            <td>
-                                <button class="btn btn-primary" style="padding: 5px 10px;">
-                                    <i class="fas fa-edit"></i> Update
-                                </button>
-                            </td>
-                        </tr>
+                    <tbody id="casesTableBody">
                     </tbody>
                 </table>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="staff-cases.html" class="btn btn-outline">
+                        <i class="fas fa-list"></i> View All Cases
+                    </a>
+                </div>
             </div>
         </div>
     </section>
+    
+    <div class="toast" id="toast"></div>
+
+    <script src="shared.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        localStorage.setItem('userReturnToStaffDashboard', 'true');
+        
         const userRole = localStorage.getItem('userRole');
         const userName = localStorage.getItem('userName');
-        const userType = localStorage.getItem('userType');
+        const isAdminViewing = localStorage.getItem('adminViewingStaffDashboard') === 'true';
+        const isAdminViewingAsStaff = localStorage.getItem('adminViewingAsStaff') === 'true';
         
-        if (!userRole || (userRole !== 'staff' && userRole !== 'admin')) {
-            const allowedTypes = ['veterinarian', 'animal_rescue', 'community_member'];
-            
-            if (!allowedTypes.includes(userType)) {
-                alert('Access denied. Please login as staff member or sign up with appropriate credentials.');
-                window.location.href = 'login.html';
-                return;
-            }
-            localStorage.setItem('userRole', 'staff');
-        }
-        
-        if (userName) {
-            const greetingElement = document.querySelector('.user-greeting');
-            const userType = localStorage.getItem('userType');
-            
-            if (userType === 'veterinarian') {
-                greetingElement.textContent = `Vet: ${userName}`;
-            } else if (userType === 'animal_rescue') {
-                greetingElement.textContent = `Rescue: ${userName}`;
-            } else if (userType === 'community_member') {
-                greetingElement.textContent = `Community: ${userName}`;
-            } else if (userName.includes('Dr.')) {
-                greetingElement.textContent = `Vet: ${userName}`;
-            } else {
-                greetingElement.textContent = `Staff: ${userName}`;
+        if (!userRole || (userRole !== 'admin' && userRole !== 'staff')) {
+            if (!isAdminViewing && !isAdminViewingAsStaff) {
+                const userType = localStorage.getItem('userType');
+                const isStaffType = userType === 'veterinarian' || 
+                                   userType === 'animal_rescue' || 
+                                   userType === 'health_officer';
+                
+                if (!isStaffType) {
+                    showToast('Access denied. Staff privileges required.', 'error');
+                    window.location.href = 'login.html';
+                    return;
+                }
             }
         }
         
-        const addLogoutButton = () => {
-            const authButtons = document.querySelector('.auth-buttons');
-            if (authButtons) {
-                const logoutBtn = document.createElement('a');
-                logoutBtn.href = '#';
-                logoutBtn.className = 'btn btn-outline';
-                logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
-                logoutBtn.style.marginLeft = '10px';
-                
-                logoutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('userRole');
-                    localStorage.removeItem('userEmail');
-                    localStorage.removeItem('userName');
-                    localStorage.removeItem('userType');
-                    localStorage.removeItem('redirectTo');
-                    localStorage.removeItem('rememberMe');
-                    localStorage.removeItem('savedEmail');
-                    alert('Logged out successfully');
-                    window.location.href = 'index.html';
-                });
-                
-                authButtons.appendChild(logoutBtn);
-            }
-        };
+        setupDashboard(userRole, userName, isAdminViewing || isAdminViewingAsStaff);
         
-        addLogoutButton();
+        if (typeof renderAuthButtons === 'function') {
+            renderAuthButtons();
+        }
+        
+        loadStaffStats();
+        loadAssignedCases();
         
         const isNewSignup = sessionStorage.getItem('newSignup');
         if (isNewSignup === 'true') {
-            alert(`Welcome to TailWatch Staff Dashboard, ${userName}! You can now manage cases and reports.`);
-            sessionStorage.removeItem('newSignup');
+            if (userName && typeof showToast === 'function') {
+                showToast(`Welcome to TailWatch Staff Dashboard, ${userName}! You can now manage cases and reports.`, 'success');
+                sessionStorage.removeItem('newSignup');
+            }
+        }
+        
+        const userDashboardBtn = document.getElementById('userDashboardBtn');
+        if (userDashboardBtn) {
+            userDashboardBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('userReturnToStaffDashboard');
+                window.location.href = 'dashboard.html';
+            });
+        }
+        
+        if (userRole === 'admin' || isAdminViewingAsStaff) {
+            setupAdminReturnButton();
         }
     });
-</script>
+    
+    function setupDashboard(userRole, userName, isAdminViewing) {
+        const isAdmin = userRole === 'admin' || isAdminViewing;
+        
+        const headerTitle = document.getElementById('headerTitle');
+        const headerDescription = document.getElementById('headerDescription');
+        const dashboardTitle = document.getElementById('dashboardTitle');
+        const staffGreeting = document.getElementById('staffGreeting');
+        const adminControls = document.getElementById('adminControls');
+        const adminDashboardLink = document.getElementById('adminDashboardLink');
+        const dashboardHeader = document.getElementById('dashboardHeader');
+        
+        if (isAdmin) {
+            dashboardHeader.classList.add('admin-header');
+            dashboardTitle.textContent = 'TailWatch Admin (Staff View)';
+            headerTitle.textContent = 'Admin Dashboard - Staff View';
+            headerDescription.textContent = 'You are viewing the staff dashboard with full admin privileges. You can edit all content.';
+            
+            if (staffGreeting) {
+                staffGreeting.textContent = `Admin: ${userName}`;
+                staffGreeting.classList.add('admin-greeting');
+            }
+            
+            if (adminControls) adminControls.style.display = 'block';
+            if (adminDashboardLink) adminDashboardLink.style.display = 'block';
+            
+            document.querySelectorAll('.tool-card').forEach(card => {
+                card.classList.add('admin-tool-card');
+            });
+            
+            document.querySelectorAll('.action-btn').forEach(btn => {
+                btn.classList.add('admin-action-btn');
+            });
+            
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.classList.add('admin-stat');
+            });
+            
+            document.querySelectorAll('.tool-card').forEach(card => {
+                const editBtn = document.createElement('button');
+                editBtn.className = 'btn btn-warning';
+                editBtn.style.marginTop = '10px';
+                editBtn.style.marginLeft = '10px';
+                editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit';
+                editBtn.onclick = function(e) {
+                    e.stopPropagation();
+                    const title = card.querySelector('h3').textContent;
+                    showToast(`Editing ${title} section`, 'info');
+                };
+                card.querySelector('div').appendChild(editBtn);
+            });
+            
+            const editControls = document.querySelector('.admin-edit-controls');
+            if (editControls) editControls.style.display = 'flex';
+        } else {
+            if (staffGreeting) {
+                let roleText = 'Staff';
+                const userType = localStorage.getItem('userType');
+                
+                if (userType === 'veterinarian') {
+                    roleText = 'Veterinarian';
+                } else if (userType === 'animal_rescue') {
+                    roleText = 'Animal Rescue';
+                } else if (userType === 'health_officer') {
+                    roleText = 'Health Officer';
+                }
+                
+                staffGreeting.textContent = `${roleText}: ${userName}`;
+            }
+        }
+    }
+    
+    function setupAdminReturnButton() {
+        const quickActions = document.querySelector('.quick-actions');
+        if (quickActions) {
+            const returnBtn = document.createElement('a');
+            returnBtn.className = 'action-btn admin-action-btn';
+            returnBtn.href = 'admin-dashboard.html';
+            returnBtn.innerHTML = `
+                <i class="fas fa-user-shield"></i>
+                Return to Admin Dashboard
+            `;
+            returnBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('adminViewingAsStaff');
+                window.location.href = 'admin-dashboard.html';
+            });
+            quickActions.prepend(returnBtn);
+        }
+    }
+    
+    function loadStaffStats() {
+        const stats = {
+            urgentCases: Math.floor(Math.random() * 5) + 1,
+            todayAppointments: Math.floor(Math.random() * 8) + 2,
+            completedCases: Math.floor(Math.random() * 20) + 8,
+            pendingReports: Math.floor(Math.random() * 10) + 3
+        };
+        
+        document.getElementById('urgentCases').textContent = stats.urgentCases;
+        document.getElementById('todayAppointments').textContent = stats.todayAppointments;
+        document.getElementById('completedCases').textContent = stats.completedCases;
+        document.getElementById('pendingReports').textContent = stats.pendingReports;
+    }
+    
+    function loadAssignedCases() {
+        const cases = [
+            {
+                id: 'C-2023-124',
+                description: 'Black dog with limp - Left hind leg injury',
+                location: 'Colombo 05, Main Street',
+                priority: 'high',
+                status: 'assigned',
+                reportedBy: 'Kasun Perera',
+                reportedTime: '2 hours ago'
+            },
+            {
+                id: 'C-2023-125',
+                description: 'White puppy with eye infection',
+                location: 'Malabe, University Road',
+                priority: 'medium',
+                status: 'assigned',
+                reportedBy: 'Nimal Silva',
+                reportedTime: '1 day ago'
+            },
+            {
+                id: 'C-2023-126',
+                description: 'Brown adult dog for vaccination',
+                location: 'Galle Face Green',
+                priority: 'low',
+                status: 'assigned',
+                reportedBy: 'Saman Kumara',
+                reportedTime: '3 days ago'
+            },
+            {
+                id: 'C-2023-127',
+                description: 'Aggressive dog near school',
+                location: 'Kandy, Peradeniya Road',
+                priority: 'high',
+                status: 'pending',
+                reportedBy: 'School Principal',
+                reportedTime: '5 hours ago'
+            }
+        ];
+        
+        const tableBody = document.getElementById('casesTableBody');
+        if (!tableBody) return;
+        
+        tableBody.innerHTML = '';
+        
+        const userRole = localStorage.getItem('userRole');
+        const isAdmin = userRole === 'admin' || 
+                       localStorage.getItem('adminViewingStaffDashboard') === 'true' ||
+                       localStorage.getItem('adminViewingAsStaff') === 'true';
+        
+        cases.forEach(caseData => {
+            const row = document.createElement('tr');
+            
+            
+            let statusClass = '';
+            let statusText = '';
+            
+            if (caseData.status === 'assigned') {
+                statusClass = 'status-assigned';
+                statusText = 'Assigned';
+            } else if (caseData.status === 'pending') {
+                statusClass = 'status-pending';
+                statusText = 'Pending';
+            }
+            
+            
+            let priorityClass = '';
+            let priorityText = caseData.priority.charAt(0).toUpperCase() + caseData.priority.slice(1);
+            
+            if (caseData.priority === 'high') {
+                priorityClass = 'status-pending';
+            } else if (caseData.priority === 'medium') {
+                priorityClass = 'status-pending';
+            } else if (caseData.priority === 'low') {
+                priorityClass = 'status-success';
+            }
+            
+            row.innerHTML = `
+                <td><strong>${caseData.id}</strong></td>
+                <td>
+                    ${caseData.description}
+                    <div style="font-size: 0.8rem; color: var(--text-light); margin-top: 5px;">
+                        <i class="fas fa-user"></i> ${caseData.reportedBy} • ${caseData.reportedTime}
+                    </div>
+                </td>
+                <td>${caseData.location}</td>
+                <td><span class="status-badge ${priorityClass}">${priorityText}</span></td>
+                <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                <td>
+                    <button class="btn btn-primary" style="padding: 5px 10px;" onclick="updateCase('${caseData.id}')">
+                        <i class="fas fa-edit"></i> ${isAdmin ? 'Edit' : 'Update'}
+                    </button>
+                    ${isAdmin ? `<button class="btn btn-danger" style="padding: 5px 10px; margin-left: 5px;" onclick="deleteCase('${caseData.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>` : ''}
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+    }
+    
+    function updateCase(caseId) {
+        const userRole = localStorage.getItem('userRole');
+        const isAdmin = userRole === 'admin' || 
+                       localStorage.getItem('adminViewingStaffDashboard') === 'true' ||
+                       localStorage.getItem('adminViewingAsStaff') === 'true';
+        
+        if (isAdmin) {
+            showToast(`Admin: Editing case ${caseId}...`, 'info');
+            
+            setTimeout(() => {
+                showToast(`Case ${caseId} has been updated by admin.`, 'success');
+                loadAssignedCases(); 
+            }, 1000);
+        } else {
+            showToast(`Updating case ${caseId}...`, 'info');
+            
+            setTimeout(() => {
+                showToast(`Case ${caseId} status updated successfully!`, 'success');
+                loadAssignedCases();
+            }, 1000);
+        }
+    }
+    
+    function deleteCase(caseId) {
+        if (confirm(`Are you sure you want to delete case ${caseId}? This action cannot be undone.`)) {
+            showToast(`Deleting case ${caseId}...`, 'info');
+            setTimeout(() => {
+                showToast(`Case ${caseId} has been deleted.`, 'success');
+                loadAssignedCases(); 
+            }, 1000);
+        }
+    }
+    
+    function editAllCases() {
+        showToast('Opening bulk edit mode for all cases...', 'info');
+    }
+    
+    function deleteSelectedCases() {
+        if (confirm('Are you sure you want to delete selected cases? This action cannot be undone.')) {
+            showToast('Deleting selected cases...', 'info');
+            setTimeout(() => {
+                showToast('Selected cases have been deleted.', 'success');
+                loadAssignedCases(); 
+            }, 1000);
+        }
+    }
+    
+    function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        if (!toast) return;
+        
+        toast.textContent = message;
+        toast.className = 'toast show ' + type;
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 300);
+        }, 3000);
+    }
+    </script>
 </body>
 </html>

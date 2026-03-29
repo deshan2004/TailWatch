@@ -1,9 +1,9 @@
 const MAP_CONFIG = {
     SRI_LANKA_BOUNDS: [
-        [5.916, 79.517], // Southwest corner
-        [9.826, 81.878]  // Northeast corner
+        [5.916, 79.517],
+        [9.826, 81.878]
     ],
-    DEFAULT_LOCATION: [7.8731, 80.7718], // Center of Sri Lanka
+    DEFAULT_LOCATION: [7.8731, 80.7718],
     DEFAULT_ZOOM: 8,
     PROVINCES: {
         'Western': [[6.8, 79.8], [6.95, 80.1]],
@@ -24,7 +24,6 @@ let userLocationMarker = null;
 let provinceLayer = null;
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("map.js loaded, initializing Sri Lanka map...");
     initApp();
 });
 
@@ -38,7 +37,6 @@ function initApp() {
 function initMap() {
     const mapContainer = document.getElementById("mapContainer");
     if (!mapContainer) {
-        console.error("Map container (#mapContainer) not found!");
         return;
     }
 
@@ -63,8 +61,6 @@ function initMap() {
     }).addTo(map);
 
     L.control.scale({imperial: false}).addTo(map);
-    
-    console.log("Sri Lanka Map initialized successfully");
 }
 
 function addProvinceOverlays() {
@@ -79,7 +75,6 @@ function addProvinceOverlays() {
             (southWest[1] + northEast[1]) / 2
         ];
         
-        // Add province label
         L.marker(center, {
             icon: L.divIcon({
                 className: 'province-label',
@@ -103,7 +98,6 @@ function addProvinceOverlays() {
 
 function createMarker(lat, lng, title, status = "healthy", type = "dog", province = "Unknown") {
     if (!map) {
-        console.error("Map not initialized!");
         return null;
     }
 
@@ -216,8 +210,6 @@ function getUserLocation() {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
             
-            console.log("User location found:", lat, lng);
-            
             if (!isLocationInSriLanka(lat, lng)) {
                 showToast("You appear to be outside Sri Lanka", "warning");
                 return;
@@ -263,7 +255,6 @@ function getUserLocation() {
             showToast(`Your location in ${province} Province has been marked!`, "success");
         },
         function(error) {
-            console.error("Geolocation error:", error);
             let message = "Could not get your location in Sri Lanka";
             switch(error.code) {
                 case error.PERMISSION_DENIED:
@@ -326,8 +317,6 @@ function searchLocation(query) {
             const lng = parseFloat(data[0].lon);
             const displayName = data[0].display_name;
 
-            console.log("Location found in Sri Lanka:", lat, lng, displayName);
-
             if (!isLocationInSriLanka(lat, lng)) {
                 showToast("Location is outside Sri Lanka", "warning");
                 return;
@@ -341,46 +330,28 @@ function searchLocation(query) {
             showToast(`Location found in ${province} Province!`, "success");
         })
         .catch(error => {
-            console.error("Search error:", error);
             showToast("Search failed. Please try again.", "error");
         });
 }
 
 function loadSriLankaDogData() {
     const dogs = [
-        // Western Province
         { name: "Friendly dog near Galle Face", status: "healthy", lat: 6.9271, lng: 79.8412, description: "Brown medium-sized dog, appears healthy", province: "Western" },
         { name: "Dog near Colombo Fort", status: "sick", lat: 6.9344, lng: 79.8500, description: "Black dog with injured leg", province: "Western" },
-        
-        // Central Province
         { name: "Stray near Temple of Tooth", status: "sick", lat: 7.2937, lng: 80.6413, description: "Dog with visible injuries near temple", province: "Central" },
         { name: "Dog in Peradeniya", status: "healthy", lat: 7.2548, lng: 80.5974, description: "Friendly dog near university", province: "Central" },
-        
-        // Southern Province
         { name: "Dog in Galle Fort", status: "healthy", lat: 6.0264, lng: 80.2165, description: "Brown dog near Galle Fort entrance", province: "Southern" },
         { name: "Sick dog in Matara", status: "sick", lat: 5.9480, lng: 80.5351, description: "Dog showing signs of illness", province: "Southern" },
-        
-        // Northern Province
         { name: "Dog near Jaffna Fort", status: "healthy", lat: 9.6657, lng: 80.0103, description: "Local stray near historical site", province: "Northern" },
         { name: "Aggressive dog in Vavuniya", status: "rabid", lat: 8.7514, lng: 80.4971, description: "Dog showing aggressive behavior", province: "Northern" },
-        
-        // Eastern Province
         { name: "Beach dog in Trincomalee", status: "healthy", lat: 8.5808, lng: 81.2373, description: "Dog near Nilaveli beach", province: "Eastern" },
         { name: "Sick dog in Batticaloa", status: "sick", lat: 7.7167, lng: 81.7000, description: "Dog with skin issues", province: "Eastern" },
-        
-        // North Western Province
         { name: "Dog near Athugala", status: "sick", lat: 7.4847, lng: 80.3659, description: "Dog with visible health issues", province: "North Western" },
         { name: "Healthy dog in Puttalam", status: "healthy", lat: 8.0362, lng: 79.8283, description: "Friendly local stray", province: "North Western" },
-        
-        // North Central Province
         { name: "Dog near Ruwanwelisaya", status: "healthy", lat: 8.3441, lng: 80.3967, description: "Stray near sacred area", province: "North Central" },
         { name: "Sick dog in Polonnaruwa", status: "sick", lat: 7.9329, lng: 81.0081, description: "Old dog moving slowly", province: "North Central" },
-        
-        // Uva Province
         { name: "Mountain dog in Badulla", status: "healthy", lat: 6.9934, lng: 81.0550, description: "Dog in hilly area", province: "Uva" },
         { name: "Rabid dog in Monaragala", status: "rabid", lat: 6.8728, lng: 81.3500, description: "Aggressive behavior observed", province: "Uva" },
-        
-        // Sabaragamuwa Province
         { name: "Dog near gem mines", status: "rabid", lat: 6.6828, lng: 80.3992, description: "Aggressive dog near mines", province: "Sabaragamuwa" },
         { name: "Friendly dog in Kegalle", status: "healthy", lat: 7.2533, lng: 80.3464, description: "Small friendly dog", province: "Sabaragamuwa" }
     ];
@@ -396,14 +367,11 @@ function loadSriLankaDogData() {
         const group = L.featureGroup(bounds.map(coord => L.marker(coord)));
         map.fitBounds(group.getBounds().pad(0.1));
     }
-    
-    console.log(`Loaded ${dogs.length} dog markers across Sri Lanka's 9 provinces`);
 }
 
 function displayDogList(dogs) {
     const list = document.getElementById("dogList");
     if (!list) {
-        console.error("Dog list container not found!");
         return;
     }
 
@@ -434,7 +402,6 @@ function displayDogList(dogs) {
 
 function focusOnDog(lat, lng) {
     if (!map) {
-        console.error("Map not initialized!");
         return;
     }
     
@@ -636,7 +603,6 @@ function initEventListeners() {
 function showToast(message, type = "info") {
     const toast = document.getElementById("toast");
     if (!toast) {
-        console.log("Toast:", message);
         return;
     }
 
@@ -664,5 +630,3 @@ window.MapManager = {
     showToast,
     scrollToSection
 };
-
-console.log("Sri Lanka Map module loaded successfully!");
