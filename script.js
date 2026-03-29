@@ -1,3 +1,22 @@
+// 1. Firebase libraries import කිරීම
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+// 2. ඔයාගේ Firebase Config එක (මෙහි ඇත්තේ උදාහරණයක් පමණි, ඔයාගේ එක මීට වඩා වෙනස් විය හැක)
+const firebaseConfig = {
+    apiKey: "AIzaSyC9...",
+    authDomain: "tailwatch-71333.firebaseapp.com",
+    projectId: "tailwatch-71333",
+    storageBucket: "tailwatch-71333.firebasestorage.app",
+    messagingSenderId: "749007965376",
+    appId: "1:749007965376:web:3164db7c22225632017125"
+};
+
+// 3. Firebase Initialize කිරීම
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// මෙතැනින් පහළට ඔයා දුන්නු ROLES, PERMISSIONS සහ අනිත් functions ටික තියාගන්න...
 const ROLES = {
     USER: 'user',
     STAFF: 'staff',
